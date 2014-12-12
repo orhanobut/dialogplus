@@ -27,6 +27,8 @@ public class DialogPlus {
     private boolean isCancelable = true;
     private View topView;
     private View bottomView;
+    private View footerView;
+    private View headerView;
     private int footerViewResourceId = INVALID;
     private int headerViewResourceId = INVALID;
     private BaseAdapter adapter;
@@ -117,12 +119,8 @@ public class DialogPlus {
 
     private View createView(LayoutInflater inflater) {
         View view = holder.getView(inflater, rootView);
-        if (footerViewResourceId != INVALID) {
-            holder.addFooter(inflater.inflate(footerViewResourceId, rootView, false));
-        }
-        if (headerViewResourceId != INVALID) {
-            holder.addHeader(inflater.inflate(headerViewResourceId, rootView, false));
-        }
+        holder.addFooter(getFooterView());
+        holder.addHeader(getHeaderView());
         if (adapter != null) {
             holder.setAdapter(adapter);
         }
@@ -130,6 +128,26 @@ public class DialogPlus {
             holder.setOnItemClickListener(onItemClickListener);
         }
         return view;
+    }
+
+    private View getFooterView() {
+        if (footerView != null) {
+            return footerView;
+        }
+        if (footerViewResourceId != INVALID) {
+            footerView = inflater.inflate(footerViewResourceId, rootView, false);
+        }
+        return footerView;
+    }
+
+    private View getHeaderView() {
+        if (headerView != null) {
+            return headerView;
+        }
+        if (headerViewResourceId != INVALID) {
+            headerView = inflater.inflate(headerViewResourceId, rootView, false);
+        }
+        return headerView;
     }
 
     private void onAttached(View view) {
@@ -167,8 +185,18 @@ public class DialogPlus {
             return this;
         }
 
+        public Builder setFooter(View view) {
+            dialog.footerView = view;
+            return this;
+        }
+
         public Builder setHeader(int resourceId) {
             dialog.headerViewResourceId = resourceId;
+            return this;
+        }
+
+        public Builder setHeader(View view) {
+            dialog.headerView = view;
             return this;
         }
 
