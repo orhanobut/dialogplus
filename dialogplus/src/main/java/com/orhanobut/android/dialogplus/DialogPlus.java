@@ -17,6 +17,9 @@ import android.widget.FrameLayout;
  */
 public class DialogPlus {
 
+    /**
+     * Determine whether the resources are set or not
+     */
     private static final int INVALID = -1;
 
     private Context context;
@@ -106,6 +109,7 @@ public class DialogPlus {
 
     /**
      * It basically check if the rootView contains the dialog plus view.
+     *
      * @return true if it contains
      */
     public boolean isShowing() {
@@ -253,6 +257,7 @@ public class DialogPlus {
 
     /**
      * It is called when the show() method is called
+     *
      * @param view is the dialog plus view
      */
     private void onAttached(View view) {
