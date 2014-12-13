@@ -4,6 +4,10 @@ dialogplus
 ###Introduction
 Simple,easy dialog for android. Instead of using dialog/fragments, normal view will be shown as dialog. It's customizable and have 3 different content holder.
 
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s1.png' width='140' height='180'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s2.png' width='140' height='180'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s3.png' width='140' height='180'/>
+
 ###Add the dependency
 <pre>
 dependencies {
