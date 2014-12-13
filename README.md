@@ -35,7 +35,9 @@ final DialogPlus dialog = new DialogPlus.Builder(this)
         .create();                                                                            
 dialog.show();                                                                                                              </pre>
 
+####Extras
 You can also select different holder for the dialog.
+
 * Use ListView as content holder
 <pre>
 setHolder(new ListHolder())
