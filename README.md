@@ -25,7 +25,7 @@ final DialogPlus dialog = new DialogPlus.Builder(this)
         .setFooter(R.layout.footer)     // Optional                                           
         .setCancelable(true)            // Optional default:true                              
         .setGravity(Gravity.BOTTOM)     // Optional default:true                              
-        .setAdapter(adapter)            // This must be added                                 
+        .setAdapter(adapter)            // This must be called, Any adapter can be set.                              
         .setOnItemClickListener(new AdapterView.OnItemClickListener() {                       
             @Override                                                                         
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -36,7 +36,17 @@ final DialogPlus dialog = new DialogPlus.Builder(this)
 dialog.show();                                                                                                              </pre>
 
 You can also select different holder for the dialog.
-<ul>
-<li>
-</li>
-<ul>
+* Use ListView as content holder
+<pre>
+setHolder(new ListHolder())
+</pre>
+
+* Use BasicHolder as content holder, BasicHolder is basically a listview mockup implementation by using linearlayout, there is no scrollable feature in this view and this should be used if you have only a few items.
+<pre>
+setHolder(new ListHolder())
+</pre>
+
+* Use GridHolder if you want to use GridView for the dialog. You must set column number.
+<pre>
+setHolder(new GridHolder(COLUMN_NUMBER))
+</pre>
