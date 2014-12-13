@@ -33,3 +33,5 @@ proguard/
 /build
 .idea
 *.iml
+
+credential.properties
