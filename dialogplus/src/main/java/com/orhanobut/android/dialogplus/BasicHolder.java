@@ -1,5 +1,6 @@
 package com.orhanobut.android.dialogplus;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,14 @@ import android.widget.BaseAdapter;
  */
 public class BasicHolder implements Holder {
 
+    private static final String TAG = BasicHolder.class.getSimpleName();
     private SimpleListView simpleListView;
     private ViewGroup headerContainer;
     private ViewGroup footerContainer;
 
     @Override
     public void addHeader(View view) {
+        Log.d(TAG, "addHeader called");
         if (view == null){
             return;
         }
@@ -25,6 +28,7 @@ public class BasicHolder implements Holder {
 
     @Override
     public void addFooter(View view) {
+        Log.d(TAG, "addFooter called");
         if (view == null){
             return;
         }

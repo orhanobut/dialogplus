@@ -21,15 +21,14 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, R.layout.simple_list_item_1, new String[]{"adfssdf", "asdfasd","asdfasdf","asdfasdf"}
+                this, R.layout.simple_list_item_1, new String[]{"Item 1", "Item 2","Item 3","Item 4"}
         );
         final DialogPlus dp = new DialogPlus.Builder()
                 .from(this)
-               // .setHeader(R.layout.item_bottomupdialog)
-               // .setFooter(R.layout.item_bottomupdialog)
-                .setHolder(new ListHolder())
+                //.setHeader(R.layout.header)
+                .setFooter(R.layout.footer)
+                .setHolder(new GridHolder(3))
                 .setCancelable(true)
                 .setGravity(Gravity.BOTTOM)
                 .setAdapter(adapter)

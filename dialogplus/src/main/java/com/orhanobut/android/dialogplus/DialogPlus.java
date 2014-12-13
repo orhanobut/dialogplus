@@ -3,7 +3,6 @@ package com.orhanobut.android.dialogplus;
 import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -133,7 +132,6 @@ public class DialogPlus {
         init();
         initViews();
         initContentView();
-        initContentView();
         initPosition();
         initCancellable();
     }
@@ -234,7 +232,7 @@ public class DialogPlus {
             return footerView;
         }
         if (footerViewResourceId != INVALID) {
-            footerView = inflater.inflate(footerViewResourceId, rootView, false);
+            footerView = inflater.inflate(footerViewResourceId, null);
         }
         return footerView;
     }
@@ -250,7 +248,7 @@ public class DialogPlus {
             return headerView;
         }
         if (headerViewResourceId != INVALID) {
-            headerView = inflater.inflate(headerViewResourceId, rootView, false);
+            headerView = inflater.inflate(headerViewResourceId, null);
         }
         return headerView;
     }

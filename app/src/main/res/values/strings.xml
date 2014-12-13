@@ -4,5 +4,7 @@
     <string name="app_name">Dialog Plus Sample</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="footer">Footer</string>
+    <string name="header">Header</string>
 
 </resources>
