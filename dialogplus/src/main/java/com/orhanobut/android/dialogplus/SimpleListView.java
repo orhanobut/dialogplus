@@ -12,6 +12,7 @@ import android.widget.ListAdapter;
 
 /**
  * @author Orhan Obut.
+ *         <p/>
  *         To be able to use a list with adapter in a scrollview container.
  *         This container has also dataset observer in order to be able use adapter notify changes.
  *         There is a horizontal divider as default which puts a line between rows.
@@ -49,13 +50,16 @@ public class SimpleListView extends LinearLayout {
             adapter.unregisterDataSetObserver(dataSetObserver);
         }
         this.adapter = adapter;
-        dataSetObserver = new AdapterDataSetObserver();
+        this.dataSetObserver = new AdapterDataSetObserver();
         this.adapter.registerDataSetObserver(dataSetObserver);
 
         resetList();
         refreshList();
     }
 
+    /**
+     * It is called when the notifyDataSetChanged or first initialize
+     */
     private void refreshList() {
         int count = adapter.getCount();
 

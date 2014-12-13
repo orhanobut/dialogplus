@@ -16,6 +16,8 @@ public class GridHolder implements Holder {
     private final int columnNumber;
 
     private GridView gridView;
+    private ViewGroup headerContainer;
+    private ViewGroup footerContainer;
 
     public GridHolder(int columnNumber) {
         this.columnNumber = columnNumber;
@@ -23,12 +25,18 @@ public class GridHolder implements Holder {
 
     @Override
     public void addHeader(View view) {
-        gridView.addView(view);
+        if (view == null){
+            return;
+        }
+        headerContainer.addView(view);
     }
 
     @Override
     public void addFooter(View view) {
-        gridView.addView(view);
+        if (view == null){
+            return;
+        }
+        footerContainer.addView(view);
     }
 
     @Override
@@ -41,6 +49,9 @@ public class GridHolder implements Holder {
         View view = inflater.inflate(R.layout.dialog_grid, parent, false);
         gridView = (GridView) view.findViewById(R.id.list);
         gridView.setNumColumns(columnNumber);
+
+        headerContainer = (ViewGroup) view.findViewById(R.id.header_container);
+        footerContainer = (ViewGroup) view.findViewById(R.id.footer_container);
         return view;
     }
 
