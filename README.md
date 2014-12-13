@@ -33,22 +33,23 @@ final DialogPlus dialog = new DialogPlus.Builder(this)
             }                                                                                 
         })                                                                                    
         .create();                                                                            
-dialog.show();                                                                                                              </pre>
+dialog.show();
+</pre>
 
-####Extras
+###Extras
 You can also select different holder for the dialog.
 
-* Use ListView as content holder
+- Use ListView as content holder
 <pre>
 setHolder(new ListHolder())
 </pre>
 
-* Use BasicHolder as content holder, BasicHolder is basically a listview mockup implementation by using linearlayout, there is no scrollable feature in this view and this should be used if you have only a few items.
+- Use BasicHolder as content holder, BasicHolder is basically a listview mockup implementation by using linearlayout, there is no scrollable feature in this view and this should be used if you have only a few items.
 <pre>
 setHolder(new ListHolder())
 </pre>
 
-* Use GridHolder if you want to use GridView for the dialog. You must set column number.
+- Use GridHolder if you want to use GridView for the dialog. You must set column number.
 <pre>
 setHolder(new GridHolder(COLUMN_NUMBER))
 </pre>
