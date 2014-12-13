@@ -209,6 +209,7 @@ public class DialogPlus {
      * @return any view which is passed
      */
     private View createView(LayoutInflater inflater) {
+        Holder holder = getHolder();
         View view = holder.getView(inflater, rootView);
         holder.addFooter(getFooterView());
         holder.addHeader(getHeaderView());
@@ -219,6 +220,17 @@ public class DialogPlus {
             holder.setOnItemClickListener(onItemClickListener);
         }
         return view;
+    }
+
+    /**
+     * It is used to create content
+     * @return BasicHolder it setHolder is not called
+     */
+    private Holder getHolder(){
+        if (holder == null){
+            holder = new BasicHolder();
+        }
+        return holder;
     }
 
     /**
@@ -281,9 +293,11 @@ public class DialogPlus {
     public static class Builder {
         DialogPlus dialog = new DialogPlus();
 
-        public Builder from(Context context) {
+        private Builder(){
+        }
+
+        public Builder(Context context) {
             dialog.context = context;
-            return this;
         }
 
         public Builder setAdapter(BaseAdapter adapter) {
