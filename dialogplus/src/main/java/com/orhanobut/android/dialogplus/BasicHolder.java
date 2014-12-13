@@ -17,11 +17,17 @@ public class BasicHolder implements Holder {
 
     @Override
     public void addHeader(View view) {
+        if (view == null){
+            return;
+        }
         headerContainer.addView(view);
     }
 
     @Override
     public void addFooter(View view) {
+        if (view == null){
+            return;
+        }
         footerContainer.addView(view);
     }
 

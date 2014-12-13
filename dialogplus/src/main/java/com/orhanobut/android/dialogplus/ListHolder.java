@@ -16,12 +16,18 @@ public class ListHolder implements Holder {
 
     @Override
     public void addHeader(View view) {
-        listView.addView(view);
+        if (view == null){
+            return;
+        }
+        listView.addHeaderView(view);
     }
 
     @Override
     public void addFooter(View view) {
-        listView.addView(view);
+        if (view == null){
+            return;
+        }
+        listView.addFooterView(view);
     }
 
     @Override

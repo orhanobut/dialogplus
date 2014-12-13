@@ -90,6 +90,11 @@ public class DialogPlus {
     private ViewGroup decorView;
     private LayoutInflater inflater;
 
+    /**
+     * Determines the content background color, as default it is white
+     */
+    private int backgroundColorResourceId = INVALID;
+
     public enum ScreenType {
         HALF, FULL
     }
@@ -144,19 +149,14 @@ public class DialogPlus {
      */
     private void initViews() {
         rootView = (ViewGroup) inflater.inflate(R.layout.base_container, null);
+
         contentContainer = (ViewGroup) rootView.findViewById(R.id.content_container);
+        if (backgroundColorResourceId != INVALID) {
+            contentContainer.setBackgroundResource(backgroundColorResourceId);
+        }
+
         topView = rootView.findViewById(R.id.top_view);
         bottomView = rootView.findViewById(R.id.bottom_view);
-
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP) {
-                    return onKeyUp(keyCode, event);
-                }
-                return false;
-            }
-        });
     }
 
     /**
@@ -265,31 +265,6 @@ public class DialogPlus {
     }
 
     /**
-     * A key was released.
-     * <p/>
-     * <p>The default implementation handles KEYCODE_BACK to close the
-     * dialog.
-     */
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.isTracking() && !event.isCanceled()) {
-            onBackPressed();
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Called when the dialog has detected the user's press of the back
-     * key.  The default implementation simply cancels the dialog (only if
-     * it is cancelable), but you can override this to do whatever you want.
-     */
-    protected void onBackPressed() {
-        if (isCancelable) {
-            dismiss();
-        }
-    }
-
-    /**
      * Called when the user touch on black overlay in order to dismiss the dialog
      */
     private final View.OnTouchListener onCancelableTouchListener = new View.OnTouchListener() {
@@ -345,6 +320,11 @@ public class DialogPlus {
 
         public Builder setHolder(Holder holder) {
             dialog.holder = holder;
+            return this;
+        }
+
+        public Builder setBackgroundColorResourceId(int resourceId) {
+            dialog.backgroundColorResourceId = resourceId;
             return this;
         }
 

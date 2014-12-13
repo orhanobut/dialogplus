@@ -8,8 +8,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import com.orhanobut.android.dialogplus.BasicHolder;
 import com.orhanobut.android.dialogplus.DialogPlus;
 import com.orhanobut.android.dialogplus.GridHolder;
+import com.orhanobut.android.dialogplus.ListHolder;
 
 
 public class MainActivity extends Activity {
@@ -21,13 +23,13 @@ public class MainActivity extends Activity {
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_list_item_1, new String[]{"adfssdf", "asdfasd","asdfasdf","asdfasdf"}
+                this, R.layout.simple_list_item_1, new String[]{"adfssdf", "asdfasd","asdfasdf","asdfasdf"}
         );
         final DialogPlus dp = new DialogPlus.Builder()
                 .from(this)
                // .setHeader(R.layout.item_bottomupdialog)
                // .setFooter(R.layout.item_bottomupdialog)
-                .setHolder(new GridHolder(3))
+                .setHolder(new ListHolder())
                 .setCancelable(true)
                 .setGravity(Gravity.BOTTOM)
                 .setAdapter(adapter)
