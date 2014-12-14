@@ -296,10 +296,16 @@ public class DialogPlus {
         }
 
         public Builder(Context context) {
+            if (context == null) {
+                throw new NullPointerException("Context may not be null");
+            }
             this.context = context;
         }
 
         public Builder setAdapter(BaseAdapter adapter) {
+            if (adapter == null) {
+                throw new NullPointerException("Adapter may not be null");
+            }
             this.adapter = adapter;
             return this;
         }
@@ -330,9 +336,6 @@ public class DialogPlus {
         }
 
         public Builder setHolder(Holder holder) {
-            if (holder == null) {
-                holder = new BasicHolder();
-            }
             this.holder = holder;
             return this;
         }
