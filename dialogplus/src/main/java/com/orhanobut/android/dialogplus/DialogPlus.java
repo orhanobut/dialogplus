@@ -21,84 +21,100 @@ public class DialogPlus {
      */
     private static final int INVALID = -1;
 
-    private Context context;
-
     /**
      * DialogPlus base layout root view
      */
-    private ViewGroup rootView;
+    private final ViewGroup rootView;
 
     /**
      * DialogPlus content container which is a different layout rather than base layout
      */
-    private ViewGroup contentContainer;
+    private final ViewGroup contentContainer;
 
     /**
      * Determines the position of the dialog, only BOTTOM and TOP should be used, as default
      * it is BOTTOM
      */
-    private int gravity = Gravity.BOTTOM;
+    private final int gravity;
 
     /**
      * Either the content should fill the all screen or only the half, when the content reaches
      * the limit, it will be scrollable, BasicHolder cannot be scrollable, use it only for
      * a few items
      */
-    private ScreenType screenType = ScreenType.HALF;
+    private final ScreenType screenType;
 
     /**
      * Determines whether dialog should be dismissed by back button or touch in the black overlay
      */
-    private boolean isCancelable = true;
+    private final boolean isCancelable;
 
     /**
      * topView and bottomView are used to set the position of the dialog
      * If the position is top, bottomView will fill the screen, otherwise
      * topView will the screen
      */
-    private View topView;
-    private View bottomView;
+    private final View topView;
+    private final View bottomView;
 
     /**
-     * footerView, headerView, footerViewResourceId, headerViewResourceId are used
+     * footerView, headerView are used
      * to set header/footer for the dialog content
      */
-    private View footerView;
-    private View headerView;
-    private int footerViewResourceId = INVALID;
-    private int headerViewResourceId = INVALID;
+    private final View footerView;
+    private final View headerView;
 
     /**
      * Content adapter
      */
-    private BaseAdapter adapter;
+    private final BaseAdapter adapter;
 
     /**
      * Listener for the user to take action by clicking any item
      */
-    private AdapterView.OnItemClickListener onItemClickListener;
+    private final AdapterView.OnItemClickListener onItemClickListener;
 
     /**
      * Content
      */
-    private Holder holder;
+    private final Holder holder;
 
     /**
      * basically activity root view
      */
-    private ViewGroup decorView;
-    private LayoutInflater inflater;
+    private final ViewGroup decorView;
+    private final LayoutInflater inflater;
 
     /**
      * Determines the content background color, as default it is white
      */
-    private int backgroundColorResourceId = INVALID;
+    private final int backgroundColorResourceId;
 
     public enum ScreenType {
         HALF, FULL
     }
 
-    private DialogPlus() {
+    private DialogPlus(Builder builder) {
+        inflater = LayoutInflater.from(builder.context);
+        Activity activity = (Activity) builder.context;
+
+        this.holder = getHolder(builder.holder);
+        this.backgroundColorResourceId = builder.backgroundColorResourceId;
+        this.headerView = getView(builder.headerViewResourceId, builder.headerView);
+        this.footerView = getView(builder.footerViewResourceId, builder.footerView);
+        this.screenType = builder.screenType;
+        this.adapter = builder.adapter;
+        this.onItemClickListener = builder.onItemClickListener;
+        this.isCancelable = builder.isCancelable;
+        this.gravity = builder.gravity;
+
+        decorView = (ViewGroup) activity.getWindow().getDecorView();
+        rootView = (ViewGroup) inflater.inflate(R.layout.base_container, null);
+        contentContainer = (ViewGroup) rootView.findViewById(R.id.content_container);
+        topView = rootView.findViewById(R.id.top_view);
+        bottomView = rootView.findViewById(R.id.bottom_view);
+
+        createDialog();
     }
 
     /**
@@ -129,32 +145,20 @@ public class DialogPlus {
     }
 
     private void createDialog() {
-        init();
         initViews();
         initContentView();
         initPosition();
         initCancellable();
     }
 
-    private void init() {
-        inflater = LayoutInflater.from(context);
-        Activity activity = (Activity) context;
-        decorView = (ViewGroup) activity.getWindow().getDecorView();
-    }
 
     /**
      * Initialize the appropriate views and also set for the back press button.
      */
     private void initViews() {
-        rootView = (ViewGroup) inflater.inflate(R.layout.base_container, null);
-
-        contentContainer = (ViewGroup) rootView.findViewById(R.id.content_container);
         if (backgroundColorResourceId != INVALID) {
             contentContainer.setBackgroundResource(backgroundColorResourceId);
         }
-
-        topView = rootView.findViewById(R.id.top_view);
-        bottomView = rootView.findViewById(R.id.bottom_view);
     }
 
     /**
@@ -209,10 +213,9 @@ public class DialogPlus {
      * @return any view which is passed
      */
     private View createView(LayoutInflater inflater) {
-        Holder holder = getHolder();
         View view = holder.getView(inflater, rootView);
-        holder.addFooter(getFooterView());
-        holder.addHeader(getHeaderView());
+        holder.addFooter(footerView);
+        holder.addHeader(headerView);
         if (adapter != null) {
             holder.setAdapter(adapter);
         }
@@ -227,7 +230,7 @@ public class DialogPlus {
      *
      * @return BasicHolder it setHolder is not called
      */
-    private Holder getHolder() {
+    private Holder getHolder(Holder holder) {
         if (holder == null) {
             holder = new BasicHolder();
         }
@@ -235,35 +238,19 @@ public class DialogPlus {
     }
 
     /**
-     * This will be called in order to create footer view, if the view is given for footer,
+     * This will be called in order to create view, if the given view is not null,
      * it will be used directly, otherwise it will check the resourceId
      *
-     * @return null if both footerViewResourceId and footerView is not set
+     * @return null if both resourceId and view is not set
      */
-    private View getFooterView() {
-        if (footerView != null) {
-            return footerView;
+    private View getView(int resourceId, View view) {
+        if (view != null) {
+            return view;
         }
-        if (footerViewResourceId != INVALID) {
-            footerView = inflater.inflate(footerViewResourceId, null);
+        if (resourceId != INVALID) {
+            view = inflater.inflate(resourceId, null);
         }
-        return footerView;
-    }
-
-    /**
-     * This will be called in order to create header view, if the view is given for header,
-     * it will be used directly, otherwise it will check the resourceId
-     *
-     * @return null if both headerViewResourceId and headerView is not set
-     */
-    private View getHeaderView() {
-        if (headerView != null) {
-            return headerView;
-        }
-        if (headerViewResourceId != INVALID) {
-            headerView = inflater.inflate(headerViewResourceId, null);
-        }
-        return headerView;
+        return view;
     }
 
     /**
@@ -292,79 +279,86 @@ public class DialogPlus {
      * Use this builder to create a dialog
      */
     public static class Builder {
-        DialogPlus dialog = new DialogPlus();
+        private BaseAdapter adapter;
+        private Context context;
+        private int footerViewResourceId = INVALID;
+        private View footerView;
+        private int headerViewResourceId = INVALID;
+        private View headerView;
+        private boolean isCancelable = true;
+        private Holder holder;
+        private int backgroundColorResourceId = INVALID;
+        private int gravity = Gravity.BOTTOM;
+        private ScreenType screenType = ScreenType.HALF;
+        private AdapterView.OnItemClickListener onItemClickListener;
 
         private Builder() {
         }
 
         public Builder(Context context) {
-            if (context == null) {
-                throw new NullPointerException("Context cannot be null");
-            }
-            dialog.context = context;
+            this.context = context;
         }
 
         public Builder setAdapter(BaseAdapter adapter) {
-            if (adapter == null) {
-                throw new NullPointerException("Adapter cannot be null");
-            }
-            dialog.adapter = adapter;
+            this.adapter = adapter;
             return this;
         }
 
         public Builder setFooter(int resourceId) {
-            dialog.footerViewResourceId = resourceId;
+            this.footerViewResourceId = resourceId;
             return this;
         }
 
         public Builder setFooter(View view) {
-            dialog.footerView = view;
+            this.footerView = view;
             return this;
         }
 
         public Builder setHeader(int resourceId) {
-            dialog.headerViewResourceId = resourceId;
+            this.headerViewResourceId = resourceId;
             return this;
         }
 
         public Builder setHeader(View view) {
-            dialog.headerView = view;
+            this.headerView = view;
             return this;
         }
 
         public Builder setCancelable(boolean isCancelable) {
-            dialog.isCancelable = isCancelable;
+            this.isCancelable = isCancelable;
             return this;
         }
 
         public Builder setHolder(Holder holder) {
-            dialog.holder = holder;
+            if (holder == null) {
+                holder = new BasicHolder();
+            }
+            this.holder = holder;
             return this;
         }
 
         public Builder setBackgroundColorResourceId(int resourceId) {
-            dialog.backgroundColorResourceId = resourceId;
+            this.backgroundColorResourceId = resourceId;
             return this;
         }
 
         public Builder setGravity(int gravity) {
-            dialog.gravity = gravity;
+            this.gravity = gravity;
             return this;
         }
 
         public Builder setScreenType(ScreenType screenType) {
-            dialog.screenType = screenType;
+            this.screenType = screenType;
             return this;
         }
 
         public Builder setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-            dialog.onItemClickListener = listener;
+            this.onItemClickListener = listener;
             return this;
         }
 
         public DialogPlus create() {
-            dialog.createDialog();
-            return dialog;
+            return new DialogPlus(this);
         }
     }
 }
