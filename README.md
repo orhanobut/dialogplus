@@ -8,7 +8,7 @@ Simple,easy dialog for android. Instead of using dialog/fragments, normal view w
 <img src='https://github.com/nr4bt/dialogplus/blob/master/images/s2.png' width='140' height='180'/>
 <img src='https://github.com/nr4bt/dialogplus/blob/master/images/s3.png' width='140' height='180'/>
 
-###Add the dependency
+###Gradle
 <pre>
 dependencies {
     compile 'com.github.nr4bt:dialogplus:1.0.0-SNAPSHOT@aar'
