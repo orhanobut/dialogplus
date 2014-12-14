@@ -224,10 +224,11 @@ public class DialogPlus {
 
     /**
      * It is used to create content
+     *
      * @return BasicHolder it setHolder is not called
      */
-    private Holder getHolder(){
-        if (holder == null){
+    private Holder getHolder() {
+        if (holder == null) {
             holder = new BasicHolder();
         }
         return holder;
@@ -293,14 +294,20 @@ public class DialogPlus {
     public static class Builder {
         DialogPlus dialog = new DialogPlus();
 
-        private Builder(){
+        private Builder() {
         }
 
         public Builder(Context context) {
+            if (context == null) {
+                throw new NullPointerException("Context cannot be null");
+            }
             dialog.context = context;
         }
 
         public Builder setAdapter(BaseAdapter adapter) {
+            if (adapter == null) {
+                throw new NullPointerException("Adapter cannot be null");
+            }
             dialog.adapter = adapter;
             return this;
         }
