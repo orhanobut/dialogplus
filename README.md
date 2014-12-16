@@ -10,6 +10,9 @@ Simple,easy dialog for android. Instead of using dialog/fragments, normal view w
 
 ###Gradle
 <pre>
+repositories {
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
+}
 dependencies {
     compile 'com.github.nr4bt:dialogplus:1.0.0-SNAPSHOT@aar'
 }
