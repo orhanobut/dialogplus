@@ -6,12 +6,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 
-import com.orhanobut.android.dialogplus.BasicHolder;
-import com.orhanobut.android.dialogplus.DialogPlus;
-import com.orhanobut.android.dialogplus.GridHolder;
-import com.orhanobut.android.dialogplus.ListHolder;
+import com.github.nr4bt.dialogplus.DialogPlus;
+import com.github.nr4bt.dialogplus.ListHolder;
+import com.github.nr4bt.dialogplus.OnItemClickListener;
+import com.github.nr4bt.simplelistview.SimpleListView;
 
 
 public class MainActivity extends Activity {
@@ -22,7 +21,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, R.layout.simple_list_item_1, new String[]{"Item 1", "Item 2","Item 3","Item 4"}
+                this, R.layout.simple_list_item_1, new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}
         );
         final DialogPlus dialog = new DialogPlus.Builder(this)
                 .setHolder(new ListHolder())    // Optional, default:BasicHolder
@@ -31,16 +30,14 @@ public class MainActivity extends Activity {
                 .setCancelable(true)            // Optional default:true
                 .setGravity(Gravity.BOTTOM)     // Optional default:true
                 .setAdapter(adapter)            // This must be added
-                .setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                .setOnItemClickListener(new OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public void onItemClick(Object item, View view, int position) {
 
                     }
                 })
                 .create();
         dialog.show();
-
-
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

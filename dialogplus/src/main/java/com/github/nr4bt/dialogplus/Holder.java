@@ -1,4 +1,4 @@
-package com.orhanobut.android.dialogplus;
+package com.github.nr4bt.dialogplus;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,5 +19,6 @@ public interface Holder {
 
     View getView(LayoutInflater inflater, ViewGroup parent);
 
-    void setOnItemClickListener(AdapterView.OnItemClickListener listener);
+    void setOnItemClickListener(OnItemClickListener listener);
+
 }

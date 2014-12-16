@@ -1,4 +1,4 @@
-package com.orhanobut.android.dialogplus;
+package com.github.nr4bt.dialogplus;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+
+import com.orhanobut.android.dialogplus.R;
 
 /**
  * @author Orhan Obut
@@ -72,7 +74,7 @@ public class DialogPlus {
     /**
      * Listener for the user to take action by clicking any item
      */
-    private final AdapterView.OnItemClickListener onItemClickListener;
+    private final OnItemClickListener onItemClickListener;
 
     /**
      * Content
@@ -290,7 +292,7 @@ public class DialogPlus {
         private int backgroundColorResourceId = INVALID;
         private int gravity = Gravity.BOTTOM;
         private ScreenType screenType = ScreenType.HALF;
-        private AdapterView.OnItemClickListener onItemClickListener;
+        private OnItemClickListener onItemClickListener;
 
         private Builder() {
         }
@@ -355,7 +357,7 @@ public class DialogPlus {
             return this;
         }
 
-        public Builder setOnItemClickListener(AdapterView.OnItemClickListener listener) {
+        public Builder setOnItemClickListener(OnItemClickListener listener) {
             this.onItemClickListener = listener;
             return this;
         }
