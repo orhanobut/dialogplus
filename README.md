@@ -33,9 +33,9 @@ final DialogPlus dialog = new DialogPlus.Builder(this)
         .setCancelable(true)            // Optional default:true                              
         .setGravity(Gravity.BOTTOM)     // Optional default:true                              
         .setAdapter(adapter)            // This must be called, Any adapter can be set.                              
-        .setOnItemClickListener(new AdapterView.OnItemClickListener() {                       
+        .setOnItemClickListener(new OnItemClickListener() {                       
             @Override                                                                         
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(Object item, View view, int position) {
                  //todo                                                                             
             }                                                                                 
         })                                                                                    
