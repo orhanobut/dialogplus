@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
-import com.orhanobut.android.dialogplus.R;
 
 /**
  * @author Orhan Obut

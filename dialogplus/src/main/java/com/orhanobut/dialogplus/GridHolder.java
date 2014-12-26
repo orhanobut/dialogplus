@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
-import com.orhanobut.android.dialogplus.R;
 
 /**
  * @author Orhan Obut
