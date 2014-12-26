@@ -1,9 +1,8 @@
-package com.github.nr4bt.dialogplus;
+package com.orhanobut.dialogplus;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 /**

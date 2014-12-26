@@ -13,14 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.github.nr4bt.dialogplus.SimpleListView
+    <com.orhanobut.dialogplus.SimpleListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:divider="@null"
         android:dividerHeight="0dp">
-    </com.github.nr4bt.dialogplus.SimpleListView>
+    </com.orhanobut.dialogplus.SimpleListView>
 
     <FrameLayout
         android:id="@+id/footer_container"

@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import com.github.nr4bt.dialogplus.DialogPlus;
-import com.github.nr4bt.dialogplus.ListHolder;
-import com.github.nr4bt.dialogplus.OnItemClickListener;
-import com.github.nr4bt.simplelistview.SimpleListView;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ListHolder;
+import com.orhanobut.dialogplus.OnItemClickListener;
 
 
 public class MainActivity extends Activity {

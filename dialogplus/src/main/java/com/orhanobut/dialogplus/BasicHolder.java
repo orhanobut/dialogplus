@@ -1,4 +1,4 @@
-package com.github.nr4bt.dialogplus;
+package com.orhanobut.dialogplus;
 
 import android.util.Log;
 import android.view.LayoutInflater;
