@@ -13,7 +13,7 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
 }
 dependencies {
-    compile 'com.github.nr4bt:dialogplus:1.0.0-SNAPSHOT@aar'
+    compile 'com.orhanobut:dialogplus:1.0.0-SNAPSHOT@aar'
 }
 ```
 
