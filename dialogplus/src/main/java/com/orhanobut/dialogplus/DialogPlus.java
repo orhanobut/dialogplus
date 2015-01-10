@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
@@ -50,6 +52,11 @@ public class DialogPlus {
     private final boolean isCancelable;
 
     /**
+     * Determines whether dialog is showing dismissing animation and avoid to repeat it
+     */
+    private boolean isDismissing;
+
+    /**
      * topView and bottomView are used to set the position of the dialog
      * If the position is top, bottomView will fill the screen, otherwise
      * topView will the screen
@@ -90,6 +97,12 @@ public class DialogPlus {
      */
     private final int backgroundColorResourceId;
 
+    /**
+     * Determines the in and out animation of the dialog. Default animation are bottom sliding animations
+     */
+    private final int inAnimationResource;
+    private final int outAnimationResource;
+
     public enum ScreenType {
         HALF, FULL
     }
@@ -107,8 +120,15 @@ public class DialogPlus {
         this.onItemClickListener = builder.onItemClickListener;
         this.isCancelable = builder.isCancelable;
         this.gravity = builder.gravity;
+        this.inAnimationResource = builder.inAnimation;
+        this.outAnimationResource = builder.outAnimation;
 
-        decorView = (ViewGroup) activity.getWindow().getDecorView();
+        /**
+         * Avoid getting directly from the decor view because by doing that we are overlapping the black soft key on
+         * nexus device. I think it should be tested on different devices but in my opinion is the way to go.
+         * @link http://stackoverflow.com/questions/4486034/get-root-view-from-current-activity
+         */
+        decorView = (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
         rootView = (ViewGroup) inflater.inflate(R.layout.base_container, null);
         contentContainer = (ViewGroup) rootView.findViewById(R.id.content_container);
         topView = rootView.findViewById(R.id.top_view);
@@ -141,7 +161,31 @@ public class DialogPlus {
      * It is called when to dismiss the dialog, either by calling dismiss() method or with cancellable
      */
     public void dismiss() {
-        decorView.removeView(rootView);
+        if (isDismissing) {
+            return;
+        }
+
+        Context context = decorView.getContext();
+        Animation outAnim = AnimationUtils.loadAnimation(context, this.outAnimationResource);
+        outAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                decorView.removeView(rootView);
+                isDismissing = false;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        contentContainer.startAnimation(outAnim);
+        isDismissing = true;
     }
 
     private void createDialog() {
@@ -260,6 +304,9 @@ public class DialogPlus {
      */
     private void onAttached(View view) {
         decorView.addView(view);
+        Context context = decorView.getContext();
+        Animation inAnim = AnimationUtils.loadAnimation(context, this.inAnimationResource);
+        contentContainer.startAnimation(inAnim);
     }
 
     /**
@@ -291,6 +338,8 @@ public class DialogPlus {
         private int gravity = Gravity.BOTTOM;
         private ScreenType screenType = ScreenType.HALF;
         private OnItemClickListener onItemClickListener;
+        private int inAnimation = R.anim.slide_in;
+        private int outAnimation = R.anim.slide_out;
 
         private Builder() {
         }
@@ -347,6 +396,16 @@ public class DialogPlus {
 
         public Builder setGravity(int gravity) {
             this.gravity = gravity;
+            return this;
+        }
+
+        public Builder setInAnimation(int inAnimResource) {
+            this.inAnimation = inAnimResource;
+            return this;
+        }
+
+        public Builder setOutAnimation(int outAnimResource) {
+            this.outAnimation = outAnimResource;
             return this;
         }
 
