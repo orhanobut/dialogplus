@@ -21,7 +21,7 @@ public class GridHolder implements Holder, AdapterView.OnItemClickListener {
     private GridView gridView;
     private ViewGroup headerContainer;
     private ViewGroup footerContainer;
-    private OnItemClickListener listener;
+    private OnHolderListener listener;
     private View.OnKeyListener keyListener;
 
     public GridHolder(int columnNumber) {
@@ -70,7 +70,7 @@ public class GridHolder implements Holder, AdapterView.OnItemClickListener {
     }
 
     @Override
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnHolderListener listener) {
         this.listener = listener;
     }
 

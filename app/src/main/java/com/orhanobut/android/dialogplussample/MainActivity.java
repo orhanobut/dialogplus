@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ListHolder;
+import com.orhanobut.dialogplus.OnHolderListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 
 
@@ -30,8 +31,8 @@ public class MainActivity extends Activity {
                 .setAdapter(adapter)            // This must be added
                 .setOnItemClickListener(new OnItemClickListener() {
                     @Override
-                    public void onItemClick(Object item, View view, int position) {
-
+                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                        dialog.dismiss();
                     }
                 })
                 .create();

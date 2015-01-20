@@ -15,7 +15,7 @@ public class BasicHolder implements Holder, SimpleListView.OnItemClickListener {
 
     private static final String TAG = BasicHolder.class.getSimpleName();
     private SimpleListView simpleListView;
-    private OnItemClickListener listener;
+    private OnHolderListener listener;
     private View.OnKeyListener keyListener;
 
     @Override
@@ -53,7 +53,7 @@ public class BasicHolder implements Holder, SimpleListView.OnItemClickListener {
     }
 
     @Override
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnHolderListener listener) {
         this.listener = listener;
     }
 

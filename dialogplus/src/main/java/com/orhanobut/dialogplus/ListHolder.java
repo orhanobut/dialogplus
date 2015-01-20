@@ -1,6 +1,5 @@
 package com.orhanobut.dialogplus;
 
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ public class ListHolder implements Holder, AdapterView.OnItemClickListener {
     private static final String TAG = ListHolder.class.getSimpleName();
 
     private ListView listView;
-    private OnItemClickListener listener;
+    private OnHolderListener listener;
     private View.OnKeyListener keyListener;
 
     @Override
@@ -60,7 +59,7 @@ public class ListHolder implements Holder, AdapterView.OnItemClickListener {
     }
 
     @Override
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnHolderListener listener) {
         this.listener = listener;
     }
 

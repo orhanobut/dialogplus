@@ -1,9 +1,7 @@
 package com.orhanobut.dialogplus;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -219,13 +217,6 @@ public class DialogPlus {
         );
         contentView.setLayoutParams(params);
         contentContainer.addView(contentView);
-        contentView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                Log.d(TAG, "contentView: onKey;");
-                return false;
-            }
-        });
     }
 
     /**
@@ -274,9 +265,16 @@ public class DialogPlus {
         if (adapter != null) {
             holder.setAdapter(adapter);
         }
-        if (onItemClickListener != null) {
-            holder.setOnItemClickListener(onItemClickListener);
-        }
+
+        holder.setOnItemClickListener(new OnHolderListener() {
+            @Override
+            public void onItemClick(Object item, View view, int position) {
+                if (onItemClickListener == null) {
+                    return;
+                }
+                onItemClickListener.onItemClick(DialogPlus.this, item, view, position);
+            }
+        });
         return view;
     }
 
@@ -287,7 +285,7 @@ public class DialogPlus {
      */
     private Holder getHolder(Holder holder) {
         if (holder == null) {
-            holder = new BasicHolder();
+            holder = new ListHolder();
         }
         return holder;
     }
