@@ -323,10 +323,8 @@ public class DialogPlus {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 switch (event.getAction()) {
                     case KeyEvent.ACTION_UP:
-                        if (keyCode == KeyEvent.KEYCODE_BACK) {
-                            if (isCancelable) {
-                                dismiss();
-                            }
+                        if (keyCode == KeyEvent.KEYCODE_BACK && isCancelable) {
+                            dismiss();
                             return true;
                         }
                         break;

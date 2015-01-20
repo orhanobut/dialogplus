@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 public class BasicHolder implements Holder, SimpleListView.OnItemClickListener {
 
     private static final String TAG = BasicHolder.class.getSimpleName();
+    
     private SimpleListView simpleListView;
     private OnHolderListener listener;
     private View.OnKeyListener keyListener;
