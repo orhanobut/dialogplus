@@ -1,5 +1,6 @@
 package com.orhanobut.dialogplus;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,15 @@ import android.widget.GridView;
  */
 public class GridHolder implements Holder, AdapterView.OnItemClickListener {
 
+    private static final String TAG = GridHolder.class.getSimpleName();
+
     private final int columnNumber;
 
     private GridView gridView;
     private ViewGroup headerContainer;
     private ViewGroup footerContainer;
     private OnItemClickListener listener;
+    private View.OnKeyListener keyListener;
 
     public GridHolder(int columnNumber) {
         this.columnNumber = columnNumber;
@@ -51,7 +55,16 @@ public class GridHolder implements Holder, AdapterView.OnItemClickListener {
         gridView = (GridView) view.findViewById(R.id.list);
         gridView.setNumColumns(columnNumber);
         gridView.setOnItemClickListener(this);
-
+        gridView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyListener == null) {
+                    throw new NullPointerException("keyListener should not be null");
+                }
+                keyListener.onKey(v, keyCode, event);
+                return false;
+            }
+        });
         headerContainer = (ViewGroup) view.findViewById(R.id.header_container);
         footerContainer = (ViewGroup) view.findViewById(R.id.footer_container);
         return view;
@@ -60,6 +73,11 @@ public class GridHolder implements Holder, AdapterView.OnItemClickListener {
     @Override
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    @Override
+    public void setOnKeyListener(View.OnKeyListener keyListener) {
+        this.keyListener = keyListener;
     }
 
     @Override

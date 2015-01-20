@@ -1,8 +1,11 @@
 package com.orhanobut.dialogplus;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +20,8 @@ import android.widget.FrameLayout;
  * @author Orhan Obut
  */
 public class DialogPlus {
+
+    private static final String TAG = DialogPlus.class.getSimpleName();
 
     /**
      * Determine whether the resources are set or not
@@ -195,7 +200,6 @@ public class DialogPlus {
         initCancellable();
     }
 
-
     /**
      * Initialize the appropriate views and also set for the back press button.
      */
@@ -215,6 +219,13 @@ public class DialogPlus {
         );
         contentView.setLayoutParams(params);
         contentContainer.addView(contentView);
+        contentView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                Log.d(TAG, "contentView: onKey;");
+                return false;
+            }
+        });
     }
 
     /**
@@ -307,6 +318,24 @@ public class DialogPlus {
         Context context = decorView.getContext();
         Animation inAnim = AnimationUtils.loadAnimation(context, this.inAnimationResource);
         contentContainer.startAnimation(inAnim);
+
+        contentContainer.requestFocus();
+        holder.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                switch (event.getAction()) {
+                    case KeyEvent.ACTION_UP:
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            if (isCancelable) {
+                                dismiss();
+                            }
+                            return true;
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     /**

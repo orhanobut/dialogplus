@@ -20,4 +20,6 @@ public interface Holder {
 
     void setOnItemClickListener(OnItemClickListener listener);
 
+    void setOnKeyListener(View.OnKeyListener keyListener);
+
 }
