@@ -46,8 +46,7 @@ public class BasicHolder implements Holder, SimpleListView.OnItemClickListener {
                 if (keyListener == null) {
                     throw new NullPointerException("keyListener should not be null");
                 }
-                keyListener.onKey(v, keyCode, event);
-                return false;
+                return keyListener.onKey(v, keyCode, event);
             }
         });
         return view;

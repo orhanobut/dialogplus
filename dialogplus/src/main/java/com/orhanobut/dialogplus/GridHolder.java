@@ -61,8 +61,7 @@ public class GridHolder implements Holder, AdapterView.OnItemClickListener {
                 if (keyListener == null) {
                     throw new NullPointerException("keyListener should not be null");
                 }
-                keyListener.onKey(v, keyCode, event);
-                return false;
+                return keyListener.onKey(v, keyCode, event);
             }
         });
         headerContainer = (ViewGroup) view.findViewById(R.id.header_container);
