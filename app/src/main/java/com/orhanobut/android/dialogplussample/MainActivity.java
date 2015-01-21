@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
                 .setHeader(R.layout.header)     // Optional
                 .setFooter(R.layout.footer)     // Optional
                 .setCancelable(true)            // Optional default:true
-                .setGravity(Gravity.BOTTOM)     // Optional default:true
+                .setGravity(Gravity.CENTER)     // Optional default:true
                 .setAdapter(adapter)            // This must be added
                 .setOnItemClickListener(new OnItemClickListener() {
                     @Override

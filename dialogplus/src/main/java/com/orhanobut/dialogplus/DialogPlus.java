@@ -195,7 +195,7 @@ public class DialogPlus {
         initViews();
         initContentView();
         initPosition();
-        initCancellable();
+        initCancelable();
     }
 
     /**
@@ -223,7 +223,7 @@ public class DialogPlus {
      * It is called to set whether the dialog is cancellable by pressing back button or
      * touching the black overlay
      */
-    private void initCancellable() {
+    private void initCancelable() {
         if (!isCancelable) {
             return;
         }
