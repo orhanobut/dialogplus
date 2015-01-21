@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/black_overlay"
     android:clickable="true"
+    android:descendantFocusability="afterDescendants"
     android:orientation="vertical">
 
     <View

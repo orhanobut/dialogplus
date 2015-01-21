@@ -1,10 +1,12 @@
 package com.orhanobut.dialogplus;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
 
 /**
  * @author Orhan Obut
@@ -12,8 +14,10 @@ import android.widget.BaseAdapter;
 public class BasicHolder implements Holder, SimpleListView.OnItemClickListener {
 
     private static final String TAG = BasicHolder.class.getSimpleName();
+    
     private SimpleListView simpleListView;
-    private OnItemClickListener listener;
+    private OnHolderListener listener;
+    private View.OnKeyListener keyListener;
 
     @Override
     public void addHeader(View view) {
@@ -37,12 +41,26 @@ public class BasicHolder implements Holder, SimpleListView.OnItemClickListener {
         View view = inflater.inflate(R.layout.dialog_basic, parent, false);
         simpleListView = (SimpleListView) view.findViewById(R.id.list);
         simpleListView.setOnItemClickListener(this);
+        simpleListView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyListener == null) {
+                    throw new NullPointerException("keyListener should not be null");
+                }
+                return keyListener.onKey(v, keyCode, event);
+            }
+        });
         return view;
     }
 
     @Override
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnHolderListener listener) {
         this.listener = listener;
+    }
+
+    @Override
+    public void setOnKeyListener(View.OnKeyListener keyListener) {
+        this.keyListener = keyListener;
     }
 
     @Override

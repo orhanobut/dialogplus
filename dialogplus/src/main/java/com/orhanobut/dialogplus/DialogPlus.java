@@ -3,6 +3,7 @@ package com.orhanobut.dialogplus;
 import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +18,8 @@ import android.widget.FrameLayout;
  * @author Orhan Obut
  */
 public class DialogPlus {
+
+    private static final String TAG = DialogPlus.class.getSimpleName();
 
     /**
      * Determine whether the resources are set or not
@@ -192,9 +195,8 @@ public class DialogPlus {
         initViews();
         initContentView();
         initPosition();
-        initCancellable();
+        initCancelable();
     }
-
 
     /**
      * Initialize the appropriate views and also set for the back press button.
@@ -221,7 +223,7 @@ public class DialogPlus {
      * It is called to set whether the dialog is cancellable by pressing back button or
      * touching the black overlay
      */
-    private void initCancellable() {
+    private void initCancelable() {
         if (!isCancelable) {
             return;
         }
@@ -263,9 +265,16 @@ public class DialogPlus {
         if (adapter != null) {
             holder.setAdapter(adapter);
         }
-        if (onItemClickListener != null) {
-            holder.setOnItemClickListener(onItemClickListener);
-        }
+
+        holder.setOnItemClickListener(new OnHolderListener() {
+            @Override
+            public void onItemClick(Object item, View view, int position) {
+                if (onItemClickListener == null) {
+                    return;
+                }
+                onItemClickListener.onItemClick(DialogPlus.this, item, view, position);
+            }
+        });
         return view;
     }
 
@@ -276,7 +285,7 @@ public class DialogPlus {
      */
     private Holder getHolder(Holder holder) {
         if (holder == null) {
-            holder = new BasicHolder();
+            holder = new ListHolder();
         }
         return holder;
     }
@@ -307,6 +316,22 @@ public class DialogPlus {
         Context context = decorView.getContext();
         Animation inAnim = AnimationUtils.loadAnimation(context, this.inAnimationResource);
         contentContainer.startAnimation(inAnim);
+
+        contentContainer.requestFocus();
+        holder.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                switch (event.getAction()) {
+                    case KeyEvent.ACTION_UP:
+                        if (keyCode == KeyEvent.KEYCODE_BACK && isCancelable) {
+                            dismiss();
+                            return true;
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     /**

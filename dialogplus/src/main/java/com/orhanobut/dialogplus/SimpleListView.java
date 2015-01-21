@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
  */
 public class SimpleListView extends LinearLayout {
 
-
     /**
      * Invalid flag for the resources
      */
@@ -43,32 +42,41 @@ public class SimpleListView extends LinearLayout {
      * Special item click listener in order to allow to user to take an action
      */
     private OnItemClickListener itemClickListener;
+
     public SimpleListView(Context context) {
         this(context, null);
     }
+
     public SimpleListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         layoutInflater = LayoutInflater.from(getContext());
         setOrientation(VERTICAL);
     }
+
     public void setDividerView(int resourceId) {
         dividerViewResourceId = resourceId;
     }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.itemClickListener = listener;
     }
+
     public void setHeaderView(View view) {
         headerView = view;
     }
+
     public void setHeaderView(int resourceId) {
         headerView = layoutInflater.inflate(resourceId, this, false);
     }
+
     public void setFooterView(View view) {
         footerView = view;
     }
+
     public void setFooterView(int resourceId) {
         footerView = layoutInflater.inflate(resourceId, this, false);
     }
+
     public void setAdapter(BaseAdapter adapter) {
         if (adapter == null) {
             throw new NullPointerException("Adapter may not be null");
@@ -82,6 +90,7 @@ public class SimpleListView extends LinearLayout {
         resetList();
         refreshList();
     }
+
     /**
      * It is called when the notifyDataSetChanged or first initialize
      */
@@ -110,6 +119,7 @@ public class SimpleListView extends LinearLayout {
             addView(footerView);
         }
     }
+
     /**
      * Clears everything
      */
@@ -117,6 +127,7 @@ public class SimpleListView extends LinearLayout {
         this.removeAllViews();
         invalidate();
     }
+
     /**
      * observe data set changes, when the adapter notifyDataSetChanged method called, onChanged
      * method will be called and view will be refreshed.
@@ -129,6 +140,7 @@ public class SimpleListView extends LinearLayout {
             refreshList();
         }
     }
+
     public interface OnItemClickListener {
         public void onItemClick(Object item, View view, int position);
     }

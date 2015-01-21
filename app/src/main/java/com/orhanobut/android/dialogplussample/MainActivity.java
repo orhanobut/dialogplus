@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ListHolder;
+import com.orhanobut.dialogplus.OnHolderListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 
 
@@ -26,12 +27,12 @@ public class MainActivity extends Activity {
                 .setHeader(R.layout.header)     // Optional
                 .setFooter(R.layout.footer)     // Optional
                 .setCancelable(true)            // Optional default:true
-                .setGravity(Gravity.BOTTOM)     // Optional default:true
+                .setGravity(Gravity.CENTER)     // Optional default:true
                 .setAdapter(adapter)            // This must be added
                 .setOnItemClickListener(new OnItemClickListener() {
                     @Override
-                    public void onItemClick(Object item, View view, int position) {
-
+                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                        dialog.dismiss();
                     }
                 })
                 .create();
@@ -42,5 +43,10 @@ public class MainActivity extends Activity {
                 dialog.show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

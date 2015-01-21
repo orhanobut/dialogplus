@@ -18,6 +18,8 @@ public interface Holder {
 
     View getView(LayoutInflater inflater, ViewGroup parent);
 
-    void setOnItemClickListener(OnItemClickListener listener);
+    void setOnItemClickListener(OnHolderListener listener);
+
+    void setOnKeyListener(View.OnKeyListener keyListener);
 
 }
