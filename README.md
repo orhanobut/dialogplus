@@ -32,8 +32,8 @@ DialogPlus dialog = new DialogPlus.Builder(this)
     .setHolder(new ListHolder())    // Optional, default:BasicHolder                    
     .setHeader(R.layout.header)     // Optional                                           
     .setFooter(R.layout.footer)     // Optional                                           
-    .setCancelable(true)            // Optional default:true                              
-    .setGravity(Gravity.BOTTOM)     // Optional default:true                              
+    .setCancelable(true)            // Optional default: true
+    .setGravity(Gravity.BOTTOM)     // Optional default: Gravity.BOTTOM
     .setAdapter(adapter)            // This must be called, Any adapter can be set.                              
     .setOnItemClickListener(new OnItemClickListener() {                       
         @Override                                                                         
