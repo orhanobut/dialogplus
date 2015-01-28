@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    android:background="#D3D3D3">
+    android:background="@color/card_shadow">
 
-    <TextView
+<TextView
         android:id="@android:id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
