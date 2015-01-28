@@ -3,7 +3,8 @@
 DialogPlus
 ==========
 
-Simple,easy dialog for android. Instead of using dialog/fragments, normal view will be shown as dialog. It's customizable and have 3 different content holder.
+Simple, easy dialog for android. Instead of using dialog/fragments, normal view will be shown as dialog. It's
+customizable and have 3 different content holder.
 
 <img src='https://github.com/nr4bt/dialogplus/blob/master/images/s1.png' width='140' height='180'/>
 <img src='https://github.com/nr4bt/dialogplus/blob/master/images/s2.png' width='140' height='180'/>
@@ -31,8 +32,8 @@ DialogPlus dialog = new DialogPlus.Builder(this)
     .setHolder(new ListHolder())    // Optional, default:BasicHolder                    
     .setHeader(R.layout.header)     // Optional                                           
     .setFooter(R.layout.footer)     // Optional                                           
-    .setCancelable(true)            // Optional default:true                              
-    .setGravity(Gravity.BOTTOM)     // Optional default:true                              
+    .setCancelable(true)            // Optional default: true
+    .setGravity(Gravity.BOTTOM)     // Optional default: Gravity.BOTTOM
     .setAdapter(adapter)            // This must be called, Any adapter can be set.                              
     .setOnItemClickListener(new OnItemClickListener() {                       
         @Override                                                                         
