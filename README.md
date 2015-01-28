@@ -29,12 +29,12 @@ ArrayAdapter<String> adapter = new ArrayAdapter<>(
         this, R.layout.simple_list_item_1, new String[]{"Item 1", "Item 2","Item 3","Item 4"} 
 );                                                                                            
 DialogPlus dialog = new DialogPlus.Builder(this)                                            
-    .setHolder(new ListHolder())    // Optional, default:BasicHolder                    
-    .setHeader(R.layout.header)     // Optional                                           
-    .setFooter(R.layout.footer)     // Optional                                           
-    .setCancelable(true)            // Optional default: true
-    .setGravity(Gravity.BOTTOM)     // Optional default: Gravity.BOTTOM
-    .setAdapter(adapter)            // This must be called, Any adapter can be set.                              
+    .setHolder(new ListHolder())            // Optional, default:BasicHolder
+    .setHeader(R.layout.header)             // Optional
+    .setFooter(R.layout.footer)             // Optional
+    .setCancelable(true)                    // Optional default: true
+    .setGravity(DialogPlus.Gravity.BOTTOM)  // Optional default: Gravity.BOTTOM
+    .setAdapter(adapter)                    // This must be called, Any adapter can be set.
     .setOnItemClickListener(new OnItemClickListener() {                       
         @Override                                                                         
         public void onItemClick(DialogPlus dialog, Object item, View view, int position) {

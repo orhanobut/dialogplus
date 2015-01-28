@@ -2,7 +2,6 @@ package com.orhanobut.dialogplus;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,6 +19,13 @@ import android.widget.FrameLayout;
 public class DialogPlus {
 
     private static final String TAG = DialogPlus.class.getSimpleName();
+
+    /**
+     * Custom values for DialogPlus gravity
+     */
+    public enum Gravity {
+        TOP, BOTTOM, CENTER
+    }
 
     /**
      * Determine whether the resources are set or not
@@ -40,7 +46,7 @@ public class DialogPlus {
      * Determines the position of the dialog, only BOTTOM and TOP should be used, as default
      * it is BOTTOM
      */
-    private final int gravity;
+    private final Gravity gravity;
 
     /**
      * Either the content should fill the all screen or only the half, when the content reaches
@@ -123,8 +129,11 @@ public class DialogPlus {
         this.onItemClickListener = builder.onItemClickListener;
         this.isCancelable = builder.isCancelable;
         this.gravity = builder.gravity;
-        this.inAnimationResource = builder.inAnimation;
-        this.outAnimationResource = builder.outAnimation;
+
+        int inAnimation = builder.inAnimation;
+        int outAnimation = builder.outAnimation;
+        this.inAnimationResource = (inAnimation == INVALID) ? getAnimationResource(this.gravity, true) : inAnimation;
+        this.outAnimationResource = (outAnimation == INVALID) ? getAnimationResource(this.gravity, false) : outAnimation;
 
         /**
          * Avoid getting directly from the decor view because by doing that we are overlapping the black soft key on
@@ -138,6 +147,21 @@ public class DialogPlus {
         bottomView = rootView.findViewById(R.id.bottom_view);
 
         createDialog();
+    }
+
+    /**
+     * Get default animation resource when not defined by the user
+     */
+    private int getAnimationResource(Gravity gravity, boolean isInAnimation) {
+        switch (gravity) {
+            case TOP:
+                return isInAnimation ? R.anim.slide_in_top : R.anim.slide_out_top;
+            case BOTTOM:
+                return isInAnimation ? R.anim.slide_in_bottom : R.anim.slide_out_bottom;
+            default:
+                // This case is not implemented because we don't expect any other gravity at the moment
+        }
+        return INVALID;
     }
 
     /**
@@ -211,12 +235,27 @@ public class DialogPlus {
      * It is called in order to create content
      */
     private void initContentView() {
+        int convertedGravity = getGravity();
         View contentView = createView(inflater);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, gravity
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, convertedGravity
         );
         contentView.setLayoutParams(params);
         contentContainer.addView(contentView);
+    }
+
+    /**
+     * Convert DialogPlusGravity with content layout readable gravity
+     */
+    private int getGravity() {
+        switch (gravity) {
+            case TOP:
+                return android.view.Gravity.TOP;
+            case BOTTOM:
+                return android.view.Gravity.BOTTOM;
+            default:
+                return android.view.Gravity.CENTER;
+        }
     }
 
     /**
@@ -240,13 +279,18 @@ public class DialogPlus {
             bottomView.setVisibility(View.GONE);
             return;
         }
+
         switch (gravity) {
-            case Gravity.TOP:
+            case TOP:
                 bottomView.setVisibility(View.VISIBLE);
                 topView.setVisibility(View.GONE);
                 break;
-            default:
+            case BOTTOM:
                 bottomView.setVisibility(View.GONE);
+                topView.setVisibility(View.VISIBLE);
+                break;
+            default:
+                bottomView.setVisibility(View.VISIBLE);
                 topView.setVisibility(View.VISIBLE);
                 break;
         }
@@ -360,11 +404,11 @@ public class DialogPlus {
         private boolean isCancelable = true;
         private Holder holder;
         private int backgroundColorResourceId = INVALID;
-        private int gravity = Gravity.BOTTOM;
+        private Gravity gravity = Gravity.BOTTOM;
         private ScreenType screenType = ScreenType.HALF;
         private OnItemClickListener onItemClickListener;
-        private int inAnimation = R.anim.slide_in;
-        private int outAnimation = R.anim.slide_out;
+        private int inAnimation = INVALID;
+        private int outAnimation = INVALID;
 
         private Builder() {
         }
@@ -419,7 +463,7 @@ public class DialogPlus {
             return this;
         }
 
-        public Builder setGravity(int gravity) {
+        public Builder setGravity(Gravity gravity) {
             this.gravity = gravity;
             return this;
         }
