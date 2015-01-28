@@ -112,6 +112,14 @@ public class DialogPlus {
     private final int inAnimationResource;
     private final int outAnimationResource;
 
+    /**
+     * Determine the margin that the dialog should have
+     */
+    private final int marginLeft;
+    private final int marginTop;
+    private final int marginRight;
+    private final int marginBottom;
+
     public enum ScreenType {
         HALF, FULL
     }
@@ -121,7 +129,9 @@ public class DialogPlus {
         Activity activity = (Activity) builder.context;
 
         this.holder = getHolder(builder.holder);
-        this.backgroundColorResourceId = builder.backgroundColorResourceId;
+
+        int backgroundColor = builder.backgroundColorResourceId;
+        this.backgroundColorResourceId = (backgroundColor == INVALID) ? android.R.color.white : backgroundColor;
         this.headerView = getView(builder.headerViewResourceId, builder.headerView);
         this.footerView = getView(builder.footerViewResourceId, builder.footerView);
         this.screenType = builder.screenType;
@@ -134,6 +144,16 @@ public class DialogPlus {
         int outAnimation = builder.outAnimation;
         this.inAnimationResource = (inAnimation == INVALID) ? getAnimationResource(this.gravity, true) : inAnimation;
         this.outAnimationResource = (outAnimation == INVALID) ? getAnimationResource(this.gravity, false) : outAnimation;
+
+        int minimumMargin = activity.getResources().getDimensionPixelSize(R.dimen.default_center_margin);
+        int marginLeft = builder.marginLeft;
+        int marginTop = builder.marginTop;
+        int marginRight = builder.marginRight;
+        int marginBottom = builder.marginBottom;
+        this.marginLeft = getMargin(this.gravity, marginLeft, minimumMargin);
+        this.marginTop = getMargin(this.gravity, marginTop, minimumMargin);
+        this.marginRight = getMargin(this.gravity, marginRight, minimumMargin);
+        this.marginBottom = getMargin(this.gravity, marginBottom, minimumMargin);
 
         /**
          * Avoid getting directly from the decor view because by doing that we are overlapping the black soft key on
@@ -158,10 +178,29 @@ public class DialogPlus {
                 return isInAnimation ? R.anim.slide_in_top : R.anim.slide_out_top;
             case BOTTOM:
                 return isInAnimation ? R.anim.slide_in_bottom : R.anim.slide_out_bottom;
+            case CENTER:
+                return isInAnimation ? R.anim.fade_in_center : R.anim.fade_out_center;
             default:
                 // This case is not implemented because we don't expect any other gravity at the moment
         }
         return INVALID;
+    }
+
+    /**
+     * Get margins if provided or assign default values based on gravity
+     */
+    private int getMargin(Gravity gravity, int margin, int minimumMargin) {
+        switch (gravity) {
+            case TOP:
+                // Fall Through
+            case BOTTOM:
+                return (margin == INVALID) ? 0 : margin;
+            case CENTER:
+                return (margin == INVALID) ? minimumMargin : margin;
+            default:
+                // This case is not implemented because we don't expect any other gravity at the moment
+        }
+        return 0;
     }
 
     /**
@@ -216,19 +255,9 @@ public class DialogPlus {
     }
 
     private void createDialog() {
-        initViews();
         initContentView();
         initPosition();
         initCancelable();
-    }
-
-    /**
-     * Initialize the appropriate views and also set for the back press button.
-     */
-    private void initViews() {
-        if (backgroundColorResourceId != INVALID) {
-            contentContainer.setBackgroundResource(backgroundColorResourceId);
-        }
     }
 
     /**
@@ -240,6 +269,7 @@ public class DialogPlus {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, convertedGravity
         );
+        params.setMargins(marginLeft, marginTop, marginRight, marginBottom);
         contentView.setLayoutParams(params);
         contentContainer.addView(contentView);
     }
@@ -303,6 +333,7 @@ public class DialogPlus {
      * @return any view which is passed
      */
     private View createView(LayoutInflater inflater) {
+        holder.setBackgroundColor(backgroundColorResourceId);
         View view = holder.getView(inflater, rootView);
         holder.addFooter(footerView);
         holder.addHeader(headerView);
@@ -409,6 +440,10 @@ public class DialogPlus {
         private OnItemClickListener onItemClickListener;
         private int inAnimation = INVALID;
         private int outAnimation = INVALID;
+        private int marginLeft = INVALID;
+        private int marginTop = INVALID;
+        private int marginRight = INVALID;
+        private int marginBottom = INVALID;
 
         private Builder() {
         }
@@ -480,6 +515,14 @@ public class DialogPlus {
 
         public Builder setScreenType(ScreenType screenType) {
             this.screenType = screenType;
+            return this;
+        }
+
+        public Builder setMargins(int left, int top, int right, int bottom) {
+            this.marginLeft = left;
+            this.marginTop = top;
+            this.marginRight = right;
+            this.marginBottom = bottom;
             return this;
         }
 

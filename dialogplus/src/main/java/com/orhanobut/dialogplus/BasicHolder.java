@@ -14,7 +14,9 @@ import android.widget.BaseAdapter;
 public class BasicHolder implements Holder, SimpleListView.OnItemClickListener {
 
     private static final String TAG = BasicHolder.class.getSimpleName();
-    
+
+    private int backgroundColor;
+
     private SimpleListView simpleListView;
     private OnHolderListener listener;
     private View.OnKeyListener keyListener;
@@ -37,9 +39,15 @@ public class BasicHolder implements Holder, SimpleListView.OnItemClickListener {
     }
 
     @Override
+    public void setBackgroundColor(int colorResource) {
+        this.backgroundColor = colorResource;
+    }
+
+    @Override
     public View getView(LayoutInflater inflater, ViewGroup parent) {
         View view = inflater.inflate(R.layout.dialog_basic, parent, false);
         simpleListView = (SimpleListView) view.findViewById(R.id.list);
+        simpleListView.setBackgroundColor(parent.getResources().getColor(backgroundColor));
         simpleListView.setOnItemClickListener(this);
         simpleListView.setOnKeyListener(new View.OnKeyListener() {
             @Override

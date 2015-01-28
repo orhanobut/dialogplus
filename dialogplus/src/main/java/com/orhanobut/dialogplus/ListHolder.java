@@ -16,6 +16,8 @@ public class ListHolder implements Holder, AdapterView.OnItemClickListener {
 
     private static final String TAG = ListHolder.class.getSimpleName();
 
+    private int backgroundColor;
+
     private ListView listView;
     private OnHolderListener listener;
     private View.OnKeyListener keyListener;
@@ -42,9 +44,15 @@ public class ListHolder implements Holder, AdapterView.OnItemClickListener {
     }
 
     @Override
+    public void setBackgroundColor(int colorResource) {
+        this.backgroundColor = colorResource;
+    }
+
+    @Override
     public View getView(LayoutInflater inflater, ViewGroup parent) {
         View view = inflater.inflate(R.layout.dialog_list, parent, false);
         listView = (ListView) view.findViewById(R.id.list);
+        listView.setBackgroundColor(parent.getResources().getColor(backgroundColor));
         listView.setOnItemClickListener(this);
         listView.setOnKeyListener(new View.OnKeyListener() {
             @Override

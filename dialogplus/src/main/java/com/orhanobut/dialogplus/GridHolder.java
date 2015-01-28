@@ -16,6 +16,7 @@ public class GridHolder implements Holder, AdapterView.OnItemClickListener {
 
     private static final String TAG = GridHolder.class.getSimpleName();
 
+    private int backgroundColor;
     private final int columnNumber;
 
     private GridView gridView;
@@ -50,9 +51,15 @@ public class GridHolder implements Holder, AdapterView.OnItemClickListener {
     }
 
     @Override
+    public void setBackgroundColor(int colorResource) {
+        this.backgroundColor = colorResource;
+    }
+
+    @Override
     public View getView(LayoutInflater inflater, ViewGroup parent) {
         View view = inflater.inflate(R.layout.dialog_grid, parent, false);
         gridView = (GridView) view.findViewById(R.id.list);
+        gridView.setBackgroundColor(parent.getResources().getColor(backgroundColor));
         gridView.setNumColumns(columnNumber);
         gridView.setOnItemClickListener(this);
         gridView.setOnKeyListener(new View.OnKeyListener() {
