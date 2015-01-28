@@ -20,6 +20,9 @@ public class DialogPlus {
 
     private static final String TAG = DialogPlus.class.getSimpleName();
 
+    /**
+     * Custom values for DialogPlus gravity
+     */
     public enum Gravity {TOP, BOTTOM}
 
     /**
