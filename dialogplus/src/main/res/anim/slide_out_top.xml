@@ -3,9 +3,9 @@
      android:shareInterpolator="false">
 
     <translate
-        android:duration="300"
+        android:duration="@integer/animation_default_duration"
         android:fromXDelta="0%"
         android:toXDelta="0%"
         android:fromYDelta="0%"
-        android:toYDelta="100%"/>
+        android:toYDelta="-100%"/>
 </set>
