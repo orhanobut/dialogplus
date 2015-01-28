@@ -23,7 +23,9 @@ public class DialogPlus {
     /**
      * Custom values for DialogPlus gravity
      */
-    public enum Gravity {TOP, BOTTOM}
+    public enum Gravity {
+        TOP, BOTTOM, CENTER
+    }
 
     /**
      * Determine whether the resources are set or not
@@ -130,8 +132,8 @@ public class DialogPlus {
 
         int inAnimation = builder.inAnimation;
         int outAnimation = builder.outAnimation;
-        this.inAnimationResource = (inAnimation == -1) ? getAnimationResource(this.gravity, true) : inAnimation;
-        this.outAnimationResource = (outAnimation == -1) ? getAnimationResource(this.gravity, false) : outAnimation;
+        this.inAnimationResource = (inAnimation == INVALID) ? getAnimationResource(this.gravity, true) : inAnimation;
+        this.outAnimationResource = (outAnimation == INVALID) ? getAnimationResource(this.gravity, false) : outAnimation;
 
         /**
          * Avoid getting directly from the decor view because by doing that we are overlapping the black soft key on
@@ -159,7 +161,7 @@ public class DialogPlus {
             default:
                 // This case is not implemented because we don't expect any other gravity at the moment
         }
-        return -1;
+        return INVALID;
     }
 
     /**
@@ -233,7 +235,7 @@ public class DialogPlus {
      * It is called in order to create content
      */
     private void initContentView() {
-        int convertedGravity = getLayoutGravity();
+        int convertedGravity = getGravity();
         View contentView = createView(inflater);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, convertedGravity
@@ -245,7 +247,7 @@ public class DialogPlus {
     /**
      * Convert DialogPlusGravity with content layout readable gravity
      */
-    private int getLayoutGravity() {
+    private int getGravity() {
         switch (gravity) {
             case TOP:
                 return android.view.Gravity.TOP;
@@ -405,8 +407,8 @@ public class DialogPlus {
         private Gravity gravity = Gravity.BOTTOM;
         private ScreenType screenType = ScreenType.HALF;
         private OnItemClickListener onItemClickListener;
-        private int inAnimation = -1;
-        private int outAnimation = -1;
+        private int inAnimation = INVALID;
+        private int outAnimation = INVALID;
 
         private Builder() {
         }
