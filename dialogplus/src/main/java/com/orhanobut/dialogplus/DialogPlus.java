@@ -128,32 +128,28 @@ public class DialogPlus {
         inflater = LayoutInflater.from(builder.context);
         Activity activity = (Activity) builder.context;
 
-        this.holder = getHolder(builder.holder);
+        holder = getHolder(builder.holder);
 
         int backgroundColor = builder.backgroundColorResourceId;
-        this.backgroundColorResourceId = (backgroundColor == INVALID) ? android.R.color.white : backgroundColor;
-        this.headerView = getView(builder.headerViewResourceId, builder.headerView);
-        this.footerView = getView(builder.footerViewResourceId, builder.footerView);
-        this.screenType = builder.screenType;
-        this.adapter = builder.adapter;
-        this.onItemClickListener = builder.onItemClickListener;
-        this.isCancelable = builder.isCancelable;
-        this.gravity = builder.gravity;
+        backgroundColorResourceId = (backgroundColor == INVALID) ? android.R.color.white : backgroundColor;
+        headerView = getView(builder.headerViewResourceId, builder.headerView);
+        footerView = getView(builder.footerViewResourceId, builder.footerView);
+        screenType = builder.screenType;
+        adapter = builder.adapter;
+        onItemClickListener = builder.onItemClickListener;
+        isCancelable = builder.isCancelable;
+        gravity = builder.gravity;
 
         int inAnimation = builder.inAnimation;
         int outAnimation = builder.outAnimation;
-        this.inAnimationResource = (inAnimation == INVALID) ? getAnimationResource(this.gravity, true) : inAnimation;
-        this.outAnimationResource = (outAnimation == INVALID) ? getAnimationResource(this.gravity, false) : outAnimation;
+        inAnimationResource = (inAnimation == INVALID) ? getAnimationResource(this.gravity, true) : inAnimation;
+        outAnimationResource = (outAnimation == INVALID) ? getAnimationResource(this.gravity, false) : outAnimation;
 
         int minimumMargin = activity.getResources().getDimensionPixelSize(R.dimen.default_center_margin);
-        int marginLeft = builder.marginLeft;
-        int marginTop = builder.marginTop;
-        int marginRight = builder.marginRight;
-        int marginBottom = builder.marginBottom;
-        this.marginLeft = getMargin(this.gravity, marginLeft, minimumMargin);
-        this.marginTop = getMargin(this.gravity, marginTop, minimumMargin);
-        this.marginRight = getMargin(this.gravity, marginRight, minimumMargin);
-        this.marginBottom = getMargin(this.gravity, marginBottom, minimumMargin);
+        marginLeft = getMargin(this.gravity, builder.marginLeft, minimumMargin);
+        marginTop = getMargin(this.gravity, builder.marginTop, minimumMargin);
+        marginRight = getMargin(this.gravity, builder.marginRight, minimumMargin);
+        marginBottom = getMargin(this.gravity, builder.marginBottom, minimumMargin);
 
         /**
          * Avoid getting directly from the decor view because by doing that we are overlapping the black soft key on
