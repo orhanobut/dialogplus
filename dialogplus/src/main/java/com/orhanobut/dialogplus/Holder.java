@@ -16,6 +16,8 @@ public interface Holder {
 
     void setAdapter(BaseAdapter adapter);
 
+    void setBackgroundColor(int colorResource);
+
     View getView(LayoutInflater inflater, ViewGroup parent);
 
     void setOnItemClickListener(OnHolderListener listener);
