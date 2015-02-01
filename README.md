@@ -2,8 +2,10 @@
 
 DialogPlus
 ==========
-
 Simple, easy dialog solution for android.
+
+<img src='https://github.com/orhanobut/dialogplus/blob/master/images/dialog-plus.png' width='128' height='128'/>
+<hr>
 
 <img src='https://github.com/nr4bt/dialogplus/blob/master/images/d1.png' width='140' height='200'/>
 <img src='https://github.com/nr4bt/dialogplus/blob/master/images/d2.png' width='140' height='200'/>
