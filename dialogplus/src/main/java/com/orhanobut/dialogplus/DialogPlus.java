@@ -12,7 +12,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
-
 /**
  * @author Orhan Obut
  */
@@ -339,19 +338,19 @@ public class DialogPlus {
         View view = holder.getView(inflater, rootView);
 
         if (holder instanceof ViewHolder) {
-            loopViewsRecursively(view);
+            assignClickListenerRecursively(view);
         }
 
-        loopViewsRecursively(headerView);
+        assignClickListenerRecursively(headerView);
         holder.addHeader(headerView);
 
-        loopViewsRecursively(footerView);
+        assignClickListenerRecursively(footerView);
         holder.addFooter(footerView);
 
         if (adapter != null && holder instanceof HolderAdapter) {
-            ((HolderAdapter) holder).setAdapter(adapter);
-
-            ((HolderAdapter) holder).setOnItemClickListener(new OnHolderListener() {
+            HolderAdapter holderAdapter = (HolderAdapter) holder;
+            holderAdapter.setAdapter(adapter);
+            holderAdapter.setOnItemClickListener(new OnHolderListener() {
                 @Override
                 public void onItemClick(Object item, View view, int position) {
                     if (onItemClickListener == null) {
@@ -367,7 +366,7 @@ public class DialogPlus {
     /**
      * Loop among the views in the hierarchy and assign listener to them
      */
-    public void loopViewsRecursively(View parent) {
+    public void assignClickListenerRecursively(View parent) {
         if (parent == null) {
             return;
         }
@@ -377,16 +376,16 @@ public class DialogPlus {
             int childCount = viewGroup.getChildCount();
             for (int i = childCount - 1; i >= 0; i--) {
                 View child = viewGroup.getChildAt(i);
-                loopViewsRecursively(child);
+                assignClickListenerRecursively(child);
             }
         }
-        setClickListeners(parent);
+        setClickListener(parent);
     }
 
     /**
      * It is used to setListeners on views that have a valid id associated
      */
-    private void setClickListeners(View view) {
+    private void setClickListener(View view) {
         if (view.getId() == INVALID) {
             return;
         }

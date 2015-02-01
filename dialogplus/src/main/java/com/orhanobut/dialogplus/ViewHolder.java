@@ -73,7 +73,7 @@ public class ViewHolder implements Holder {
     }
 
     private void addContent(LayoutInflater inflater, ViewGroup parent, ViewGroup container) {
-        if (viewResourceId != -1) {
+        if (viewResourceId != INVALID) {
             View contentView = inflater.inflate(viewResourceId, parent, false);
             container.addView(contentView);
             return;
