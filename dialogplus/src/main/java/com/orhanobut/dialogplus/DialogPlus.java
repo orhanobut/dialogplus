@@ -12,7 +12,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
-
 /**
  * @author Orhan Obut
  */
@@ -91,6 +90,11 @@ public class DialogPlus {
     private final OnItemClickListener onItemClickListener;
 
     /**
+     * Listener for the user to take action by clicking views in header or footer
+     */
+    private final OnClickListener onClickListener;
+
+    /**
      * Content
      */
     private final Holder holder;
@@ -112,6 +116,14 @@ public class DialogPlus {
     private final int inAnimationResource;
     private final int outAnimationResource;
 
+    /**
+     * Determine the margin that the dialog should have
+     */
+    private final int marginLeft;
+    private final int marginTop;
+    private final int marginRight;
+    private final int marginBottom;
+
     public enum ScreenType {
         HALF, FULL
     }
@@ -120,20 +132,29 @@ public class DialogPlus {
         inflater = LayoutInflater.from(builder.context);
         Activity activity = (Activity) builder.context;
 
-        this.holder = getHolder(builder.holder);
-        this.backgroundColorResourceId = builder.backgroundColorResourceId;
-        this.headerView = getView(builder.headerViewResourceId, builder.headerView);
-        this.footerView = getView(builder.footerViewResourceId, builder.footerView);
-        this.screenType = builder.screenType;
-        this.adapter = builder.adapter;
-        this.onItemClickListener = builder.onItemClickListener;
-        this.isCancelable = builder.isCancelable;
-        this.gravity = builder.gravity;
+        holder = getHolder(builder.holder);
+
+        int backgroundColor = builder.backgroundColorResourceId;
+        backgroundColorResourceId = (backgroundColor == INVALID) ? android.R.color.white : backgroundColor;
+        headerView = getView(builder.headerViewResourceId, builder.headerView);
+        footerView = getView(builder.footerViewResourceId, builder.footerView);
+        screenType = builder.screenType;
+        adapter = builder.adapter;
+        onItemClickListener = builder.onItemClickListener;
+        onClickListener = builder.onClickListener;
+        isCancelable = builder.isCancelable;
+        gravity = builder.gravity;
 
         int inAnimation = builder.inAnimation;
         int outAnimation = builder.outAnimation;
-        this.inAnimationResource = (inAnimation == INVALID) ? getAnimationResource(this.gravity, true) : inAnimation;
-        this.outAnimationResource = (outAnimation == INVALID) ? getAnimationResource(this.gravity, false) : outAnimation;
+        inAnimationResource = (inAnimation == INVALID) ? getAnimationResource(this.gravity, true) : inAnimation;
+        outAnimationResource = (outAnimation == INVALID) ? getAnimationResource(this.gravity, false) : outAnimation;
+
+        int minimumMargin = activity.getResources().getDimensionPixelSize(R.dimen.default_center_margin);
+        marginLeft = getMargin(this.gravity, builder.marginLeft, minimumMargin);
+        marginTop = getMargin(this.gravity, builder.marginTop, minimumMargin);
+        marginRight = getMargin(this.gravity, builder.marginRight, minimumMargin);
+        marginBottom = getMargin(this.gravity, builder.marginBottom, minimumMargin);
 
         /**
          * Avoid getting directly from the decor view because by doing that we are overlapping the black soft key on
@@ -151,6 +172,11 @@ public class DialogPlus {
 
     /**
      * Get default animation resource when not defined by the user
+     *
+     * @param gravity       the gravity of the dialog
+     * @param isInAnimation determine if is in or out animation. true when is is
+     *
+     * @return the id of the animation resource
      */
     private int getAnimationResource(Gravity gravity, boolean isInAnimation) {
         switch (gravity) {
@@ -158,10 +184,35 @@ public class DialogPlus {
                 return isInAnimation ? R.anim.slide_in_top : R.anim.slide_out_top;
             case BOTTOM:
                 return isInAnimation ? R.anim.slide_in_bottom : R.anim.slide_out_bottom;
+            case CENTER:
+                return isInAnimation ? R.anim.fade_in_center : R.anim.fade_out_center;
             default:
                 // This case is not implemented because we don't expect any other gravity at the moment
         }
         return INVALID;
+    }
+
+    /**
+     * Get margins if provided or assign default values based on gravity
+     *
+     * @param gravity       the gravity of the dialog
+     * @param margin        the value defined in the builder
+     * @param minimumMargin the minimum margin when gravity center is selected
+     *
+     * @return the value of the margin
+     */
+    private int getMargin(Gravity gravity, int margin, int minimumMargin) {
+        switch (gravity) {
+            case TOP:
+                // Fall Through
+            case BOTTOM:
+                return (margin == INVALID) ? 0 : margin;
+            case CENTER:
+                return (margin == INVALID) ? minimumMargin : margin;
+            default:
+                // This case is not implemented because we don't expect any other gravity at the moment
+        }
+        return 0;
     }
 
     /**
@@ -215,20 +266,13 @@ public class DialogPlus {
         isDismissing = true;
     }
 
+    /**
+     * It creates the dialog
+     */
     private void createDialog() {
-        initViews();
         initContentView();
         initPosition();
         initCancelable();
-    }
-
-    /**
-     * Initialize the appropriate views and also set for the back press button.
-     */
-    private void initViews() {
-        if (backgroundColorResourceId != INVALID) {
-            contentContainer.setBackgroundResource(backgroundColorResourceId);
-        }
     }
 
     /**
@@ -240,12 +284,15 @@ public class DialogPlus {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, convertedGravity
         );
+        params.setMargins(marginLeft, marginTop, marginRight, marginBottom);
         contentView.setLayoutParams(params);
         contentContainer.addView(contentView);
     }
 
     /**
      * Convert DialogPlusGravity with content layout readable gravity
+     *
+     * @return the converted layout gravity that can be passed to the container
      */
     private int getGravity() {
         switch (gravity) {
@@ -299,33 +346,84 @@ public class DialogPlus {
     /**
      * it is called when the content view is created
      *
-     * @param inflater
+     * @param inflater  used to inflate the content of the dialog
+     *
      * @return any view which is passed
      */
     private View createView(LayoutInflater inflater) {
+        holder.setBackgroundColor(backgroundColorResourceId);
         View view = holder.getView(inflater, rootView);
-        holder.addFooter(footerView);
-        holder.addHeader(headerView);
-        if (adapter != null) {
-            holder.setAdapter(adapter);
+
+        if (holder instanceof ViewHolder) {
+            assignClickListenerRecursively(view);
         }
 
-        holder.setOnItemClickListener(new OnHolderListener() {
+        assignClickListenerRecursively(headerView);
+        holder.addHeader(headerView);
+
+        assignClickListenerRecursively(footerView);
+        holder.addFooter(footerView);
+
+        if (adapter != null && holder instanceof HolderAdapter) {
+            HolderAdapter holderAdapter = (HolderAdapter) holder;
+            holderAdapter.setAdapter(adapter);
+            holderAdapter.setOnItemClickListener(new OnHolderListener() {
+                @Override
+                public void onItemClick(Object item, View view, int position) {
+                    if (onItemClickListener == null) {
+                        return;
+                    }
+                    onItemClickListener.onItemClick(DialogPlus.this, item, view, position);
+                }
+            });
+        }
+        return view;
+    }
+
+    /**
+     * Loop among the views in the hierarchy and assign listener to them
+     */
+    public void assignClickListenerRecursively(View parent) {
+        if (parent == null) {
+            return;
+        }
+
+        if (parent instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) parent;
+            int childCount = viewGroup.getChildCount();
+            for (int i = childCount - 1; i >= 0; i--) {
+                View child = viewGroup.getChildAt(i);
+                assignClickListenerRecursively(child);
+            }
+        }
+        setClickListener(parent);
+    }
+
+    /**
+     * It is used to setListener on view that have a valid id associated
+     */
+    private void setClickListener(View view) {
+        if (view.getId() == INVALID) {
+            return;
+        }
+
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(Object item, View view, int position) {
-                if (onItemClickListener == null) {
+            public void onClick(View v) {
+                if (onClickListener == null) {
                     return;
                 }
-                onItemClickListener.onItemClick(DialogPlus.this, item, view, position);
+                onClickListener.onClick(DialogPlus.this, v);
             }
         });
-        return view;
     }
 
     /**
      * It is used to create content
      *
-     * @return BasicHolder it setHolder is not called
+     * @param holder the holder from the builder
+     *
+     * @return ListHolder if setContentHolder is not called
      */
     private Holder getHolder(Holder holder) {
         if (holder == null) {
@@ -397,22 +495,31 @@ public class DialogPlus {
     public static class Builder {
         private BaseAdapter adapter;
         private Context context;
-        private int footerViewResourceId = INVALID;
         private View footerView;
-        private int headerViewResourceId = INVALID;
         private View headerView;
-        private boolean isCancelable = true;
         private Holder holder;
-        private int backgroundColorResourceId = INVALID;
         private Gravity gravity = Gravity.BOTTOM;
         private ScreenType screenType = ScreenType.HALF;
         private OnItemClickListener onItemClickListener;
+        private OnClickListener onClickListener;
+
+        private boolean isCancelable = true;
+        private int backgroundColorResourceId = INVALID;
+        private int headerViewResourceId = INVALID;
+        private int footerViewResourceId = INVALID;
         private int inAnimation = INVALID;
         private int outAnimation = INVALID;
+        private int marginLeft = INVALID;
+        private int marginTop = INVALID;
+        private int marginRight = INVALID;
+        private int marginBottom = INVALID;
 
         private Builder() {
         }
 
+        /**
+         * Initialize the builder with a valid context in order to inflate the dialog
+         */
         public Builder(Context context) {
             if (context == null) {
                 throw new NullPointerException("Context may not be null");
@@ -420,6 +527,9 @@ public class DialogPlus {
             this.context = context;
         }
 
+        /**
+         * Set the adapter that will be used when ListHolder or GridHolder are passed
+         */
         public Builder setAdapter(BaseAdapter adapter) {
             if (adapter == null) {
                 throw new NullPointerException("Adapter may not be null");
@@ -428,66 +538,127 @@ public class DialogPlus {
             return this;
         }
 
+        /**
+         * Set the footer view using the id of the layout resource
+         */
         public Builder setFooter(int resourceId) {
             this.footerViewResourceId = resourceId;
             return this;
         }
 
+        /**
+         * Set the footer view using a view
+         */
         public Builder setFooter(View view) {
             this.footerView = view;
             return this;
         }
 
+        /**
+         * Set the header view using the id of the layout resource
+         */
         public Builder setHeader(int resourceId) {
             this.headerViewResourceId = resourceId;
             return this;
         }
 
+        /**
+         * Set the header view using a view
+         */
         public Builder setHeader(View view) {
             this.headerView = view;
             return this;
         }
 
+        /**
+         * Define if the dialog is cancelable and should be closed when back pressed or click outside is pressed
+         */
         public Builder setCancelable(boolean isCancelable) {
             this.isCancelable = isCancelable;
             return this;
         }
 
-        public Builder setHolder(Holder holder) {
+        /**
+         * Set the content of the dialog by passing one of the provided Holders
+         */
+        public Builder setContentHolder(Holder holder) {
             this.holder = holder;
             return this;
         }
 
+        /**
+         * Set background color for your dialog. If no resource is passed 'white' will be used
+         */
         public Builder setBackgroundColorResourceId(int resourceId) {
             this.backgroundColorResourceId = resourceId;
             return this;
         }
 
+        /**
+         * Set the gravity you want the dialog to have among the ones that are provided
+         */
         public Builder setGravity(Gravity gravity) {
             this.gravity = gravity;
             return this;
         }
 
+        /**
+         * Customize the in animation by passing an animation resource
+         */
         public Builder setInAnimation(int inAnimResource) {
             this.inAnimation = inAnimResource;
             return this;
         }
 
+        /**
+         * Customize the out animation by passing an animation resource
+         */
         public Builder setOutAnimation(int outAnimResource) {
             this.outAnimation = outAnimResource;
             return this;
         }
 
+        /**
+         * Set how much big you want the dialog to be (full screen or half screen)
+         */
         public Builder setScreenType(ScreenType screenType) {
             this.screenType = screenType;
             return this;
         }
 
+        /**
+         * Add margins to your dialog. They are set to 0 except when gravity is center. In that case basic margins
+         * are applied
+         */
+        public Builder setMargins(int left, int top, int right, int bottom) {
+            this.marginLeft = left;
+            this.marginTop = top;
+            this.marginRight = right;
+            this.marginBottom = bottom;
+            return this;
+        }
+
+        /**
+         * Set an item click listener when list or grid holder is chosen. In that way you can have callbacks when one
+         * of your items is clicked
+         */
         public Builder setOnItemClickListener(OnItemClickListener listener) {
             this.onItemClickListener = listener;
             return this;
         }
 
+        /**
+         * Set a global click listener to you dialog in order to handle all the possible click events. You can then
+         * identify the view by using its id and handle the correct behaviour
+         */
+        public Builder setOnClickListener(OnClickListener listener) {
+            this.onClickListener = listener;
+            return this;
+        }
+
+        /**
+         * Create the dialog using this builder
+         */
         public DialogPlus create() {
             return new DialogPlus(this);
         }

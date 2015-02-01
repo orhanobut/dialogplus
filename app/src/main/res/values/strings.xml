@@ -4,7 +4,27 @@
     <string name="app_name">Dialog Plus Sample</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="dialog_title">Dialog setup:</string>
     <string name="footer">Footer</string>
     <string name="header">Header</string>
+    <string name="header_title">Your title</string>
+    <string name="header_sample">SAMPLE HEADER</string>
+    <string name="footer_button_close">CLOSE</string>
+    <string name="footer_button_confirm">CONFIRM</string>
+    <string name="footer_sample">SAMPLE FOOTER</string>
+    <string name="button_bottom">Bottom</string>
+    <string name="button_center">Center</string>
+    <string name="button_top">Top</string>
+    <string name="google_plus_title">Google Plus</string>
+    <string name="google_maps_title">Maps</string>
+    <string name="google_messenger_title">Messenger</string>
+    <string name="question">Do you like Dialog Plus?</string>
+    <string name="button_like">I like it</string>
+    <string name="button_love">I love it</string>
+    <string name="view_holder">View Holder</string>
+    <string name="list_holder">List Holder</string>
+    <string name="grid_holder">Grid Holder</string>
+    <string name="show_header">Show header</string>
+    <string name="show_footer">Show footer</string>
 
 </resources>
