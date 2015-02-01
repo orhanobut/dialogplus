@@ -91,6 +91,11 @@ public class DialogPlus {
     private final OnItemClickListener onItemClickListener;
 
     /**
+     * Listener for the user to take action by clicking views in header or footer
+     */
+    private final OnClickListener onClickListener;
+
+    /**
      * Content
      */
     private final Holder holder;
@@ -137,6 +142,7 @@ public class DialogPlus {
         screenType = builder.screenType;
         adapter = builder.adapter;
         onItemClickListener = builder.onItemClickListener;
+        onClickListener = builder.onClickListener;
         isCancelable = builder.isCancelable;
         gravity = builder.gravity;
 
@@ -331,8 +337,13 @@ public class DialogPlus {
     private View createView(LayoutInflater inflater) {
         holder.setBackgroundColor(backgroundColorResourceId);
         View view = holder.getView(inflater, rootView);
-        holder.addFooter(footerView);
+
+        loopViewsRecursively(headerView);
         holder.addHeader(headerView);
+
+        loopViewsRecursively(footerView);
+        holder.addFooter(footerView);
+
         if (adapter != null) {
             holder.setAdapter(adapter);
         }
@@ -347,6 +358,44 @@ public class DialogPlus {
             }
         });
         return view;
+    }
+
+    /**
+     * Loop among the views in the hierarchy and assign listener to them
+     */
+    public void loopViewsRecursively(View parent) {
+        if (parent == null) {
+            return;
+        }
+
+        if (parent instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) parent;
+            int childCount = viewGroup.getChildCount();
+            for (int i = childCount - 1; i >= 0; i--) {
+                View child = viewGroup.getChildAt(i);
+                loopViewsRecursively(child);
+            }
+        }
+        setClickListeners(parent);
+    }
+
+    /**
+     * It is used to setListeners on views that have a valid id associated
+     */
+    private void setClickListeners(View view) {
+        if (view.getId() == INVALID) {
+            return;
+        }
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickListener == null) {
+                    return;
+                }
+                onClickListener.onClick(DialogPlus.this, v);
+            }
+        });
     }
 
     /**
@@ -424,16 +473,18 @@ public class DialogPlus {
     public static class Builder {
         private BaseAdapter adapter;
         private Context context;
-        private int footerViewResourceId = INVALID;
         private View footerView;
-        private int headerViewResourceId = INVALID;
         private View headerView;
-        private boolean isCancelable = true;
         private Holder holder;
-        private int backgroundColorResourceId = INVALID;
         private Gravity gravity = Gravity.BOTTOM;
         private ScreenType screenType = ScreenType.HALF;
         private OnItemClickListener onItemClickListener;
+        private OnClickListener onClickListener;
+
+        private boolean isCancelable = true;
+        private int backgroundColorResourceId = INVALID;
+        private int headerViewResourceId = INVALID;
+        private int footerViewResourceId = INVALID;
         private int inAnimation = INVALID;
         private int outAnimation = INVALID;
         private int marginLeft = INVALID;
@@ -524,6 +575,11 @@ public class DialogPlus {
 
         public Builder setOnItemClickListener(OnItemClickListener listener) {
             this.onItemClickListener = listener;
+            return this;
+        }
+
+        public Builder setOnClickListener(OnClickListener listener) {
+            this.onClickListener = listener;
             return this;
         }
 

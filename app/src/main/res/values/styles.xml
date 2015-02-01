@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/secondary</item>
+        <!-- colorAccent is used as the default value for colorControlActivated,
+         which is used to tint widgets -->
+        <!-- You can also set colorControlNormal, colorControlActivated
+         colorControlHighlight, and colorSwitchThumbNormal. -->
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+</resources>
