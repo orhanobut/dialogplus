@@ -25,6 +25,5 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':dialogplus')
-    compile 'com.github.nr4bt:simplelistview:1.0.0-SNAPSHOT@aar'
     compile 'com.android.support:appcompat-v7:21.0.3'
 }

@@ -29,18 +29,25 @@ ArrayAdapter<String> adapter = new ArrayAdapter<>(
         this, R.layout.simple_list_item_1, new String[]{"Item 1", "Item 2","Item 3","Item 4"} 
 );                                                                                            
 DialogPlus dialog = new DialogPlus.Builder(this)                                            
-    .setHolder(new ListHolder())            // Optional, default:BasicHolder
-    .setHeader(R.layout.header)             // Optional
-    .setFooter(R.layout.footer)             // Optional
-    .setCancelable(true)                    // Optional default: true
-    .setGravity(DialogPlus.Gravity.BOTTOM)  // Optional default: Gravity.BOTTOM
-    .setAdapter(adapter)                    // This must be called, Any adapter can be set.
-    .setOnItemClickListener(new OnItemClickListener() {                       
-        @Override                                                                         
+    .setContentHolder(new ListHolder())                     // Optional, default:ListHolder
+    .setHeader(R.layout.header)                             // Optional
+    .setFooter(R.layout.footer)                             // Optional
+    .setCancelable(true)                                    // Optional, default: true
+    .setGravity(DialogPlus.Gravity.BOTTOM)                  // Optional, default: Gravity.BOTTOM
+    .setAdapter(adapter)                                    // Any adapter can be set. (Not required with ViewHolder)
+    .setMargins(int left, int top, int right, int bottom)   // Optional
+    .setOnItemClickListener(new OnItemClickListener() {
+        @Override
         public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-            //todo                                                                             
-        }                                                                                 
-    })                                                                                    
+            // Handle here all the callback coming from the item in the list or in the grid
+        }
+    })
+    .setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(DialogPlus dialog, View view) {
+            // Handle here all the click event be retrieving views using their ids. Can be used in header,
+            // footer or clickable components when ViewHolder is used
+        })
     .create();                                                                            
 dialog.show();
 ```
@@ -50,17 +57,17 @@ You can also select different holder for the dialog.
 
 - Use ListView as content holder
 ```java
-setHolder(new ListHolder())
+setContentHolder(new ListHolder())
 ```
 
-- Use BasicHolder as content holder, BasicHolder is basically a listview mockup implementation by using linearlayout, there is no scrollable feature in this view and this should be used if you have only a few items.
+- Use ViewHolder as content holder if you want to use a custom view for your dialog. It requires a view.
 ```java
-setHolder(new BasicHolder())
+setContentHolder(new ViewHolder(R.layout.content))
 ```
 
 - Use GridHolder if you want to use GridView for the dialog. You must set column number.
 ```java
-setHolder(new GridHolder(COLUMN_NUMBER))
+setContentHolder(new GridHolder(COLUMN_NUMBER))
 ```
 
 

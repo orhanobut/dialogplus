@@ -18,5 +18,13 @@
     <string name="google_plus_title">Google Plus</string>
     <string name="google_maps_title">Maps</string>
     <string name="google_messenger_title">Messenger</string>
+    <string name="question">Do you like Dialog Plus?</string>
+    <string name="button_like">I like it</string>
+    <string name="button_love">I love it</string>
+    <string name="view_holder">View Holder</string>
+    <string name="list_holder">List Holder</string>
+    <string name="grid_holder">Grid Holder</string>
+    <string name="show_header">Show header</string>
+    <string name="show_footer">Show footer</string>
 
 </resources>
