@@ -405,7 +405,7 @@ public class DialogPlus {
     /**
      * It is used to create content
      *
-     * @return BasicHolder it setContentHolder is not called
+     * @return ListHolder if setContentHolder is not called
      */
     private Holder getHolder(Holder holder) {
         if (holder == null) {
