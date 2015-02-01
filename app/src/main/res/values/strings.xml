@@ -15,5 +15,8 @@
     <string name="button_bottom">Bottom</string>
     <string name="button_center">Center</string>
     <string name="button_top">Top</string>
+    <string name="google_plus_title">Google Plus</string>
+    <string name="google_maps_title">Maps</string>
+    <string name="google_messenger_title">Messenger</string>
 
 </resources>

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher"
         android:layout_marginRight="@dimen/margin"
-        android:layout_marginEnd="@dimen/margin"/>
+        android:layout_marginLeft="@dimen/margin"/>
 
     <TextView
         android:id="@+id/text_view"

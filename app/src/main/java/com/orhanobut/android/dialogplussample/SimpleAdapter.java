@@ -56,7 +56,21 @@ public class SimpleAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.textView.setText("Test");
+        Context context = parent.getContext();
+        switch (position) {
+            case 0:
+                viewHolder.textView.setText(context.getString(R.string.google_plus_title));
+                viewHolder.imageView.setImageResource(R.drawable.ic_google_plus_icon);
+                break;
+            case 1:
+                viewHolder.textView.setText(context.getString(R.string.google_maps_title));
+                viewHolder.imageView.setImageResource(R.drawable.ic_google_maps_icon);
+                break;
+            default:
+                viewHolder.textView.setText(context.getString(R.string.google_messenger_title));
+                viewHolder.imageView.setImageResource(R.drawable.ic_google_messenger_icon);
+                break;
+        }
 
         return view;
     }

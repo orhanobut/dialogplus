@@ -1,132 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/dialog_title"
-        android:textSize="@dimen/title_text_size"
-        android:textColor="@android:color/black"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
-
-    <RadioGroup
-        android:id="@+id/radio_group"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin">
-
-        <RadioButton
-            android:id="@+id/basic_holder_radio_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="BasicHolder"
-            android:checked="true"
-            android:textColor="@android:color/black"/>
-
-        <RadioButton
-            android:id="@+id/list_holder_radio_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="ListHolder"
-            android:checked="false"
-            android:textColor="@android:color/black"/>
-
-        <RadioButton
-            android:id="@+id/grid_holder_radio_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="GridHolder"
-            android:checked="false"
-            android:textColor="@android:color/black"/>
-    </RadioGroup>
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:text="@string/dialog_title"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/title_text_size"/>
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/basic_holder_radio_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="BasicHolder"
+                android:textColor="@android:color/black"/>
+
+            <RadioButton
+                android:id="@+id/list_holder_radio_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="ListHolder"
+                android:textColor="@android:color/black"/>
+
+            <RadioButton
+                android:id="@+id/grid_holder_radio_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="GridHolder"
+                android:textColor="@android:color/black"/>
+        </RadioGroup>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/header_check_box"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:checked="true"/>
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <CheckBox
+                    android:id="@+id/header_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Show header"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Show header"
-                android:textColor="@android:color/black"/>
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/footer_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Show footer"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/footer_check_box"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/button_bottom"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:checked="true"/>
+                android:layout_weight="1"
+                android:text="@string/button_bottom"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/button_center"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Show footer"
-                android:textColor="@android:color/black"/>
+                android:layout_weight="1"
+                android:text="@string/button_center"/>
+
+            <Button
+                android:id="@+id/button_top"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_top"/>
         </LinearLayout>
+
     </LinearLayout>
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button_bottom"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_bottom"/>
-
-        <Button
-            android:id="@+id/button_center"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_center"/>
-
-        <Button
-            android:id="@+id/button_top"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_top"/>
-    </LinearLayout>
-
 </LinearLayout>
