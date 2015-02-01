@@ -12,6 +12,9 @@ Simple, easy dialog solution for android.
 <img src='https://github.com/nr4bt/dialogplus/blob/master/images/d5.png' width='140' height='200'/>
 <img src='https://github.com/nr4bt/dialogplus/blob/master/images/d6.png' width='140' height='200'/>
 <img src='https://github.com/nr4bt/dialogplus/blob/master/images/d7.png' width='140' height='200'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d8.png' width='140' height='200'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d9.png' width='140' height='200'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d10.png' width='140' height='200'/>
 
 ##### DialogPlus provides 3 types:
 - Top : Dialog will appear at top with animation
