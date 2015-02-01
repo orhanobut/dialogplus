@@ -14,7 +14,9 @@
     <FrameLayout
         android:id="@+id/view_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
+        android:focusable="true"/>
 
     <FrameLayout
         android:id="@+id/footer_container"
