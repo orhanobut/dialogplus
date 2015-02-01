@@ -3,75 +3,132 @@
 DialogPlus
 ==========
 
-Simple, easy dialog for android. Instead of using dialog/fragments, normal view will be shown as dialog. It's
-customizable and have 3 different content holder.
+Simple, easy dialog solution for android.
 
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s1.png' width='140' height='180'/>
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s2.png' width='140' height='180'/>
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s3.png' width='140' height='180'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s1.png' width='140' height='200'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s2.png' width='140' height='200'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s3.png' width='140' height='200'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s4.png' width='140' height='200'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s5.png' width='140' height='200'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s6.png' width='140' height='200'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/s7.png' width='140' height='200'/>
 
-###Gradle
+##### DialogPlus provides 3 types:
+- Top : Dialog will appear at top with animation
+- Center : Dialog will appear in the center with animation
+- Bottom : Dialog will appear at the bottom of the screen with animation
+
+##### DialogPlus provides 3 content types:
+- ListHolder : Items will be shown in a listview
+- GridHolder : Items will be shown in a gridview
+- ViewHolder : Your customized view will be shown in the content
+
+### Gradle
 ```groovy
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
 }
 dependencies {
-    compile 'com.orhanobut:dialogplus:1.1-SNAPSHOT@aar'
+    compile 'com.orhanobut:dialogplus:1.2-SNAPSHOT@aar'
 }
 ```
 
-###Usage
+### Usage
 Use the builder to create the dialog.
 
-Basic default usage
+Basic usage
 ```java
-ArrayAdapter<String> adapter = new ArrayAdapter<>(                                            
-        this, R.layout.simple_list_item_1, new String[]{"Item 1", "Item 2","Item 3","Item 4"} 
-);                                                                                            
-DialogPlus dialog = new DialogPlus.Builder(this)                                            
-    .setContentHolder(new ListHolder())                     // Optional, default:ListHolder
-    .setHeader(R.layout.header)                             // Optional
-    .setFooter(R.layout.footer)                             // Optional
-    .setCancelable(true)                                    // Optional, default: true
-    .setGravity(DialogPlus.Gravity.BOTTOM)                  // Optional, default: Gravity.BOTTOM
-    .setAdapter(adapter)                                    // Any adapter can be set. (Not required with ViewHolder)
-    .setMargins(int left, int top, int right, int bottom)   // Optional
-    .setOnItemClickListener(new OnItemClickListener() {
-        @Override
-        public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-            // Handle here all the callback coming from the item in the list or in the grid
-        }
-    })
-    .setOnClickListener(new OnClickListener() {
-        @Override
-        public void onClick(DialogPlus dialog, View view) {
-            // Handle here all the click event be retrieving views using their ids. Can be used in header,
-            // footer or clickable components when ViewHolder is used
+DialogPlus dialog = new DialogPlus.Builder(this)
+        .setAdapter(adapter)
+        .setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+            }
         })
-    .create();                                                                            
+        .create();
 dialog.show();
 ```
 
-###Extras
+### More options
 You can also select different holder for the dialog.
 
-- Use ListView as content holder
+- Use ListView as content holder, note that this is default content type.
 ```java
 setContentHolder(new ListHolder())
 ```
-
-- Use ViewHolder as content holder if you want to use a custom view for your dialog. It requires a view.
+- Use ViewHolder as content holder if you want to use a custom view for your dialog. Pass resource id
 ```java
-setContentHolder(new ViewHolder(R.layout.content))
+.setContentHolder(new ViewHolder(R.layout.content))
 ```
-
+or pass view itself
+```java
+.setContentHolder(new ViewHolder(view))
+```
 - Use GridHolder if you want to use GridView for the dialog. You must set column number.
 ```java
-setContentHolder(new GridHolder(COLUMN_NUMBER))
+.setContentHolder(new GridHolder(COLUMN_NUMBER))
+```
+- Set dialog position. BOTTOM (default), TOP or CENTER
+```java
+.setGravity(DialogPlus.Gravity.CENTER)
+```
+- Define if the dialog is cancelable and should be closed when back pressed or click outside is pressed
+```java
+.setCancelable(true)
+```
+- Set Adapter, this adapter will be used to fill the content for ListHolder and GridHolder. This is required if the content holder is ListHolder or GridHolder. It is not required if the content holder is ViewHolder.
+```java
+.setAdapter(adapter);
+```
+- Set an item click listener when list or grid holder is chosen. In that way you can have callbacks when one of your items is clicked
+```java
+.setOnItemClickListener(new OnItemClickListener() {
+    @Override
+    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+
+    }
+})
+```
+- Set a global click listener to you dialog in order to handle all the possible click events. You can then identify the view by using its id and handle the correct behaviour Only views which has id will trigger this event.
+```java
+.setOnClickListener(new OnClickListener() {
+    @Override
+    public void onClick(DialogPlus dialog, View view) {
+
+    }
+})
+```
+- Add margins to your dialog. They are set to 0 except when gravity is center. In that case basic margins are applied
+```java
+.setMargins(left, top, right, bottom)
+```
+- Set the footer view using the id of the layout resource
+```java
+.setFooter(R.layout.footer)
+```
+or use view
+```java
+.setFooter(view)
+```
+- Set the header view using the id of the layout resource
+```java
+.setHeader(R.layout.header)
+```
+or use view
+```java
+.setHeader(view)
+```
+- Set animation resources
+```java
+.setInAnimation(R.anim.abc_fade_in)
+.setOutAnimation(R.anim.abc_fade_out)
+```
+- Set screen type to either fill the screen or only half
+```java
+.setScreenType(DialogPlus.ScreenType.FULL)
 ```
 
-
-#### TODO 
+#### TODO
 Check wiki
 
 #### License
