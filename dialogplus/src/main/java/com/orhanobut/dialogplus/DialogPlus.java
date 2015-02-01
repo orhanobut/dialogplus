@@ -338,25 +338,29 @@ public class DialogPlus {
         holder.setBackgroundColor(backgroundColorResourceId);
         View view = holder.getView(inflater, rootView);
 
+        if (holder instanceof ViewHolder) {
+            loopViewsRecursively(view);
+        }
+
         loopViewsRecursively(headerView);
         holder.addHeader(headerView);
 
         loopViewsRecursively(footerView);
         holder.addFooter(footerView);
 
-        if (adapter != null) {
-            holder.setAdapter(adapter);
-        }
+        if (adapter != null && holder instanceof HolderAdapter) {
+            ((HolderAdapter) holder).setAdapter(adapter);
 
-        holder.setOnItemClickListener(new OnHolderListener() {
-            @Override
-            public void onItemClick(Object item, View view, int position) {
-                if (onItemClickListener == null) {
-                    return;
+            ((HolderAdapter) holder).setOnItemClickListener(new OnHolderListener() {
+                @Override
+                public void onItemClick(Object item, View view, int position) {
+                    if (onItemClickListener == null) {
+                        return;
+                    }
+                    onItemClickListener.onItemClick(DialogPlus.this, item, view, position);
                 }
-                onItemClickListener.onItemClick(DialogPlus.this, item, view, position);
-            }
-        });
+            });
+        }
         return view;
     }
 
@@ -401,7 +405,7 @@ public class DialogPlus {
     /**
      * It is used to create content
      *
-     * @return BasicHolder it setHolder is not called
+     * @return BasicHolder it setContentHolder is not called
      */
     private Holder getHolder(Holder holder) {
         if (holder == null) {
@@ -535,7 +539,7 @@ public class DialogPlus {
             return this;
         }
 
-        public Builder setHolder(Holder holder) {
+        public Builder setContentHolder(Holder holder) {
             this.holder = holder;
             return this;
         }

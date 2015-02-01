@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/outmost_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/outmost_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,12 +17,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:divider="@null"
-        android:dividerHeight="0dp">
-    </GridView>
+        android:dividerHeight="0dp"/>
 
     <FrameLayout
         android:id="@+id/footer_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
 </LinearLayout>

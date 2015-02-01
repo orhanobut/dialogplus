@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text="BasicHolder"
+                android:text="@string/view_holder"
                 android:textColor="@android:color/black"/>
 
             <RadioButton
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="false"
-                android:text="ListHolder"
+                android:text="@string/list_holder"
                 android:textColor="@android:color/black"/>
 
             <RadioButton
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="false"
-                android:text="GridHolder"
+                android:text="@string/grid_holder"
                 android:textColor="@android:color/black"/>
         </RadioGroup>
 
@@ -90,7 +90,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Show header"
+                    android:text="@string/show_header"
                     android:textColor="@android:color/black"/>
             </LinearLayout>
 
@@ -111,7 +111,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Show footer"
+                    android:text="@string/show_footer"
                     android:textColor="@android:color/black"/>
             </LinearLayout>
         </LinearLayout>

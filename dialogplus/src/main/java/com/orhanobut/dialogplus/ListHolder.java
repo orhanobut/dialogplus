@@ -12,7 +12,7 @@ import android.widget.ListView;
 /**
  * @author Orhan Obut
  */
-public class ListHolder implements Holder, AdapterView.OnItemClickListener {
+public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListener {
 
     private static final String TAG = ListHolder.class.getSimpleName();
 

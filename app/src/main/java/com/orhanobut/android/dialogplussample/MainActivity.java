@@ -11,13 +11,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.orhanobut.dialogplus.BasicHolder;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
 import com.orhanobut.dialogplus.Holder;
 import com.orhanobut.dialogplus.ListHolder;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
+import com.orhanobut.dialogplus.ViewHolder;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -82,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
         Holder holder;
         switch (holderId) {
             case R.id.basic_holder_radio_button:
-                holder = new BasicHolder();
+                holder = new ViewHolder(R.layout.content);
                 isGrid = false;
                 break;
             case R.id.list_holder_radio_button:
@@ -100,6 +100,12 @@ public class MainActivity extends ActionBarActivity {
                 switch (view.getId()) {
                     case R.id.header_container:
                         Toast.makeText(MainActivity.this, "Header clicked", Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.like_it_button:
+                        Toast.makeText(MainActivity.this, "We're glad that you like it", Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.love_it_button:
+                        Toast.makeText(MainActivity.this, "We're glad that you love it", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.footer_confirm_button:
                         Toast.makeText(MainActivity.this, "Confirm button clicked", Toast.LENGTH_LONG).show();
@@ -144,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
     private void showCompleteDialog(Holder holder, DialogPlus.Gravity gravity, BaseAdapter adapter,
                                     OnClickListener clickListener, OnItemClickListener itemClickListener) {
         final DialogPlus dialog = new DialogPlus.Builder(this)
-                .setHolder(holder)
+                .setContentHolder(holder)
                 .setHeader(R.layout.header)
                 .setFooter(R.layout.footer)
                 .setCancelable(true)
@@ -159,7 +165,7 @@ public class MainActivity extends ActionBarActivity {
     private void showNoFooterDialog(Holder holder, DialogPlus.Gravity gravity, BaseAdapter adapter,
                                     OnClickListener clickListener, OnItemClickListener itemClickListener) {
         final DialogPlus dialog = new DialogPlus.Builder(this)
-                .setHolder(holder)
+                .setContentHolder(holder)
                 .setHeader(R.layout.header)
                 .setCancelable(true)
                 .setGravity(gravity)
@@ -173,7 +179,7 @@ public class MainActivity extends ActionBarActivity {
     private void showNoHeaderDialog(Holder holder, DialogPlus.Gravity gravity, BaseAdapter adapter,
                                     OnClickListener clickListener, OnItemClickListener itemClickListener) {
         final DialogPlus dialog = new DialogPlus.Builder(this)
-                .setHolder(holder)
+                .setContentHolder(holder)
                 .setFooter(R.layout.footer)
                 .setCancelable(true)
                 .setGravity(gravity)
@@ -187,7 +193,7 @@ public class MainActivity extends ActionBarActivity {
     private void showOnlyContentDialog(Holder holder, DialogPlus.Gravity gravity, BaseAdapter adapter,
                                        OnItemClickListener itemClickListener) {
         final DialogPlus dialog = new DialogPlus.Builder(this)
-                .setHolder(holder)
+                .setContentHolder(holder)
                 .setCancelable(true)
                 .setGravity(gravity)
                 .setAdapter(adapter)

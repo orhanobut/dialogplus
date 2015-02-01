@@ -4,30 +4,31 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
 
 
 /**
  * @author Orhan Obut
  */
-public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListener {
+public class ViewHolder implements Holder {
 
-    private static final String TAG = GridHolder.class.getSimpleName();
+    private static final String TAG = ViewHolder.class.getSimpleName();
+    private static final int INVALID = -1;
 
-    private final int columnNumber;
-    
     private int backgroundColor;
 
-    private GridView gridView;
     private ViewGroup headerContainer;
     private ViewGroup footerContainer;
-    private OnHolderListener listener;
     private View.OnKeyListener keyListener;
 
-    public GridHolder(int columnNumber) {
-        this.columnNumber = columnNumber;
+    private View contentView;
+    private int viewResourceId = INVALID;
+
+    public ViewHolder(int viewResourceId) {
+        this.viewResourceId = viewResourceId;
+    }
+
+    public ViewHolder(View contentView) {
+        this.contentView = contentView;
     }
 
     @Override
@@ -47,23 +48,16 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
     }
 
     @Override
-    public void setAdapter(BaseAdapter adapter) {
-        gridView.setAdapter(adapter);
-    }
-
-    @Override
     public void setBackgroundColor(int colorResource) {
         this.backgroundColor = colorResource;
     }
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.dialog_grid, parent, false);
-        gridView = (GridView) view.findViewById(R.id.list);
-        gridView.setBackgroundColor(parent.getResources().getColor(backgroundColor));
-        gridView.setNumColumns(columnNumber);
-        gridView.setOnItemClickListener(this);
-        gridView.setOnKeyListener(new View.OnKeyListener() {
+        View view = inflater.inflate(R.layout.dialog_view, parent, false);
+        ViewGroup contentContainer = (ViewGroup) view.findViewById(R.id.view_container);
+        contentContainer.setBackgroundColor(parent.getResources().getColor(backgroundColor));
+        contentContainer.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyListener == null) {
@@ -72,23 +66,24 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
                 return keyListener.onKey(v, keyCode, event);
             }
         });
+        addContent(inflater, parent, contentContainer);
         headerContainer = (ViewGroup) view.findViewById(R.id.header_container);
         footerContainer = (ViewGroup) view.findViewById(R.id.footer_container);
         return view;
     }
 
-    @Override
-    public void setOnItemClickListener(OnHolderListener listener) {
-        this.listener = listener;
+    private void addContent(LayoutInflater inflater, ViewGroup parent, ViewGroup container) {
+        if (viewResourceId != -1) {
+            View contentView = inflater.inflate(viewResourceId, parent, false);
+            container.addView(contentView);
+            return;
+        }
+
+        container.addView(contentView);
     }
 
     @Override
     public void setOnKeyListener(View.OnKeyListener keyListener) {
         this.keyListener = keyListener;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        listener.onItemClick(parent.getItemAtPosition(position), view, position);
     }
 }
