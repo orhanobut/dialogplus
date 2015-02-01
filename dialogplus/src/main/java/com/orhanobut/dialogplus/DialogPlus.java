@@ -360,6 +360,9 @@ public class DialogPlus {
         return view;
     }
 
+    /**
+     * Loop among the views in the hierarchy and assign listener to them
+     */
     public void loopViewsRecursively(View parent) {
         if (parent == null) {
             return;
@@ -367,7 +370,8 @@ public class DialogPlus {
 
         if (parent instanceof ViewGroup) {
             ViewGroup viewGroup = (ViewGroup) parent;
-            for (int i = viewGroup.getChildCount() - 1; i >= 0; i--) {
+            int childCount = viewGroup.getChildCount();
+            for (int i = childCount - 1; i >= 0; i--) {
                 View child = viewGroup.getChildAt(i);
                 loopViewsRecursively(child);
             }
@@ -375,6 +379,9 @@ public class DialogPlus {
         setClickListeners(parent);
     }
 
+    /**
+     * It is used to setListeners on views that have a valid id associated
+     */
     private void setClickListeners(View view) {
         if (view.getId() == INVALID) {
             return;
@@ -466,17 +473,18 @@ public class DialogPlus {
     public static class Builder {
         private BaseAdapter adapter;
         private Context context;
-        private int footerViewResourceId = INVALID;
         private View footerView;
-        private int headerViewResourceId = INVALID;
         private View headerView;
-        private boolean isCancelable = true;
         private Holder holder;
-        private int backgroundColorResourceId = INVALID;
         private Gravity gravity = Gravity.BOTTOM;
         private ScreenType screenType = ScreenType.HALF;
         private OnItemClickListener onItemClickListener;
         private OnClickListener onClickListener;
+
+        private boolean isCancelable = true;
+        private int backgroundColorResourceId = INVALID;
+        private int headerViewResourceId = INVALID;
+        private int footerViewResourceId = INVALID;
         private int inAnimation = INVALID;
         private int outAnimation = INVALID;
         private int marginLeft = INVALID;
