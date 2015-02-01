@@ -3,7 +3,7 @@ package com.orhanobut.dialogplus;
 import android.view.View;
 
 /**
- * @author Orhan Obut
+ * @author alessandro.balocco
  */
 public interface OnClickListener {
 
