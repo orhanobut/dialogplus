@@ -133,8 +133,11 @@ or use view
 .setScreenType(DialogPlus.ScreenType.FULL)
 ```
 
-#### TODO
-Check wiki
+#### You might also like
+- [Hawk](https://github.com/orhanobut/hawk) Secure simple key-value storage
+- [Wasp](https://github.com/orhanobut/wasp) All-in-one network solution
+- [Bee](https://github.com/orhanobut/bee) QA/Debug tool
+- [SimpleListView](https://github.com/orhanobut/simplelistview) Simple basic listview implementation with linearlayout
 
 #### License
 <pre>
