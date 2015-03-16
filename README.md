@@ -30,12 +30,7 @@ Simple, easy dialog solution for android.
 
 ### Gradle
 ```groovy
-repositories {
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
-}
-dependencies {
-    compile 'com.orhanobut:dialogplus:1.2-SNAPSHOT@aar'
-}
+compile 'com.orhanobut:dialogplus:1.3@aar'
 ```
 
 ### Usage
