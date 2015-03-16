@@ -18,7 +18,7 @@ Simple, easy dialog solution for android.
 <img src='https://github.com/nr4bt/dialogplus/blob/master/images/d9.png' width='140' height='200'/>
 <img src='https://github.com/nr4bt/dialogplus/blob/master/images/d10.png' width='140' height='200'/>
 
-##### DialogPlus provides 3 types:
+##### DialogPlus provides 3 position:
 - Top : Dialog will appear at top with animation
 - Center : Dialog will appear in the center with animation
 - Bottom : Dialog will appear at the bottom of the screen with animation
@@ -27,6 +27,8 @@ Simple, easy dialog solution for android.
 - ListHolder : Items will be shown in a listview
 - GridHolder : Items will be shown in a gridview
 - ViewHolder : Your customized view will be shown in the content
+
+##### Android L version animation will be added soon.
 
 ### Gradle
 ```groovy
@@ -50,7 +52,7 @@ dialog.show();
 ```
 
 ### More options
-You can also select different holder for the dialog.
+Select different holder.
 
 - Use ListView as content holder, note that this is default content type.
 ```java
@@ -72,7 +74,7 @@ or pass view itself
 ```java
 .setGravity(DialogPlus.Gravity.CENTER)
 ```
-- Define if the dialog is cancelable and should be closed when back pressed or click outside is pressed
+- Define if the dialog is cancelable and should be closed when back pressed or out of dialog is clicked
 ```java
 .setCancelable(true)
 ```
@@ -89,7 +91,7 @@ or pass view itself
     }
 })
 ```
-- Set a global click listener to you dialog in order to handle all the possible click events. You can then identify the view by using its id and handle the correct behaviour Only views which has id will trigger this event.
+- Set a global click listener to you dialog in order to handle all the possible click events. You can then identify the view by using its id and handle the correct behaviour. Only views which has id will trigger this event.
 ```java
 .setOnClickListener(new OnClickListener() {
     @Override
