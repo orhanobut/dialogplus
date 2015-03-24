@@ -7,16 +7,7 @@ Simple, easy dialog solution for android.
 <img src='https://github.com/orhanobut/dialogplus/blob/master/images/dialog-plus.png' width='128' height='128'/>
 <hr>
 
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d1.png' width='140' height='200'/>
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d2.png' width='140' height='200'/>
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d3.png' width='140' height='200'/>
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d4.png' width='140' height='200'/>
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d5.png' width='140' height='200'/>
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d6.png' width='140' height='200'/>
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d7.png' width='140' height='200'/>
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d8.png' width='140' height='200'/>
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d9.png' width='140' height='200'/>
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/d10.png' width='140' height='200'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/dialogplus.gif'/>
 
 ##### DialogPlus provides 3 position:
 - Top : Dialog will appear at top with animation
