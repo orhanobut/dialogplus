@@ -7,7 +7,7 @@ Simple, easy dialog solution for android.
 <img src='https://github.com/orhanobut/dialogplus/blob/master/images/dialog-plus.png' width='128' height='128'/>
 <hr>
 
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/dialogplus2.gif'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/dialogplus.gif'/>
 
 ##### DialogPlus provides 3 position:
 - Top : Dialog will appear at top with animation
