@@ -17,8 +17,6 @@ import android.widget.FrameLayout;
  */
 public class DialogPlus {
 
-    private static final String TAG = DialogPlus.class.getSimpleName();
-
     /**
      * Custom values for DialogPlus gravity
      */
@@ -253,8 +251,13 @@ public class DialogPlus {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                decorView.removeView(rootView);
-                isDismissing = false;
+                decorView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        decorView.removeView(rootView);
+                        isDismissing = false;
+                    }
+                });
             }
 
             @Override
