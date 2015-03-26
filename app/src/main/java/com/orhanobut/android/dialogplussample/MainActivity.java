@@ -15,6 +15,7 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
 import com.orhanobut.dialogplus.Holder;
 import com.orhanobut.dialogplus.ListHolder;
+import com.orhanobut.dialogplus.OnCancelListener;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
@@ -136,27 +137,34 @@ public class MainActivity extends ActionBarActivity {
             }
         };
 
+        OnCancelListener cancelListener = new OnCancelListener() {
+            @Override
+            public void onCancel(DialogPlus dialog) {
+                Toast.makeText(MainActivity.this, "cancel listener invoked!", Toast.LENGTH_SHORT).show();
+            }
+        };
+
         SimpleAdapter adapter = new SimpleAdapter(MainActivity.this, isGrid);
         if (showHeader && showFooter) {
-            showCompleteDialog(holder, gravity, adapter, clickListener, itemClickListener, dismissListener);
+            showCompleteDialog(holder, gravity, adapter, clickListener, itemClickListener, dismissListener, cancelListener);
             return;
         }
 
         if (showHeader && !showFooter) {
-            showNoFooterDialog(holder, gravity, adapter, clickListener, itemClickListener, dismissListener);
+            showNoFooterDialog(holder, gravity, adapter, clickListener, itemClickListener, dismissListener, cancelListener);
             return;
         }
 
         if (!showHeader && showFooter) {
-            showNoHeaderDialog(holder, gravity, adapter, clickListener, itemClickListener, dismissListener);
+            showNoHeaderDialog(holder, gravity, adapter, clickListener, itemClickListener, dismissListener, cancelListener);
             return;
         }
 
-        showOnlyContentDialog(holder, gravity, adapter, itemClickListener, dismissListener);
+        showOnlyContentDialog(holder, gravity, adapter, itemClickListener, dismissListener, cancelListener);
     }
 
     private void showCompleteDialog(Holder holder, DialogPlus.Gravity gravity, BaseAdapter adapter,
-                                    OnClickListener clickListener, OnItemClickListener itemClickListener, OnDismissListener dismissListener) {
+                                    OnClickListener clickListener, OnItemClickListener itemClickListener, OnDismissListener dismissListener, OnCancelListener cancelListener) {
         final DialogPlus dialog = new DialogPlus.Builder(this)
                 .setContentHolder(holder)
                 .setHeader(R.layout.header)
@@ -167,12 +175,13 @@ public class MainActivity extends ActionBarActivity {
                 .setOnClickListener(clickListener)
                 .setOnItemClickListener(itemClickListener)
                 .setOnDismissListener(dismissListener)
+                .setOnCancelListener(cancelListener)
                 .create();
         dialog.show();
     }
 
     private void showNoFooterDialog(Holder holder, DialogPlus.Gravity gravity, BaseAdapter adapter,
-                                    OnClickListener clickListener, OnItemClickListener itemClickListener, OnDismissListener dismissListener) {
+                                    OnClickListener clickListener, OnItemClickListener itemClickListener, OnDismissListener dismissListener, OnCancelListener cancelListener) {
         final DialogPlus dialog = new DialogPlus.Builder(this)
                 .setContentHolder(holder)
                 .setHeader(R.layout.header)
@@ -182,12 +191,13 @@ public class MainActivity extends ActionBarActivity {
                 .setOnClickListener(clickListener)
                 .setOnItemClickListener(itemClickListener)
                 .setOnDismissListener(dismissListener)
+                .setOnCancelListener(cancelListener)
                 .create();
         dialog.show();
     }
 
     private void showNoHeaderDialog(Holder holder, DialogPlus.Gravity gravity, BaseAdapter adapter,
-                                    OnClickListener clickListener, OnItemClickListener itemClickListener, OnDismissListener dismissListener) {
+                                    OnClickListener clickListener, OnItemClickListener itemClickListener, OnDismissListener dismissListener, OnCancelListener cancelListener) {
         final DialogPlus dialog = new DialogPlus.Builder(this)
                 .setContentHolder(holder)
                 .setFooter(R.layout.footer)
@@ -197,12 +207,13 @@ public class MainActivity extends ActionBarActivity {
                 .setOnClickListener(clickListener)
                 .setOnItemClickListener(itemClickListener)
                 .setOnDismissListener(dismissListener)
+                .setOnCancelListener(cancelListener)
                 .create();
         dialog.show();
     }
 
     private void showOnlyContentDialog(Holder holder, DialogPlus.Gravity gravity, BaseAdapter adapter,
-                                       OnItemClickListener itemClickListener, OnDismissListener dismissListener) {
+                                       OnItemClickListener itemClickListener, OnDismissListener dismissListener, OnCancelListener cancelListener) {
         final DialogPlus dialog = new DialogPlus.Builder(this)
                 .setContentHolder(holder)
                 .setCancelable(true)
@@ -210,6 +221,7 @@ public class MainActivity extends ActionBarActivity {
                 .setAdapter(adapter)
                 .setOnItemClickListener(itemClickListener)
                 .setOnDismissListener(dismissListener)
+                .setOnCancelListener(cancelListener)
                 .create();
         dialog.show();
     }
