@@ -93,6 +93,11 @@ public class DialogPlus {
     private final OnClickListener onClickListener;
 
     /**
+     * Listener to notify the user that dialog has been dismissed
+     * */
+    private final OnDismissListener onDismissListener;
+
+    /**
      * Content
      */
     private final Holder holder;
@@ -140,6 +145,7 @@ public class DialogPlus {
         adapter = builder.adapter;
         onItemClickListener = builder.onItemClickListener;
         onClickListener = builder.onClickListener;
+        onDismissListener = builder.onDismissListener;
         isCancelable = builder.isCancelable;
         gravity = builder.gravity;
 
@@ -256,6 +262,10 @@ public class DialogPlus {
                     public void run() {
                         decorView.removeView(rootView);
                         isDismissing = false;
+                        if (onDismissListener == null) {
+                            return;
+                        }
+                        onDismissListener.onDismiss(DialogPlus.this);
                     }
                 });
             }
@@ -505,6 +515,7 @@ public class DialogPlus {
         private ScreenType screenType = ScreenType.HALF;
         private OnItemClickListener onItemClickListener;
         private OnClickListener onClickListener;
+        private OnDismissListener onDismissListener;
 
         private boolean isCancelable = true;
         private int backgroundColorResourceId = INVALID;
@@ -656,6 +667,11 @@ public class DialogPlus {
          */
         public Builder setOnClickListener(OnClickListener listener) {
             this.onClickListener = listener;
+            return this;
+        }
+
+        public Builder setOnDismissListener(OnDismissListener listener) {
+            this.onDismissListener = listener;
             return this;
         }
 
