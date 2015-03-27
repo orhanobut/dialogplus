@@ -2,6 +2,8 @@ package com.orhanobut.dialogplus;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -391,13 +393,38 @@ public class DialogPlus {
             assignClickListenerRecursively(view);
         }
 
+        if (adapter != null && holder instanceof FixedHeaderViewHolderAdapter) {
+            FixedHeaderViewHolderAdapter holderAdapter = (FixedHeaderViewHolderAdapter) holder;
+            holderAdapter.setAdapter(adapter);
+            int height = (ScreenUtil.getDisplaySize(inflater.getContext()).y - ScreenUtil.getNavigationBarHeight(inflater.getContext(), Configuration.ORIENTATION_PORTRAIT)) / 2;
+            holderAdapter.addFixedHeader(inflater.inflate(R.layout.fixed_header, (ViewGroup) view.getParent(), true), height);
+            holderAdapter.addHeader(getTransparencySpacerView(inflater, height));
+            holderAdapter.setOnItemClickListener(new OnHolderListener() {
+                @Override
+                public void onItemClick(Object item, View view, int position) {
+                    if (position == 0) {
+                        isCanceled = true;
+                        dismiss();
+                        if (onCancelListener != null) {
+                            onCancelListener.onCancel(DialogPlus.this);
+                        }
+                    } else {
+                        if (onItemClickListener == null) {
+                            return;
+                        }
+                        onItemClickListener.onItemClick(DialogPlus.this, item, view, position);
+                    }
+                }
+            });
+        }
+
         assignClickListenerRecursively(headerView);
         holder.addHeader(headerView);
 
         assignClickListenerRecursively(footerView);
         holder.addFooter(footerView);
 
-        if (adapter != null && holder instanceof HolderAdapter) {
+        if (adapter != null && holder instanceof HolderAdapter && !(holder instanceof FixedHeaderViewHolderAdapter)) {
             HolderAdapter holderAdapter = (HolderAdapter) holder;
             holderAdapter.setAdapter(adapter);
             holderAdapter.setOnItemClickListener(new OnHolderListener() {
@@ -410,7 +437,17 @@ public class DialogPlus {
                 }
             });
         }
+
         return view;
+    }
+
+    private View getTransparencySpacerView(LayoutInflater inflater, int height) {
+        View v = inflater.inflate(R.layout.transparency_header, null, false);
+        v.setTag("TransparencyView");
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, height);
+        v.setLayoutParams(params);
+        v.setBackgroundColor(Color.TRANSPARENT);
+        return v;
     }
 
     /**

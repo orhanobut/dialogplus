@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.FixedHeaderViewHolderAdapter;
 import com.orhanobut.dialogplus.GridHolder;
 import com.orhanobut.dialogplus.Holder;
 import com.orhanobut.dialogplus.ListHolder;
@@ -26,6 +27,7 @@ public class MainActivity extends ActionBarActivity {
 
     private RadioGroup radioGroup;
     private CheckBox headerCheckBox;
+    private CheckBox fixedHeaderCheckBox;
     private CheckBox footerCheckBox;
 
     @Override
@@ -40,6 +42,7 @@ public class MainActivity extends ActionBarActivity {
 
         radioGroup = (RadioGroup) findViewById(R.id.radio_group);
         headerCheckBox = (CheckBox) findViewById(R.id.header_check_box);
+        fixedHeaderCheckBox = (CheckBox) findViewById(R.id.fixed_header_check_box);
         footerCheckBox = (CheckBox) findViewById(R.id.footer_check_box);
 
         findViewById(R.id.button_bottom).setOnClickListener(new View.OnClickListener() {
@@ -49,7 +52,8 @@ public class MainActivity extends ActionBarActivity {
                         radioGroup.getCheckedRadioButtonId(),
                         DialogPlus.Gravity.BOTTOM,
                         headerCheckBox.isChecked(),
-                        footerCheckBox.isChecked()
+                        footerCheckBox.isChecked(),
+                        fixedHeaderCheckBox.isChecked()
                 );
             }
         });
@@ -61,7 +65,8 @@ public class MainActivity extends ActionBarActivity {
                         radioGroup.getCheckedRadioButtonId(),
                         DialogPlus.Gravity.CENTER,
                         headerCheckBox.isChecked(),
-                        footerCheckBox.isChecked()
+                        footerCheckBox.isChecked(),
+                        fixedHeaderCheckBox.isChecked()
                 );
             }
         });
@@ -73,13 +78,14 @@ public class MainActivity extends ActionBarActivity {
                         radioGroup.getCheckedRadioButtonId(),
                         DialogPlus.Gravity.TOP,
                         headerCheckBox.isChecked(),
-                        footerCheckBox.isChecked()
+                        footerCheckBox.isChecked(),
+                        fixedHeaderCheckBox.isChecked()
                 );
             }
         });
     }
 
-    private void showDialog(int holderId, DialogPlus.Gravity gravity, boolean showHeader, boolean showFooter) {
+    private void showDialog(int holderId, DialogPlus.Gravity gravity, boolean showHeader, boolean showFooter, boolean showFixedHeader) {
         boolean isGrid;
         Holder holder;
         switch (holderId) {
@@ -88,7 +94,11 @@ public class MainActivity extends ActionBarActivity {
                 isGrid = false;
                 break;
             case R.id.list_holder_radio_button:
-                holder = new ListHolder();
+                if (gravity == DialogPlus.Gravity.BOTTOM && showFixedHeader) {
+                    holder = new FixedHeaderViewHolderAdapter();
+                } else {
+                    holder = new ListHolder();
+                }
                 isGrid = false;
                 break;
             default:
