@@ -24,7 +24,6 @@ public class FixedHeaderViewHolderAdapter implements HolderAdapter, AdapterView.
     private int backgroundColor;
 
     private FrameLayout rootView;
-    private View mFakeHeaderView;
     private View fixedHeaderView;
     private ListView listView;
     private OnHolderListener listener;
@@ -40,24 +39,8 @@ public class FixedHeaderViewHolderAdapter implements HolderAdapter, AdapterView.
         rootView.addView(fixedHeaderView);
         initialFixedViewPositionY = defaultMargin;
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) fixedHeaderView.getLayoutParams();
-        lp.setMargins(0, initialFixedViewPositionY - fixedHeaderView.getHeight(), 0, 0);
+        lp.setMargins(0, initialFixedViewPositionY, 0, 0);
         fixedHeaderView.setLayoutParams(lp);
-
-//        globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                    rootView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                }
-//                View v = rootView.getChildAt(1);
-//                initialFixedViewPositionY -= v.getMeasuredHeight();
-//                Log.i(TAG, "Y: " + initialFixedViewPositionY + ", height: " + v.getHeight());
-//                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) v.getLayoutParams();
-//                lp.setMargins(0, initialFixedViewPositionY, 0, 0);
-//                v.setLayoutParams(lp);
-//            }
-//        };
-//        rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
 
     @Override
@@ -120,9 +103,6 @@ public class FixedHeaderViewHolderAdapter implements HolderAdapter, AdapterView.
                 return keyListener.onKey(v, keyCode, event);
             }
         });
-//        mFakeHeaderView = new View(inflater.getContext());
-//        mFakeHeaderView.setTag("TransparencyView");
-//        addHeader(mFakeHeaderView);
 
         return rootView;
     }
@@ -160,15 +140,16 @@ public class FixedHeaderViewHolderAdapter implements HolderAdapter, AdapterView.
     }
 
     /**
-     * fixedHeaderView is following the current scroll position alone with items.
+     * fixedHeaderView is following the current scroll position along with items.
      * */
     private void trackHeaderViewPosition(int offsetY, int firstVisibleItem) {
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) fixedHeaderView.getLayoutParams();
-        int marginOffset = offsetY == 0 ? initialFixedViewPositionY : initialFixedViewPositionY - offsetY + totalHeaderViewHeight;
-        if (marginOffset < 0 || firstVisibleItem > listView.getHeaderViewsCount()) {
+        int marginOffset = initialFixedViewPositionY - (offsetY + totalHeaderViewHeight);
+        if (marginOffset < 0 || firstVisibleItem > 0 || offsetY >= initialFixedViewPositionY) {
             marginOffset = 0;
         }
-        Log.i("Holder", "y: " + offsetY + ", margin: " + marginOffset + ", initialMarginY: " + initialFixedViewPositionY + ", visibleItem: " + firstVisibleItem + ", item-header: " + firstVisibleItem);
+
+        Log.i("Holder", "y: " + offsetY + ", margin: " + marginOffset + ", initialMarginY: " + initialFixedViewPositionY + ", visibleItem: " + firstVisibleItem + ", headerViewCount: " + listView.getHeaderViewsCount());
         lp.setMargins(0, marginOffset, 0, 0);
         fixedHeaderView.setLayoutParams(lp);
     }
