@@ -125,14 +125,6 @@ public class DialogPlus {
     private final int outAnimationResource;
 
     /**
-     * Current status that DialogPlus being canceled by user or not
-     * the value goes true when {@link #onCancelableTouchListener} or {@link #holder#setOnKeyListener} is invoked.
-     *
-     * note that {@link #onDismissListener} won't be invoked when the value is true, even though {@link OnDismissListener} is not null.
-     * */
-    private boolean isCanceled = false;
-
-    /**
      * Determine the margin that the dialog should have
      */
     private final int marginLeft;
@@ -276,16 +268,9 @@ public class DialogPlus {
                     public void run() {
                         decorView.removeView(rootView);
                         isDismissing = false;
-                        if (onDismissListener == null) {
-                            return;
+                        if (onDismissListener != null) {
+                            onDismissListener.onDismiss(DialogPlus.this);
                         }
-
-                        if (isCanceled) {
-                            // won't callback to dismiss listener, maybe next time. reset the value.
-                            isCanceled = false;
-                            return;
-                        }
-                        onDismissListener.onDismiss(DialogPlus.this);
                     }
                 });
             }
@@ -499,7 +484,6 @@ public class DialogPlus {
                 switch (event.getAction()) {
                     case KeyEvent.ACTION_UP:
                         if (keyCode == KeyEvent.KEYCODE_BACK && isCancelable) {
-                            isCanceled = true;
                             dismiss();
                             if (onCancelListener != null) {
                                 onCancelListener.onCancel(DialogPlus.this);
@@ -520,7 +504,6 @@ public class DialogPlus {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                isCanceled = true;
                 dismiss();
                 if (onCancelListener != null) {
                     onCancelListener.onCancel(DialogPlus.this);
