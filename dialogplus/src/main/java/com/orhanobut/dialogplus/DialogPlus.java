@@ -484,10 +484,10 @@ public class DialogPlus {
                 switch (event.getAction()) {
                     case KeyEvent.ACTION_UP:
                         if (keyCode == KeyEvent.KEYCODE_BACK && isCancelable) {
-                            dismiss();
                             if (onCancelListener != null) {
                                 onCancelListener.onCancel(DialogPlus.this);
                             }
+                            dismiss();
                             return true;
                         }
                         break;
@@ -504,10 +504,10 @@ public class DialogPlus {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                dismiss();
                 if (onCancelListener != null) {
                     onCancelListener.onCancel(DialogPlus.this);
                 }
+                dismiss();
             }
             return false;
         }
