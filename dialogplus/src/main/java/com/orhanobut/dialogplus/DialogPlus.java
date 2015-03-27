@@ -125,7 +125,7 @@ public class DialogPlus {
     private final int outAnimationResource;
 
     /**
-     * Current status that PlusDialog being canceled by user or not
+     * Current status that DialogPlus being canceled by user or not
      * the value goes true when {@link #onCancelableTouchListener} or {@link #holder#setOnKeyListener} is invoked.
      *
      * note that {@link #onDismissListener} won't be invoked when the value is true, even though {@link OnDismissListener} is not null.
