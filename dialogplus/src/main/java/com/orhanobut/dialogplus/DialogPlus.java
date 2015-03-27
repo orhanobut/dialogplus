@@ -93,6 +93,16 @@ public class DialogPlus {
     private final OnClickListener onClickListener;
 
     /**
+     * Listener to notify the user that dialog has been dismissed
+     * */
+    private final OnDismissListener onDismissListener;
+
+    /**
+     * Listener to notify the user that dialog has been canceled
+     * */
+    private final OnCancelListener onCancelListener;
+
+    /**
      * Content
      */
     private final Holder holder;
@@ -140,6 +150,8 @@ public class DialogPlus {
         adapter = builder.adapter;
         onItemClickListener = builder.onItemClickListener;
         onClickListener = builder.onClickListener;
+        onDismissListener = builder.onDismissListener;
+        onCancelListener = builder.onCancelListener;
         isCancelable = builder.isCancelable;
         gravity = builder.gravity;
 
@@ -256,6 +268,9 @@ public class DialogPlus {
                     public void run() {
                         decorView.removeView(rootView);
                         isDismissing = false;
+                        if (onDismissListener != null) {
+                            onDismissListener.onDismiss(DialogPlus.this);
+                        }
                     }
                 });
             }
@@ -463,12 +478,15 @@ public class DialogPlus {
         contentContainer.startAnimation(inAnim);
 
         contentContainer.requestFocus();
-        holder.setOnKeyListener(new View.OnKeyListener() {
+            holder.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 switch (event.getAction()) {
                     case KeyEvent.ACTION_UP:
                         if (keyCode == KeyEvent.KEYCODE_BACK && isCancelable) {
+                            if (onCancelListener != null) {
+                                onCancelListener.onCancel(DialogPlus.this);
+                            }
                             dismiss();
                             return true;
                         }
@@ -486,6 +504,9 @@ public class DialogPlus {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (onCancelListener != null) {
+                    onCancelListener.onCancel(DialogPlus.this);
+                }
                 dismiss();
             }
             return false;
@@ -505,6 +526,8 @@ public class DialogPlus {
         private ScreenType screenType = ScreenType.HALF;
         private OnItemClickListener onItemClickListener;
         private OnClickListener onClickListener;
+        private OnDismissListener onDismissListener;
+        private OnCancelListener onCancelListener;
 
         private boolean isCancelable = true;
         private int backgroundColorResourceId = INVALID;
@@ -656,6 +679,16 @@ public class DialogPlus {
          */
         public Builder setOnClickListener(OnClickListener listener) {
             this.onClickListener = listener;
+            return this;
+        }
+
+        public Builder setOnDismissListener(OnDismissListener listener) {
+            this.onDismissListener = listener;
+            return this;
+        }
+
+        public Builder setOnCancelListener(OnCancelListener listener) {
+            this.onCancelListener = listener;
             return this;
         }
 
