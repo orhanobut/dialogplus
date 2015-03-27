@@ -1,7 +1,7 @@
 package com.orhanobut.dialogplus;
 
 /**
- * Created by doyonghoon on 15. 3. 27..
+ * @author yonghoon.do
  */
 public interface OnCancelListener {
     public void onCancel(DialogPlus dialog);
