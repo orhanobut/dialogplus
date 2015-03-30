@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.FixedHeaderViewHolderAdapter;
+import com.orhanobut.dialogplus.DimmedListHolder;
 import com.orhanobut.dialogplus.GridHolder;
 import com.orhanobut.dialogplus.Holder;
 import com.orhanobut.dialogplus.ListHolder;
@@ -94,10 +94,10 @@ public class MainActivity extends ActionBarActivity {
                 isGrid = false;
                 break;
             case R.id.list_holder_radio_button:
-                if (gravity == DialogPlus.Gravity.BOTTOM && showFixedHeader) {
-                    holder = new FixedHeaderViewHolderAdapter();
-                } else {
-                    holder = new ListHolder();
+                // enable resolver_list when gravity.BOTTOM and showFixedHeader selected.
+                holder = (gravity == DialogPlus.Gravity.BOTTOM && showFixedHeader ? new DimmedListHolder() : new ListHolder());
+                if (holder instanceof DimmedListHolder) {
+                    ((DimmedListHolder) holder).setFixedTitle("apps to share");
                 }
                 isGrid = false;
                 break;
