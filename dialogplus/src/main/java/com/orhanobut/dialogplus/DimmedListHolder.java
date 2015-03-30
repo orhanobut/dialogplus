@@ -100,7 +100,7 @@ public class DimmedListHolder implements HolderAdapter, AdapterView.OnItemClickL
         this.keyListener = keyListener;
     }
 
-    public void setOnDismissedListener(ResolverDrawerLayout.OnDismissedListener listener) {
+    void setOnDismissedListener(ResolverDrawerLayout.OnDismissedListener listener) {
         dismissedListener = listener;
     }
 
