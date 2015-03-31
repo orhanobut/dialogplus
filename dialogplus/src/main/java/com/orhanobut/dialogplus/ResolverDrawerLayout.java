@@ -3,9 +3,11 @@ package com.orhanobut.dialogplus;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -18,6 +20,7 @@ import android.view.ViewTreeObserver;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 import android.widget.OverScroller;
 
@@ -102,8 +105,17 @@ class ResolverDrawerLayout extends ViewGroup {
                 maxCollapsedHeight);
         a.recycle();
 
-        scroller = new OverScroller(context, AnimationUtils.loadInterpolator(context,
-                android.R.interpolator.decelerate_quint));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            scroller = new OverScroller(context, AnimationUtils.loadInterpolator(context, android.R.interpolator.decelerate_quint));
+        } else {
+            Interpolator interpolator = new Interpolator() {
+                @Override
+                public float getInterpolation(float input) {
+                    return 2.5f;
+                }
+            };
+            scroller = new OverScroller(context, interpolator);
+        }
         velocityTracker = VelocityTracker.obtain();
 
         final ViewConfiguration vc = ViewConfiguration.get(context);
@@ -160,7 +172,14 @@ class ResolverDrawerLayout extends ViewGroup {
                 final float x = ev.getX();
                 final float y = ev.getY();
                 final float dy = y - initialTouchY;
-                if (Math.abs(dy) > touchSlop && findChildUnder(x, y) != null && (getNestedScrollAxes() & SCROLL_AXIS_VERTICAL) == 0) {
+                boolean isActiveMoving;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    isActiveMoving = Math.abs(dy) > touchSlop && findChildUnder(x, y) != null && (getNestedScrollAxes() & SCROLL_AXIS_VERTICAL) == 0;
+                } else {
+                    isActiveMoving = Math.abs(dy) > touchSlop && findChildUnder(x, y) != null;
+                }
+
+                if (isActiveMoving) {
                     activePointerId = ev.getPointerId(0);
                     isDragging = true;
                     lastTouchY = Math.max(lastTouchY - touchSlop,
@@ -324,7 +343,11 @@ class ResolverDrawerLayout extends ViewGroup {
             final boolean keepGoing = !scroller.isFinished();
             performDrag(scroller.getCurrY() - collapseOffset);
             if (keepGoing) {
-                postInvalidateOnAnimation();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    postInvalidateOnAnimation();
+                } else {
+                    ViewCompat.postInvalidateOnAnimation(this);
+                }
             } else if (dismissOnScrollerFinished && onDismissedListener != null) {
                 runOnDismissedListener = new RunOnDismissedListener();
                 post(runOnDismissedListener);
@@ -355,10 +378,7 @@ class ResolverDrawerLayout extends ViewGroup {
             collapseOffset = newPos;
             topOffset += dy;
             final boolean isCollapsedNew = newPos != 0;
-            if (isCollapsedOld != isCollapsedNew) {
-//                notifyViewAccessibilityStateChangedIfNeeded(AccessibilityEvent.CONTENT_CHANGE_TYPE_UNDEFINED);
-            }
-            postInvalidateOnAnimation();
+            ViewCompat.postInvalidateOnAnimation(this);
             return dy;
         }
         return 0;
@@ -399,7 +419,11 @@ class ResolverDrawerLayout extends ViewGroup {
         duration = Math.min(duration, 300);
 
         scroller.startScroll(0, sy, 0, dy, duration);
-        postInvalidateOnAnimation();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            postInvalidateOnAnimation();
+        } else {
+            ViewCompat.postInvalidateOnAnimation(this);
+        }
     }
 
     private float distanceInfluenceForSnapDuration(float f) {
@@ -430,8 +454,8 @@ class ResolverDrawerLayout extends ViewGroup {
     private View findListChildUnder(float x, float y) {
         View v = findChildUnder(x, y);
         while (v != null) {
-            x -= v.getX();
-            y -= v.getY();
+            x -= getX(v);
+            y -= getY(v);
             if (v instanceof AbsListView) {
                 // One more after this.
                 return findChildUnder((ViewGroup) v, x, y);
@@ -479,9 +503,17 @@ class ResolverDrawerLayout extends ViewGroup {
         return tempRect.bottom > clipEdge;
     }
 
+    private static float getX(View child) {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ? child.getX() : ViewCompat.getX(child);
+    }
+
+    private static float getY(View child) {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ? child.getY() : ViewCompat.getY(child);
+    }
+
     private static boolean isChildUnder(View child, float x, float y) {
-        final float left = child.getX();
-        final float top = child.getY();
+        final float left = getX(child);
+        final float top = getY(child);
         final float right = left + child.getWidth();
         final float bottom = top + child.getHeight();
         return x >= left && y >= top && x < right && y < bottom;
@@ -559,36 +591,23 @@ class ResolverDrawerLayout extends ViewGroup {
         return false;
     }
 
-//    @Override
-//    public boolean onNestedPrePerformAccessibilityAction(View target, int action, Bundle args) {
-////        if (super.onNestedPrePerformAccessibilityAction(target, action, args)) {
-////            return true;
-////        }
-//
-//        if (action == AccessibilityNodeInfo.ACTION_SCROLL_FORWARD && collapseOffset != 0) {
-//            smoothScrollTo(0, 0);
-//            return true;
-//        }
-//        return false;
-//    }
-
     @Override
     public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(event);
         event.setClassName(ResolverDrawerLayout.class.getName());
     }
 
-    @Override
-    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
-        super.onInitializeAccessibilityNodeInfo(info);
-        info.setClassName(ResolverDrawerLayout.class.getName());
-        if (isEnabled()) {
-            if (collapseOffset != 0) {
-                info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
-                info.setScrollable(true);
-            }
-        }
-    }
+//    @Override
+//    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+//        super.onInitializeAccessibilityNodeInfo(info);
+//        info.setClassName(ResolverDrawerLayout.class.getName());
+//        if (isEnabled()) {
+//            if (collapseOffset != 0) {
+//                info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
+//                info.setScrollable(true);
+//            }
+//        }
+//    }
 
     @Override
     public boolean performAccessibilityAction(int action, Bundle arguments) {
@@ -647,21 +666,23 @@ class ResolverDrawerLayout extends ViewGroup {
                 heightUsed - alwaysShowHeight - getMaxCollapsedHeight());
         uncollapsibleHeight = heightUsed - collapsibleHeight;
 
-        if (isLaidOut()) {
-            final boolean isCollapsedOld = collapseOffset != 0;
-            collapseOffset = Math.min(collapseOffset, collapsibleHeight);
-            final boolean isCollapsedNew = collapseOffset != 0;
-            if (isCollapsedOld != isCollapsedNew) {
-//                notifyViewAccessibilityStateChangedIfNeeded(AccessibilityEvent.CONTENT_CHANGE_TYPE_UNDEFINED);
-            }
-        } else {
-            // Start out collapsed at first unless we restored state for otherwise
-            collapseOffset = openOnLayout ? 0 : collapsibleHeight;
+        boolean isLaidOut = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            isLaidOut = isLaidOut();
         }
-
+        collapseOffset = getCollapsedOffset(isLaidOut);
         topOffset = Math.max(0, heightSize - heightUsed) + (int) collapseOffset;
 
         setMeasuredDimension(sourceWidth, heightSize);
+    }
+
+    private float getCollapsedOffset(boolean isLaidOut) {
+        if (isLaidOut) {
+            return Math.min(collapseOffset, collapsibleHeight);
+        } else {
+            // Start out collapsed at first unless we restored state for otherwise
+            return openOnLayout ? 0 : collapsibleHeight;
+        }
     }
 
     @Override

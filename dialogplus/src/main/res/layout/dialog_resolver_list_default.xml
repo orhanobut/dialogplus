@@ -47,85 +47,15 @@
                 <TextView android:id="@+id/title"
                           android:layout_width="0dp"
                           android:layout_weight="1"
+                          android:layout_marginLeft="@dimen/default_center_margin"
                           android:layout_height="?android:attr/listPreferredItemHeight"
-                          android:layout_marginStart="16dp"
                           android:textAppearance="?android:attr/textAppearanceMedium"
-                          android:gravity="start|center_vertical"
-                          android:paddingEnd="16dp" />
-                <LinearLayout android:id="@+id/profile_button"
-                              android:layout_width="wrap_content"
-                              android:layout_height="48dp"
-                              android:layout_marginTop="4dp"
-                              android:layout_marginEnd="4dp"
-                              android:paddingStart="8dp"
-                              android:paddingEnd="8dp"
-                              android:paddingTop="4dp"
-                              android:paddingBottom="4dp"
-                              android:focusable="true"
-                              android:visibility="gone"
-                              style="?android:attr/borderlessButtonStyle">
-                    <ImageView android:id="@+id/icon"
-                               android:layout_width="24dp"
-                               android:layout_height="24dp"
-                               android:layout_gravity="start|center_vertical"
-                               android:layout_marginEnd="?android:attr/listPreferredItemPaddingEnd"
-                               android:layout_marginTop="12dp"
-                               android:layout_marginBottom="12dp"
-                               android:scaleType="fitCenter" />
-                    <TextView android:id="@android:id/text1"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:layout_gravity="start|center_vertical"
-                              android:layout_marginEnd="?android:attr/listPreferredItemPaddingEnd"
-                              android:textAppearance="?android:attr/textAppearanceButton"
-                              android:textColor="?android:attr/textColorPrimary"
-                              android:minLines="1"
-                              android:maxLines="1"
-                              android:ellipsize="marquee" />
-                </LinearLayout>
+                          android:gravity="start|center_vertical" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/button_bar"
-                android:visibility="gone"
-                style="?android:attr/buttonBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_alwaysShow="true"
-                android:gravity="end|center_vertical"
-                android:orientation="horizontal"
-                android:layoutDirection="locale"
-                android:measureWithLargestChild="true"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:background="@android:color/white"
-                android:elevation="8dp">
-                <Button android:id="@+id/button_once"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="start"
-                        android:maxLines="2"
-                        style="?android:attr/buttonBarNegativeButtonStyle"
-                        android:minHeight="48dip"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:text="activity_resolver_use_once"
-                        android:onClick="onButtonClick" />
-                <Button android:id="@+id/button_always"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="end"
-                        android:maxLines="2"
-                        android:minHeight="48dip"
-                        style="?android:attr/buttonBarPositiveButtonStyle"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:text="activity_resolver_use_always"
-                        android:onClick="onButtonClick" />
-            </LinearLayout>
             <View android:layout_width="match_parent"
                   android:layout_height="1dp"
-                  android:background="?android:attr/dividerVertical" />
+                  android:background="@color/divider" />
         </LinearLayout>
 
         <ListView
@@ -137,8 +67,7 @@
             android:background="@android:color/white"
             android:elevation="8dp"
             android:nestedScrollingEnabled="true"
-            android:divider="@null"
-            />
+            android:divider="@null" />
 
     </com.orhanobut.dialogplus.ResolverDrawerLayout>
 </FrameLayout>
