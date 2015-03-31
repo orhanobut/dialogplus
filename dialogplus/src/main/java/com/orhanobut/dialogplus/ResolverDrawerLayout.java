@@ -21,7 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.OverScroller;
 
-public class ResolverDrawerLayout extends ViewGroup {
+class ResolverDrawerLayout extends ViewGroup {
     private static final String TAG = "ResolverDrawerLayout";
 
     /**
