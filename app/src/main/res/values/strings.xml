@@ -25,6 +25,7 @@
     <string name="list_holder">List Holder</string>
     <string name="grid_holder">Grid Holder</string>
     <string name="show_header">Show header</string>
+    <string name="show_fixed_header">Show fixed header</string>
     <string name="show_footer">Show footer</string>
 
 </resources>

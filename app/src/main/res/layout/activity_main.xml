@@ -103,6 +103,24 @@
                 android:orientation="horizontal">
 
                 <CheckBox
+                    android:id="@+id/fixed_header_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_fixed_header"
+                    android:textSize="12sp"
+                    android:checked="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
                     android:id="@+id/footer_check_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

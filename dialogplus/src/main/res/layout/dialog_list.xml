@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/outmost_container"
     android:layout_width="match_parent"
@@ -13,4 +13,5 @@
         android:layout_gravity="bottom"
         android:divider="@null"
         android:dividerHeight="0dp"/>
-</LinearLayout>
+
+</FrameLayout>

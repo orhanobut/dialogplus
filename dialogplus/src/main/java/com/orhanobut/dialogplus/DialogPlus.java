@@ -395,6 +395,19 @@ public class DialogPlus {
                 }
             });
         }
+
+        if (holder instanceof DimmedListHolder) {
+            ((DimmedListHolder) holder).setOnDismissedListener(new ResolverDrawerLayout.OnDismissedListener() {
+                @Override
+                public void onDismissed() {
+                    dismiss();
+                    if (onCancelListener != null) {
+                        onCancelListener.onCancel(DialogPlus.this);
+                    }
+                }
+            });
+        }
+
         return view;
     }
 
