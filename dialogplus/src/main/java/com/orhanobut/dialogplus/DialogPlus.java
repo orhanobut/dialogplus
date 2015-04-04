@@ -421,19 +421,23 @@ public class DialogPlus {
      * It is used to setListener on view that have a valid id associated
      */
     private void setClickListener(View view) {
-        if (view.getId() == INVALID) {
-            return;
-        }
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onClickListener == null) {
-                    return;
-                }
-                onClickListener.onClick(DialogPlus.this, v);
+        try {
+            if (view.getId() == INVALID) {
+                return;
             }
-        });
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onClickListener == null) {
+                        return;
+                    }
+                    onClickListener.onClick(DialogPlus.this, v);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
