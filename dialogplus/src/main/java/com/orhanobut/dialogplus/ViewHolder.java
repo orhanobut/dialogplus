@@ -11,7 +11,6 @@ import android.view.ViewGroup;
  */
 public class ViewHolder implements Holder {
 
-    private static final String TAG = ViewHolder.class.getSimpleName();
     private static final int INVALID = -1;
 
     private int backgroundColor;
@@ -74,9 +73,12 @@ public class ViewHolder implements Holder {
 
     private void addContent(LayoutInflater inflater, ViewGroup parent, ViewGroup container) {
         if (viewResourceId != INVALID) {
-            View contentView = inflater.inflate(viewResourceId, parent, false);
-            container.addView(contentView);
-            return;
+            contentView = inflater.inflate(viewResourceId, parent, false);
+        } else {
+            ViewGroup parentView = (ViewGroup) contentView.getParent();
+            if (parentView != null) {
+                parentView.removeView(contentView);
+            }
         }
 
         container.addView(contentView);
@@ -85,5 +87,10 @@ public class ViewHolder implements Holder {
     @Override
     public void setOnKeyListener(View.OnKeyListener keyListener) {
         this.keyListener = keyListener;
+    }
+
+    @Override
+    public View getInflatedView() {
+        return contentView;
     }
 }

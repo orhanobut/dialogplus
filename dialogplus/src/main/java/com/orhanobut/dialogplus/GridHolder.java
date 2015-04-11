@@ -88,6 +88,11 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
     }
 
     @Override
+    public View getInflatedView() {
+        return gridView;
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         listener.onItemClick(parent.getItemAtPosition(position), view, position);
     }
