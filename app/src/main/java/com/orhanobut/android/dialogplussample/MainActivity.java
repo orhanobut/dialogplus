@@ -77,6 +77,22 @@ public class MainActivity extends ActionBarActivity {
                 );
             }
         });
+
+        View contenView = getLayoutInflater().inflate(R.layout.content2, null);
+
+        DialogPlus dialogPlus = new DialogPlus.Builder(this)
+                .setContentHolder(new ViewHolder(contenView))
+                .setFooter(R.layout.footer)
+                .setHeader(R.layout.header)
+                .create();
+
+        View view = dialogPlus.getHolderView();
+        TextView textView = (TextView) view.findViewById(R.id.title);
+        textView.setText("test");
+
+        View headerView = dialogPlus.getHeaderView();
+        View footerView = dialogPlus.getFooterView();
+        dialogPlus.show();
     }
 
     private void showDialog(int holderId, DialogPlus.Gravity gravity, boolean showHeader, boolean showFooter) {

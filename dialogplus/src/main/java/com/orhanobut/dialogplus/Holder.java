@@ -19,4 +19,6 @@ public interface Holder {
 
     void setOnKeyListener(View.OnKeyListener keyListener);
 
+    View getInflatedView();
+
 }

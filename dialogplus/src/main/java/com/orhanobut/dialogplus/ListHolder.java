@@ -77,6 +77,11 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
     }
 
     @Override
+    public View getInflatedView() {
+        return listView;
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         listener.onItemClick(parent.getItemAtPosition(position), view, position);
     }
