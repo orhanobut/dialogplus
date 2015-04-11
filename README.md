@@ -23,7 +23,7 @@ Simple, easy dialog solution for android.
 
 ### Gradle
 ```groovy
-compile 'com.orhanobut:dialogplus:1.4@aar'
+compile 'com.orhanobut:dialogplus:1.5@aar'
 ```
 
 ### Usage
@@ -61,6 +61,10 @@ or pass view itself
 ```java
 .setContentHolder(new GridHolder(COLUMN_NUMBER))
 ```
+- Get the holder view, ListView, GridView or your custom view
+```java
+View view = dialogPlus.getHolderView();
+```
 - Set dialog position. BOTTOM (default), TOP or CENTER
 ```java
 .setGravity(DialogPlus.Gravity.CENTER)
@@ -95,6 +99,11 @@ or pass view itself
 ```java
 .setMargins(left, top, right, bottom)
 ```
+```
+- Set padding to the holder
+```java
+.setPadding(left, top, right, bottom)
+```
 - Set the footer view using the id of the layout resource
 ```java
 .setFooter(R.layout.footer)
@@ -103,6 +112,10 @@ or use view
 ```java
 .setFooter(view)
 ```
+- Get the footer view
+```java
+View view = dialogPlus.getHolderView();
+```
 - Set the header view using the id of the layout resource
 ```java
 .setHeader(R.layout.header)
@@ -110,6 +123,10 @@ or use view
 or use view
 ```java
 .setHeader(view)
+```
+- Get the header view
+```java
+View view = dialogPlus.getHolderView();
 ```
 - Set animation resources
 ```java
@@ -120,6 +137,35 @@ or use view
 ```java
 .setScreenType(DialogPlus.ScreenType.FULL)
 ```
+
+- Dismiss Listener, triggered when the dialog is dismissed
+```java
+.setOnDismissListener(new OnDismissListener() {
+    @Override
+    public void onDismiss(DialogPlus dialog) {
+
+    }
+})
+```
+
+- Cancel Listener, triggered when the dialog is cancelled by back button or clicking outside
+```java
+.setOnCancelListener(new OnCancelListener() {
+    @Override
+    public void onCancel(DialogPlus dialog) {
+
+    }
+})
+```
+
+- BackPress Listener, triggered when the back button is pressed
+```java
+.setOnBackPressListener(new OnBackPressListener() {
+    @Override
+    public void onBackPressed(DialogPlus dialog) {
+
+    }
+})
 
 #### You might also like
 - [Hawk](https://github.com/orhanobut/hawk) Secure simple key-value storage

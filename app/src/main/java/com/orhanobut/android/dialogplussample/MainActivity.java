@@ -15,6 +15,7 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
 import com.orhanobut.dialogplus.Holder;
 import com.orhanobut.dialogplus.ListHolder;
+import com.orhanobut.dialogplus.OnBackPressListener;
 import com.orhanobut.dialogplus.OnCancelListener;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
@@ -84,6 +85,24 @@ public class MainActivity extends ActionBarActivity {
                 .setContentHolder(new ViewHolder(contenView))
                 .setFooter(R.layout.footer)
                 .setHeader(R.layout.header)
+                .setOnDismissListener(new OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogPlus dialog) {
+
+                    }
+                })
+                .setOnCancelListener(new OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogPlus dialog) {
+
+                    }
+                })
+                .setOnBackPressListener(new OnBackPressListener() {
+                    @Override
+                    public void onBackPressed(DialogPlus dialogPlus) {
+
+                    }
+                })
                 .create();
 
         View view = dialogPlus.getHolderView();
