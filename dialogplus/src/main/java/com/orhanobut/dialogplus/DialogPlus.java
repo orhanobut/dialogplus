@@ -142,6 +142,11 @@ public class DialogPlus {
      */
     private final int[] padding = new int[4];
 
+    /**
+     * This margins are used for the outmost view.
+     */
+    private final int[] outMostMargin = new int[4];
+
     public enum ScreenType {
         HALF, FULL
     }
@@ -177,6 +182,7 @@ public class DialogPlus {
         }
 
         System.arraycopy(builder.padding, 0, padding, 0, padding.length);
+        System.arraycopy(builder.outMostMargin, 0, outMostMargin, 0, outMostMargin.length);
 
         /**
          * Avoid getting directly from the decor view because by doing that we are overlapping the black soft key on
@@ -185,6 +191,13 @@ public class DialogPlus {
          */
         decorView = (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
         rootView = (ViewGroup) inflater.inflate(R.layout.base_container, null);
+
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
+        );
+        params.setMargins(outMostMargin[0], outMostMargin[1], outMostMargin[2], outMostMargin[3]);
+        rootView.setLayoutParams(params);
+
         contentContainer = (ViewGroup) rootView.findViewById(R.id.content_container);
         topView = rootView.findViewById(R.id.top_view);
         bottomView = rootView.findViewById(R.id.bottom_view);
@@ -562,6 +575,7 @@ public class DialogPlus {
     public static class Builder {
         private final int[] margin = new int[4];
         private final int[] padding = new int[4];
+        private final int[] outMostMargin = new int[4];
 
         private BaseAdapter adapter;
         private Context context;
@@ -693,6 +707,18 @@ public class DialogPlus {
          */
         public Builder setScreenType(ScreenType screenType) {
             this.screenType = screenType;
+            return this;
+        }
+
+        /**
+         * Add margins to your outmost view which contains everything. As default they are 0
+         * are applied
+         */
+        public Builder setOutMostMargin(int left, int top, int right, int bottom) {
+            this.outMostMargin[0] = left;
+            this.outMostMargin[1] = top;
+            this.outMostMargin[2] = right;
+            this.outMostMargin[3] = bottom;
             return this;
         }
 
