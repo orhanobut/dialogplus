@@ -23,7 +23,7 @@ Simple, easy dialog solution for android.
 
 ### Gradle
 ```groovy
-compile 'com.orhanobut:dialogplus:1.5@aar'
+compile 'com.orhanobut:dialogplus:1.6@aar'
 ```
 
 ### Usage

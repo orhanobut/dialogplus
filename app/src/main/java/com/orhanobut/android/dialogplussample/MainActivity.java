@@ -211,6 +211,7 @@ public class MainActivity extends ActionBarActivity {
                 .setOnItemClickListener(itemClickListener)
                 .setOnDismissListener(dismissListener)
                 .setOnCancelListener(cancelListener)
+                .setOutMostMargin(0, 100, 0, 0)
                 .create();
         dialog.show();
     }
