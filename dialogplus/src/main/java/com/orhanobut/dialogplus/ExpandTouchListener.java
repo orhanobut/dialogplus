@@ -39,8 +39,7 @@ public class ExpandTouchListener implements View.OnTouchListener {
         this.gravity = gravity;
         this.displayHeight = displayHeight;
         this.defaultContentHeight = defaultContentHeight;
-
-        this.params = (FrameLayout.LayoutParams) contentContainer.getLayoutParams();
+        this.params = (FrameLayout.LayoutParams) container.getLayoutParams();
 
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 
@@ -59,10 +58,13 @@ public class ExpandTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        //If single tapped, don't consume the event
         if (gestureDetector.onTouchEvent(event)) {
             return false;
         }
 
+        // when the dialog is fullscreen and user scrolls the content
+        // don't consume the event
         if (!(!scrollUp && Utils.listIsAtTop(absListView)) && fullScreen) {
             return false;
         }
@@ -72,6 +74,7 @@ public class ExpandTouchListener implements View.OnTouchListener {
                 y = event.getRawY();
                 return true;
             case MotionEvent.ACTION_MOVE:
+                // This is a quick fix to not trigger click event
                 if (params.height == displayHeight) {
                     params.height--;
                     contentContainer.setLayoutParams(params);
@@ -87,30 +90,44 @@ public class ExpandTouchListener implements View.OnTouchListener {
     }
 
     private void onTouchMove(View view, MotionEvent event) {
+        // sometimes Action_DOWN is not called, we need to make sure that
+        // we calculate correct y value
         if (y == -1) {
             y = event.getRawY();
         }
         float delta = (y - event.getRawY());
+        // if delta > 0 , that means user swipes to top
         touchUp = delta > 0;
         if (gravity == Gravity.TOP) {
             delta = -delta;
         }
+        //update the y value, otherwise delta will be incorrect
         y = event.getRawY();
 
         int newHeight = params.height + (int) delta;
+
+        // This prevents dialog to move out of screen bounds
         if (newHeight > displayHeight) {
             newHeight = displayHeight;
         }
+
+        // This prevents the dialog go below the default value while dragging
         if (newHeight < defaultContentHeight) {
             newHeight = defaultContentHeight;
         }
         params.height = newHeight;
         contentContainer.setLayoutParams(params);
+
+        // we use fullscreen value to activate view content scroll
         fullScreen = params.height == displayHeight;
     }
 
     private void onTouchUp(View view, MotionEvent event) {
+        // reset y value
         y = -1;
+
+        // if the dragging direction is from top to down and dialog position still can't exceeds threshold
+        // move the dialog automatically to top
         if (!touchUp && params.height < displayHeight && params.height > (displayHeight * 4) / 5) {
             Utils.animateContent(contentContainer, displayHeight, new SimpleAnimationListener() {
                 @Override
@@ -120,6 +137,9 @@ public class ExpandTouchListener implements View.OnTouchListener {
             });
             return;
         }
+
+        // if the dragging direction is down to top and dialog is dragged more than 50 to up
+        // move the dialog automatically to top
         if (touchUp && params.height > defaultContentHeight + 50) {
             Utils.animateContent(contentContainer, displayHeight, new SimpleAnimationListener() {
                 @Override
@@ -129,10 +149,16 @@ public class ExpandTouchListener implements View.OnTouchListener {
             });
             return;
         }
+
+        // if the dragging direction is from down to top and dialog position still can't exceeds threshold
+        // move the dialog automatically to down
         if (touchUp && params.height <= defaultContentHeight + 50) {
             Utils.animateContent(contentContainer, defaultContentHeight, new SimpleAnimationListener());
             return;
         }
+
+        // if the dragging direction is from top to down and the position exceeded the threshold
+        // move the dialog to down
         if (!touchUp && params.height > defaultContentHeight) {
             Utils.animateContent(contentContainer, defaultContentHeight, new SimpleAnimationListener());
         }
