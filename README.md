@@ -35,13 +35,13 @@ DialogPlus dialog = new DialogPlus.Builder(this)
             public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
             }
         })
-        .setExpanded(true)  // This will enable the scrolling animation
+        .setExpanded(true)  // This will enable the expand feature, (similar to android L share dialog)
         .create();
 dialog.show();
 ```
 
 ### More options
-Enable scrolling animation same as Android L
+Enable expand animation same as Android L share dialog
 ```java
 .setExpanded(true) // default is false, only works for grid and list
 ```
