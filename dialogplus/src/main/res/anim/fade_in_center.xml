@@ -3,16 +3,16 @@
      android:shareInterpolator="false"
      android:duration="@integer/animation_default_duration">
 
-    <scale
-            android:fromXScale="95%"
-            android:toXScale="100%"
-            android:fromYScale="95%"
-            android:toYScale="100%"
-            android:pivotX="50%"
-            android:pivotY="50%"/>
+  <scale
+      android:fromXScale="95%"
+      android:toXScale="100%"
+      android:fromYScale="95%"
+      android:toYScale="100%"
+      android:pivotX="50%"
+      android:pivotY="50%"/>
 
-    <alpha
-            android:fromAlpha="0"
-            android:toAlpha="1"/>
+  <alpha
+      android:fromAlpha="0"
+      android:toAlpha="1"/>
 
 </set>

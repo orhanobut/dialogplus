@@ -4,12 +4,7 @@ DialogPlus
 ==========
 Simple, easy dialog solution for android.
 
-<img src='https://github.com/orhanobut/dialogplus/blob/master/images/dialog-plus.png' width='128' height='128'/>
-<hr>
-
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/dialogplus.gif'/>
-
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/dialogplusanim.gif'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/art/dialogplus.gif' height='400'/> <img src='https://github.com/nr4bt/dialogplus/blob/master/art/dialogplusanim.gif' height='400'/>
 
 ##### DialogPlus provides android L dialog animation
 
@@ -23,11 +18,9 @@ Simple, easy dialog solution for android.
 - GridHolder : Items will be shown in a gridview
 - ViewHolder : Your customized view will be shown in the content
 
-##### Android L version animation will be added soon.
-
 ### Gradle
 ```groovy
-compile 'com.orhanobut:dialogplus:1.7@aar'
+compile 'com.orhanobut:dialogplus:1.8@aar'
 ```
 
 ### Usage
@@ -35,22 +28,26 @@ Use the builder to create the dialog.
 
 Basic usage
 ```java
-DialogPlus dialog = new DialogPlus.Builder(this)
+DialogPlus dialog = DialogPlus.newDialog(this)
         .setAdapter(adapter)
         .setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
             }
         })
-        .setExpanded(true)  // This will enable the scrolling animation
+        .setExpanded(true)  // This will enable the expand feature, (similar to android L share dialog)
         .create();
 dialog.show();
 ```
 
 ### More options
-Enable scrolling animation same as Android L
+Enable expand animation same as Android L share dialog
 ```java
 .setExpanded(true) // default is false, only works for grid and list
+```
+Set expand animation default height
+```java
+.setExpanded(true, 300)
 ```
 
 Select different holder.
@@ -124,7 +121,7 @@ or use view
 ```
 - Get the footer view
 ```java
-View view = dialogPlus.getHolderView();
+View view = dialogPlus.getFooterView();
 ```
 - Set the header view using the id of the layout resource
 ```java
@@ -136,16 +133,17 @@ or use view
 ```
 - Get the header view
 ```java
-View view = dialogPlus.getHolderView();
+View view = dialogPlus.getHeaderView();
 ```
 - Set animation resources
 ```java
 .setInAnimation(R.anim.abc_fade_in)
 .setOutAnimation(R.anim.abc_fade_out)
 ```
-- Set screen type to either fill the screen or only half
+- Set width and height for the content
 ```java
-.setScreenType(DialogPlus.ScreenType.FULL)
+.setContentWidth(ViewGroup.LayoutParams.WRAP_CONTENT)  // or any custom width ie: 300
+.setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
 ```
 
 - Dismiss Listener, triggered when the dialog is dismissed

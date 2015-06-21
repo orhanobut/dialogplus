@@ -2,10 +2,10 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
      android:shareInterpolator="false">
 
-    <translate
-            android:duration="@integer/animation_default_duration"
-            android:fromXDelta="0%"
-            android:toXDelta="0%"
-            android:fromYDelta="0%"
-            android:toYDelta="100%"/>
+  <translate
+      android:duration="@integer/animation_default_duration"
+      android:fromXDelta="0%"
+      android:toXDelta="0%"
+      android:fromYDelta="0%"
+      android:toYDelta="100%"/>
 </set>
