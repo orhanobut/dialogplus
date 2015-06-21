@@ -10,23 +10,23 @@ import android.widget.AbsListView;
  */
 final class Utils {
 
-  static int getStatusBarHeight(Context context) {
-    int result = 0;
-    int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-    if (resourceId > 0) {
-      result = context.getResources().getDimensionPixelSize(resourceId);
+    static int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
-    return result;
-  }
 
-  static void animateContent(final View view, int to, Animation.AnimationListener listener) {
-    HeightAnimation animation = new HeightAnimation(view, view.getHeight(), to);
-    animation.setAnimationListener(listener);
-    animation.setDuration(200);
-    view.startAnimation(animation);
-  }
+    static void animateContent(final View view, int to, Animation.AnimationListener listener) {
+        HeightAnimation animation = new HeightAnimation(view, view.getHeight(), to);
+        animation.setAnimationListener(listener);
+        animation.setDuration(200);
+        view.startAnimation(animation);
+    }
 
-  static boolean listIsAtTop(AbsListView listView) {
-    return listView.getChildCount() == 0 || listView.getChildAt(0).getTop() == 0;
-  }
+    static boolean listIsAtTop(AbsListView listView) {
+        return listView.getChildCount() == 0 || listView.getChildAt(0).getTop() == 0;
+    }
 }

@@ -118,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
     View headerView = dialogPlus.getHeaderView();
     View footerView = dialogPlus.getFooterView();
     dialogPlus.show();
-  }
+    }
 
   private void showDialog(int holderId, int gravity, boolean showHeader, boolean showFooter, boolean expanded) {
     boolean isGrid;
