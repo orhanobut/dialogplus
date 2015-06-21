@@ -4,12 +4,9 @@ DialogPlus
 ==========
 Simple, easy dialog solution for android.
 
-<img src='https://github.com/orhanobut/dialogplus/blob/master/images/dialog-plus.png' width='128' height='128'/>
-<hr>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/art/dialogplus.gif' height='400'/>
 
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/dialogplus.gif'/>
-
-<img src='https://github.com/nr4bt/dialogplus/blob/master/images/dialogplusanim.gif'/>
+<img src='https://github.com/nr4bt/dialogplus/blob/master/art/dialogplusanim.gif' height='400'/>
 
 ##### DialogPlus provides android L dialog animation
 
@@ -22,8 +19,6 @@ Simple, easy dialog solution for android.
 - ListHolder : Items will be shown in a listview
 - GridHolder : Items will be shown in a gridview
 - ViewHolder : Your customized view will be shown in the content
-
-##### Android L version animation will be added soon.
 
 ### Gradle
 ```groovy
