@@ -1,29 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/outmost_container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black_overlay"
-    android:clickable="true"
-    android:descendantFocusability="afterDescendants"
-    android:orientation="vertical">
-
-    <View
-        android:id="@+id/top_view"
+<FrameLayout
+        android:id="@+id/outmost_container"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent"
+        android:background="@color/black_overlay"
+        android:clickable="true">
 
-    <FrameLayout
-        android:id="@+id/content_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </FrameLayout>
+        <FrameLayout
+                android:id="@+id/content_container"
+                android:layout_width="match_parent"
+                android:clickable="true"
+                android:layout_height="wrap_content">
+        </FrameLayout>
 
-    <View
-        android:id="@+id/bottom_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-</LinearLayout>
+</FrameLayout>

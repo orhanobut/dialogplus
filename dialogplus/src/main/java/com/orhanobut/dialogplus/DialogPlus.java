@@ -2,6 +2,8 @@ package com.orhanobut.dialogplus;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
@@ -19,13 +22,6 @@ import java.util.Arrays;
  * @author Orhan Obut
  */
 public class DialogPlus {
-
-    /**
-     * Custom values for DialogPlus gravity
-     */
-    public enum Gravity {
-        TOP, BOTTOM, CENTER
-    }
 
     /**
      * Determine whether the resources are set or not
@@ -46,14 +42,7 @@ public class DialogPlus {
      * Determines the position of the dialog, only BOTTOM and TOP should be used, as default
      * it is BOTTOM
      */
-    private final Gravity gravity;
-
-    /**
-     * Either the content should fill the all screen or only the half, when the content reaches
-     * the limit, it will be scrollable, BasicHolder cannot be scrollable, use it only for
-     * a few items
-     */
-    private final ScreenType screenType;
+    private final int gravity;
 
     /**
      * Determines whether dialog should be dismissed by back button or touch in the black overlay
@@ -64,14 +53,6 @@ public class DialogPlus {
      * Determines whether dialog is showing dismissing animation and avoid to repeat it
      */
     private boolean isDismissing;
-
-    /**
-     * topView and bottomView are used to set the position of the dialog
-     * If the position is top, bottomView will fill the screen, otherwise
-     * topView will the screen
-     */
-    private final View topView;
-    private final View bottomView;
 
     /**
      * footerView, headerView are used
@@ -142,18 +123,25 @@ public class DialogPlus {
      */
     private final int[] padding = new int[4];
 
-    /**
-     * This margins are used for the outmost view.
-     */
-    private final int[] outMostMargin = new int[4];
+    private final int displayHeight;
+    private final int defaultContentHeight;
 
-    public enum ScreenType {
-        HALF, FULL
-    }
+    /**
+     * Determines to use scroll animation
+     */
+    private final boolean expanded;
+
+    private Context context;
 
     private DialogPlus(Builder builder) {
         inflater = LayoutInflater.from(builder.context);
+        this.context = builder.context;
+
         Activity activity = (Activity) builder.context;
+
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        displayHeight = display.getHeight() - Utils.getStatusBarHeight(activity);
+        defaultContentHeight = (displayHeight * 2) / 5;
 
         holder = getHolder(builder.holder);
 
@@ -161,7 +149,6 @@ public class DialogPlus {
         backgroundColorResourceId = (backgroundColor == INVALID) ? android.R.color.white : backgroundColor;
         headerView = getView(builder.headerViewResourceId, builder.headerView);
         footerView = getView(builder.footerViewResourceId, builder.footerView);
-        screenType = builder.screenType;
         adapter = builder.adapter;
         onItemClickListener = builder.onItemClickListener;
         onClickListener = builder.onClickListener;
@@ -170,6 +157,7 @@ public class DialogPlus {
         onBackPressListener = builder.onBackPressListener;
         isCancelable = builder.isCancelable;
         gravity = builder.gravity;
+        expanded = builder.expanded;
 
         int inAnimation = builder.inAnimation;
         int outAnimation = builder.outAnimation;
@@ -182,6 +170,8 @@ public class DialogPlus {
         }
 
         System.arraycopy(builder.padding, 0, padding, 0, padding.length);
+
+        int[] outMostMargin = new int[4];
         System.arraycopy(builder.outMostMargin, 0, outMostMargin, 0, outMostMargin.length);
 
         /**
@@ -199,8 +189,6 @@ public class DialogPlus {
         rootView.setLayoutParams(params);
 
         contentContainer = (ViewGroup) rootView.findViewById(R.id.content_container);
-        topView = rootView.findViewById(R.id.top_view);
-        bottomView = rootView.findViewById(R.id.bottom_view);
 
         createDialog();
     }
@@ -264,6 +252,7 @@ public class DialogPlus {
         isDismissing = true;
     }
 
+    @SuppressWarnings("unused")
     public View findViewById(int resourceId) {
         return contentContainer.findViewById(resourceId);
     }
@@ -287,13 +276,13 @@ public class DialogPlus {
      * @param isInAnimation determine if is in or out animation. true when is is
      * @return the id of the animation resource
      */
-    private int getAnimationResource(Gravity gravity, boolean isInAnimation) {
+    private int getAnimationResource(int gravity, boolean isInAnimation) {
         switch (gravity) {
-            case TOP:
+            case Gravity.TOP:
                 return isInAnimation ? R.anim.slide_in_top : R.anim.slide_out_top;
-            case BOTTOM:
+            case Gravity.BOTTOM:
                 return isInAnimation ? R.anim.slide_in_bottom : R.anim.slide_out_bottom;
-            case CENTER:
+            case Gravity.CENTER:
                 return isInAnimation ? R.anim.fade_in_center : R.anim.fade_out_center;
             default:
                 // This case is not implemented because we don't expect any other gravity at the moment
@@ -309,17 +298,12 @@ public class DialogPlus {
      * @param minimumMargin the minimum margin when gravity center is selected
      * @return the value of the margin
      */
-    private int getMargin(Gravity gravity, int margin, int minimumMargin) {
+    private int getMargin(int gravity, int margin, int minimumMargin) {
         switch (gravity) {
-            case TOP:
-                // Fall Through
-            case BOTTOM:
-                return (margin == INVALID) ? 0 : margin;
-            case CENTER:
+            case Gravity.CENTER:
                 return (margin == INVALID) ? minimumMargin : margin;
             default:
-                return 0;
-            // This case is not implemented because we don't expect any other gravity at the moment
+                return (margin == INVALID) ? 0 : margin;
         }
     }
 
@@ -328,39 +312,43 @@ public class DialogPlus {
      */
     private void createDialog() {
         initContentView();
-        initPosition();
         initCancelable();
+        if (expanded) {
+            initExpandAnimator();
+        }
+    }
+
+    private void initExpandAnimator() {
+        final View view = holder.getInflatedView();
+        if (!(view instanceof AbsListView)) {
+            return;
+        }
+        final AbsListView absListView = (AbsListView) view;
+
+        Activity activity = (Activity) context;
+        view.setOnTouchListener(ExpandTouchListener.newListener(
+                activity, absListView, contentContainer, gravity, displayHeight, defaultContentHeight
+        ));
     }
 
     /**
      * It is called in order to create content
      */
     private void initContentView() {
-        int convertedGravity = getGravity();
+        int height = expanded ? defaultContentHeight : ViewGroup.LayoutParams.WRAP_CONTENT;
+        FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, height, gravity
+        );
+        contentContainer.setLayoutParams(params1);
         View contentView = createView(inflater);
+
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, convertedGravity
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
         );
         params.setMargins(margin[0], margin[1], margin[2], margin[3]);
         contentView.setLayoutParams(params);
         getHolderView().setPadding(padding[0], padding[1], padding[2], padding[3]);
         contentContainer.addView(contentView);
-    }
-
-    /**
-     * Convert DialogPlusGravity with content layout readable gravity
-     *
-     * @return the converted layout gravity that can be passed to the container
-     */
-    private int getGravity() {
-        switch (gravity) {
-            case TOP:
-                return android.view.Gravity.TOP;
-            case BOTTOM:
-                return android.view.Gravity.BOTTOM;
-            default:
-                return android.view.Gravity.CENTER;
-        }
     }
 
     /**
@@ -371,34 +359,8 @@ public class DialogPlus {
         if (!isCancelable) {
             return;
         }
-        topView.setOnTouchListener(onCancelableTouchListener);
-        bottomView.setOnTouchListener(onCancelableTouchListener);
-    }
-
-    /**
-     * It is called when the set the position of the dialog
-     */
-    private void initPosition() {
-        if (screenType == ScreenType.FULL) {
-            topView.setVisibility(View.GONE);
-            bottomView.setVisibility(View.GONE);
-            return;
-        }
-
-        switch (gravity) {
-            case TOP:
-                bottomView.setVisibility(View.VISIBLE);
-                topView.setVisibility(View.GONE);
-                break;
-            case BOTTOM:
-                bottomView.setVisibility(View.GONE);
-                topView.setVisibility(View.VISIBLE);
-                break;
-            default:
-                bottomView.setVisibility(View.VISIBLE);
-                topView.setVisibility(View.VISIBLE);
-                break;
-        }
+        View view = rootView.findViewById(R.id.outmost_container);
+        view.setOnTouchListener(onCancelableTouchListener);
     }
 
     /**
@@ -582,8 +544,7 @@ public class DialogPlus {
         private View footerView;
         private View headerView;
         private Holder holder;
-        private Gravity gravity = Gravity.BOTTOM;
-        private ScreenType screenType = ScreenType.HALF;
+        private int gravity = Gravity.BOTTOM;
         private OnItemClickListener onItemClickListener;
         private OnClickListener onClickListener;
         private OnDismissListener onDismissListener;
@@ -596,6 +557,7 @@ public class DialogPlus {
         private int footerViewResourceId = INVALID;
         private int inAnimation = INVALID;
         private int outAnimation = INVALID;
+        private boolean expanded;
 
         private Builder() {
         }
@@ -681,7 +643,7 @@ public class DialogPlus {
         /**
          * Set the gravity you want the dialog to have among the ones that are provided
          */
-        public Builder setGravity(Gravity gravity) {
+        public Builder setGravity(int gravity) {
             this.gravity = gravity;
             return this;
         }
@@ -699,14 +661,6 @@ public class DialogPlus {
          */
         public Builder setOutAnimation(int outAnimResource) {
             this.outAnimation = outAnimResource;
-            return this;
-        }
-
-        /**
-         * Set how much big you want the dialog to be (full screen or half screen)
-         */
-        public Builder setScreenType(ScreenType screenType) {
-            this.screenType = screenType;
             return this;
         }
 
@@ -775,6 +729,11 @@ public class DialogPlus {
 
         public Builder setOnBackPressListener(OnBackPressListener listener) {
             this.onBackPressListener = listener;
+            return this;
+        }
+
+        public Builder setExpanded(boolean expanded) {
+            this.expanded = expanded;
             return this;
         }
 

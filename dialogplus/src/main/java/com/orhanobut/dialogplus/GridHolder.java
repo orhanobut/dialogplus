@@ -17,7 +17,7 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
     private static final String TAG = GridHolder.class.getSimpleName();
 
     private final int columnNumber;
-    
+
     private int backgroundColor;
 
     private GridView gridView;

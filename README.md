@@ -9,6 +9,10 @@ Simple, easy dialog solution for android.
 
 <img src='https://github.com/nr4bt/dialogplus/blob/master/images/dialogplus.gif'/>
 
+<img src='https://github.com/nr4bt/dialogplus/blob/master/images/dialogplusanim.gif'/>
+
+##### DialogPlus provides android L dialog animation
+
 ##### DialogPlus provides 3 position:
 - Top : Dialog will appear at top with animation
 - Center : Dialog will appear in the center with animation
@@ -23,7 +27,7 @@ Simple, easy dialog solution for android.
 
 ### Gradle
 ```groovy
-compile 'com.orhanobut:dialogplus:1.6@aar'
+compile 'com.orhanobut:dialogplus:1.7@aar'
 ```
 
 ### Usage
@@ -38,11 +42,17 @@ DialogPlus dialog = new DialogPlus.Builder(this)
             public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
             }
         })
+        .setExpanded(true)  // This will enable the scrolling animation
         .create();
 dialog.show();
 ```
 
 ### More options
+Enable scrolling animation same as Android L
+```java
+.setExpanded(true) // default is false, only works for grid and list
+```
+
 Select different holder.
 
 - Use ListView as content holder, note that this is default content type.
@@ -65,9 +75,9 @@ or pass view itself
 ```java
 View view = dialogPlus.getHolderView();
 ```
-- Set dialog position. BOTTOM (default), TOP or CENTER
+- Set dialog position. BOTTOM (default), TOP or CENTER. You can also combine other Gravity options.
 ```java
-.setGravity(DialogPlus.Gravity.CENTER)
+.setGravity(Gravity.CENTER)
 ```
 - Define if the dialog is cancelable and should be closed when back pressed or out of dialog is clicked
 ```java

@@ -4,15 +4,15 @@
      android:duration="@integer/animation_default_duration">
 
     <scale
-        android:fromXScale="100%"
-        android:toXScale="95%"
-        android:fromYScale="100%"
-        android:toYScale="95%"
-        android:pivotX="50%"
-        android:pivotY="50%"/>
+            android:fromXScale="100%"
+            android:toXScale="95%"
+            android:fromYScale="100%"
+            android:toYScale="95%"
+            android:pivotX="50%"
+            android:pivotY="50%"/>
 
     <alpha
-        android:fromAlpha="1"
-        android:toAlpha="0"/>
+            android:fromAlpha="1"
+            android:toAlpha="0"/>
 
 </set>
