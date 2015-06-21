@@ -16,15 +16,45 @@ public class ExpandTouchListener implements View.OnTouchListener {
 
     private final AbsListView absListView;
     private final View contentContainer;
+
+    /**
+     * This is used to determine top. status bar height is removed
+     */
     private final int displayHeight;
+
+    /**
+     * Default height for the holder
+     */
     private final int defaultContentHeight;
     private final GestureDetector gestureDetector;
     private final int gravity;
 
+    /**
+     * The last touch position in Y Axis
+     */
     private float y;
+
+    /**
+     * This is used to determine whether dialog reached to top or not.
+     */
     private boolean fullScreen;
+
+    /**
+     * This is used to determine whether the user swipes from down to top.
+     * touchUp is calculated by touch events
+     */
     private boolean touchUp;
+
+    /**
+     * This is used to determine whether the user swipes from down to top.
+     * scrollUp is calculated from gesture detector scroll event.
+     * This shouldn't be used for the touch events
+     */
     private boolean scrollUp;
+
+    /**
+     * Content container params, not the holder itself.
+     */
     private FrameLayout.LayoutParams params;
 
     public static ExpandTouchListener newListener(Context context, AbsListView listView, View container,
