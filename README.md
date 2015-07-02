@@ -117,7 +117,7 @@ or use view
 ```
 - Get the footer view
 ```java
-View view = dialogPlus.getHolderView();
+View view = dialogPlus.getFooterView();
 ```
 - Set the header view using the id of the layout resource
 ```java
@@ -129,7 +129,7 @@ or use view
 ```
 - Get the header view
 ```java
-View view = dialogPlus.getHolderView();
+View view = dialogPlus.getHeaderView();
 ```
 - Set animation resources
 ```java
