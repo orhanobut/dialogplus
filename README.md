@@ -20,7 +20,7 @@ Simple, easy dialog solution for android.
 
 ### Gradle
 ```groovy
-compile 'com.orhanobut:dialogplus:1.7@aar'
+compile 'com.orhanobut:dialogplus:1.8@aar'
 ```
 
 ### Usage
@@ -28,7 +28,7 @@ Use the builder to create the dialog.
 
 Basic usage
 ```java
-DialogPlus dialog = new DialogPlus.Builder(this)
+DialogPlus dialog = DialogPlus.newDialog(this)
         .setAdapter(adapter)
         .setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -44,6 +44,10 @@ dialog.show();
 Enable expand animation same as Android L share dialog
 ```java
 .setExpanded(true) // default is false, only works for grid and list
+```
+Set expand animation default height
+```java
+.setExpanded(true, 300)
 ```
 
 Select different holder.
@@ -136,9 +140,10 @@ View view = dialogPlus.getHeaderView();
 .setInAnimation(R.anim.abc_fade_in)
 .setOutAnimation(R.anim.abc_fade_out)
 ```
-- Set screen type to either fill the screen or only half
+- Set width and height for the content
 ```java
-.setScreenType(DialogPlus.ScreenType.FULL)
+.setContentWidth(ViewGroup.LayoutParams.WRAP_CONTENT)  // or any custom width ie: 300
+.setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
 ```
 
 - Dismiss Listener, triggered when the dialog is dismissed
