@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
@@ -88,9 +89,7 @@ public class MainActivity extends ActionBarActivity {
     View contentView = getLayoutInflater().inflate(R.layout.content2, null);
 
     DialogPlus dialogPlus = DialogPlus.newDialog(this)
-        .setContentHolder(new ViewHolder(contentView))
-        .setFooter(R.layout.footer)
-        .setHeader(R.layout.header)
+        .setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new String[]{"asdfa"}))
         .setCancelable(true)
         .setOnDismissListener(new OnDismissListener() {
           @Override
@@ -112,12 +111,6 @@ public class MainActivity extends ActionBarActivity {
         })
         .create();
 
-    View view = dialogPlus.getHolderView();
-    TextView textView = (TextView) view.findViewById(R.id.title);
-    textView.setText("test");
-
-    View headerView = dialogPlus.getHeaderView();
-    View footerView = dialogPlus.getFooterView();
     dialogPlus.show();
   }
 
