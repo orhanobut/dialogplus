@@ -269,7 +269,7 @@ public class DialogPlusBuilder {
     if (backgroundColorResourceId == INVALID) {
       backgroundColorResourceId = android.R.color.white;
     }
-    holder.setBackgroundColor(backgroundColorResourceId);
+    getHolder().setBackgroundColor(backgroundColorResourceId);
   }
 
   public View getFooterView() {
@@ -281,6 +281,9 @@ public class DialogPlusBuilder {
   }
 
   public Holder getHolder() {
+    if (holder == null) {
+      holder = new ListHolder();
+    }
     return holder;
   }
 

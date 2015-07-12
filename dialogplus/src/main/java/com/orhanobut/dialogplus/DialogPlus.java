@@ -84,7 +84,7 @@ public class DialogPlus {
 
     Activity activity = (Activity) builder.getContext();
 
-    holder = getHolder(builder.getHolder());
+    holder = builder.getHolder();
 
     onItemClickListener = builder.getOnItemClickListener();
     onClickListener = builder.getOnClickListener();
@@ -321,19 +321,6 @@ public class DialogPlus {
         onClickListener.onClick(DialogPlus.this, v);
       }
     });
-  }
-
-  /**
-   * It is used to create content
-   *
-   * @param holder the holder from the builder
-   * @return ListHolder if setContentHolder is not called
-   */
-  private Holder getHolder(Holder holder) {
-    if (holder == null) {
-      holder = new ListHolder();
-    }
-    return holder;
   }
 
   /**
