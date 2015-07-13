@@ -106,7 +106,6 @@ View view = dialogPlus.getHolderView();
 ```java
 .setMargins(left, top, right, bottom)
 ```
-```
 - Set padding to the holder
 ```java
 .setPadding(left, top, right, bottom)
