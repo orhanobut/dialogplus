@@ -252,7 +252,7 @@ public class DialogPlus {
    * @param inflater used to inflate the content of the dialog
    * @return any view which is passed
    */
-  private View createView(LayoutInflater inflater, View footerView, View headerView, BaseAdapter adapter) {
+  private View createView(LayoutInflater inflater, View headerView, View footerView, BaseAdapter adapter) {
     View view = holder.getView(inflater, rootView);
 
     if (holder instanceof ViewHolder) {
