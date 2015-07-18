@@ -20,7 +20,7 @@ Simple, easy dialog solution for android.
 
 ### Gradle
 ```groovy
-compile 'com.orhanobut:dialogplus:1.9@aar'
+compile 'com.orhanobut:dialogplus:1.10@aar'
 ```
 
 ### Usage
@@ -29,14 +29,14 @@ Use the builder to create the dialog.
 Basic usage
 ```java
 DialogPlus dialog = DialogPlus.newDialog(this)
-        .setAdapter(adapter)
-        .setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-            }
-        })
-        .setExpanded(true)  // This will enable the expand feature, (similar to android L share dialog)
-        .create();
+    .setAdapter(adapter)
+    .setOnItemClickListener(new OnItemClickListener() {
+        @Override
+        public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+        }
+    })
+    .setExpanded(true)  // This will enable the expand feature, (similar to android L share dialog)
+    .create();
 dialog.show();
 ```
 
