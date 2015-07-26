@@ -7,10 +7,6 @@ android:
   licenses:
     - 'android-sdk-license-.+'
 
-jdk:
-  - oraclejdk7
-  - oraclejdk8
-
 notifications:
   email: true
 
