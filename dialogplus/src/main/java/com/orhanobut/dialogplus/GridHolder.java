@@ -62,7 +62,7 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
   public View getView(LayoutInflater inflater, ViewGroup parent) {
     View view = inflater.inflate(R.layout.dialog_grid, parent, false);
     gridView = (GridView) view.findViewById(R.id.list);
-    gridView.setBackgroundColor(parent.getResources().getColor(backgroundColor));
+    gridView.setBackgroundColor(parent.getResources().getColor(getBackgroundColor()));
     gridView.setNumColumns(columnNumber);
     gridView.setOnItemClickListener(this);
     gridView.setOnKeyListener(new View.OnKeyListener() {
@@ -106,6 +106,16 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
 
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    if (listener == null) {
+      return;
+    }
     listener.onItemClick(parent.getItemAtPosition(position), view, position);
+  }
+
+  private int getBackgroundColor() {
+    if (backgroundColor == 0) {
+      backgroundColor = android.R.color.white;
+    }
+    return backgroundColor;
   }
 }
