@@ -54,6 +54,9 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
   public View getView(LayoutInflater inflater, ViewGroup parent) {
     View view = inflater.inflate(R.layout.dialog_list, parent, false);
     listView = (ListView) view.findViewById(R.id.list);
+    if (backgroundColor == 0) {
+      backgroundColor = android.R.color.white;
+    }
     listView.setBackgroundColor(parent.getResources().getColor(backgroundColor));
     listView.setOnItemClickListener(this);
     listView.setOnKeyListener(new View.OnKeyListener() {
@@ -95,6 +98,9 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
 
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    if (listener == null) {
+      return;
+    }
     listener.onItemClick(parent.getItemAtPosition(position), view, position);
   }
 }

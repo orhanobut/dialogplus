@@ -307,7 +307,7 @@ public class DialogPlusBuilder {
 
   public FrameLayout.LayoutParams getContentParams() {
     if (expanded) {
-      params.height = defaultContentHeight;
+      params.height = getDefaultContentHeight();
     }
     return params;
   }
