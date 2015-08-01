@@ -11,3 +11,6 @@ notifications:
   email: true
 
 sudo: false
+
+script:
+- ./gradlew test
