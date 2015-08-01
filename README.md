@@ -2,7 +2,7 @@
 
 DialogPlus
 ==========
-Simple, easy dialog solution for android.
+Simple, easy dialog solution for android. test
 
 <img src='https://github.com/nr4bt/dialogplus/blob/master/art/dialogplus.gif' height='400'/> <img src='https://github.com/nr4bt/dialogplus/blob/master/art/dialogplusanim.gif' height='400'/>
 
