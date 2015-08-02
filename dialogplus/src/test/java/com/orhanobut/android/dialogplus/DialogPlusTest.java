@@ -17,6 +17,8 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * @author Orhan Obut
  */
@@ -34,25 +36,26 @@ public class DialogPlusTest extends TestCase {
   public void testDialogCreate() {
     DialogPlus dialog = DialogPlus.newDialog(context).create();
     dialog.show();
+    assertTrue(true);
   }
 
   @Test
   public void testIsShowing() {
     DialogPlus dialog = DialogPlus.newDialog(context).create();
-    assertFalse(dialog.isShowing());
+    assertThat(dialog.isShowing()).isFalse();
     dialog.show();
-    assertTrue(dialog.isShowing());
+    assertThat(dialog.isShowing()).isTrue();
     dialog.dismiss();
-    assertFalse(dialog.isShowing());
+    assertThat(dialog.isShowing()).isFalse();
   }
 
   @Test
   public void testDismiss() {
     DialogPlus dialog = DialogPlus.newDialog(context).create();
     dialog.dismiss();
-    assertFalse(dialog.isShowing());
+    assertThat(dialog.isShowing()).isFalse();
     dialog.show();
-    assertTrue(dialog.isShowing());
+    assertThat(dialog.isShowing()).isTrue();
     dialog.dismiss();
     //TODO wait for dismiss
   }
@@ -68,7 +71,7 @@ public class DialogPlusTest extends TestCase {
         .setContentHolder(new ViewHolder(layout))
         .create();
 
-    assertNotNull(dialog.findViewById(android.R.id.text1));
+    assertThat(dialog.findViewById(android.R.id.text1)).isNotNull();
   }
 
   @Test
@@ -81,7 +84,7 @@ public class DialogPlusTest extends TestCase {
         .setHeader(header)
         .create();
 
-    assertEquals(header, dialog.getHeaderView());
+    assertThat(dialog.getHeaderView()).isEqualTo(header);
   }
 
   @Test
@@ -94,7 +97,7 @@ public class DialogPlusTest extends TestCase {
         .setFooter(footer)
         .create();
 
-    assertEquals(footer, dialog.getFooterView());
+    assertThat(dialog.getFooterView()).isEqualTo(footer);
   }
 
   @Test
@@ -105,6 +108,6 @@ public class DialogPlusTest extends TestCase {
         .setContentHolder(new ViewHolder(layout))
         .create();
 
-    assertEquals(layout, dialog.getHolderView());
+    assertThat(dialog.getHolderView()).isEqualTo(layout);
   }
 }

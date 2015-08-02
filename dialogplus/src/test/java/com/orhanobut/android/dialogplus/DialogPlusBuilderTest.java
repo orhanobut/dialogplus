@@ -30,6 +30,8 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * @author Orhan Obut
  */
@@ -49,21 +51,19 @@ public class DialogPlusBuilderTest extends TestCase {
       DialogPlus.newDialog(null);
       fail();
     } catch (Exception e) {
-      if (e instanceof NullPointerException) {
-        assertTrue(true);
-      } else {
-        fail();
-      }
+      assertThat(e).hasMessage("Context may not be null");
     }
 
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
-    assertNotNull(builder);
+
+    assertThat(builder).isNotNull();
   }
 
   @Test
   public void getContext_shouldNotReturnNull() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
-    assertNotNull(builder.getContext());
+
+    assertThat(builder.getContext()).isNotNull();
   }
 
   @Test
@@ -72,7 +72,7 @@ public class DialogPlusBuilderTest extends TestCase {
       DialogPlus.newDialog(context).setAdapter(null);
       fail();
     } catch (Exception e) {
-      assertTrue(true);
+      assertThat(e).hasMessage("Adapter may not be null");
     }
   }
 
@@ -82,36 +82,39 @@ public class DialogPlusBuilderTest extends TestCase {
         context, android.R.layout.simple_list_item_1, new String[]{"234"}
     );
     DialogPlusBuilder builder = DialogPlus.newDialog(context).setAdapter(adapter);
-    assertEquals(adapter, builder.getAdapter());
+
+    assertThat(builder.getAdapter()).isEqualTo(adapter);
   }
 
   @Test
   public void testFooter() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
     builder.setFooter(android.R.layout.simple_list_item_1);
-    assertNotNull(builder.getFooterView());
+
+    assertThat(builder.getFooterView()).isNotNull();
 
     LinearLayout footerView = new LinearLayout(context);
     builder.setFooter(footerView);
-    assertEquals(footerView, builder.getFooterView());
+
+    assertThat(builder.getFooterView()).isEqualTo(footerView);
   }
 
   @Test
   public void testHeader() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
     builder.setHeader(android.R.layout.simple_list_item_1);
-    assertNotNull(builder.getHeaderView());
+    assertThat(builder.getHeaderView()).isNotNull();
 
     LinearLayout headerView = new LinearLayout(context);
     builder.setHeader(headerView);
-    assertEquals(headerView, builder.getHeaderView());
+    assertThat(builder.getHeaderView()).isEqualTo(headerView);
   }
 
   @Test
   public void getHolder_shouldBeListHolderAsDefault() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
-    assertNotNull(builder.getHolder());
-    assertTrue(builder.getHolder() instanceof ListHolder);
+    assertThat(builder.getHolder()).isNotNull();
+    assertThat(builder.getHolder()).isInstanceOf(ListHolder.class);
   }
 
   @Test
@@ -121,17 +124,17 @@ public class DialogPlusBuilderTest extends TestCase {
     //Test ListHolder
     ListHolder listHolder = new ListHolder();
     builder.setContentHolder(listHolder);
-    assertEquals(listHolder, builder.getHolder());
+    assertThat(builder.getHolder()).isEqualTo(listHolder);
 
     //test GridHolder
     GridHolder gridHolder = new GridHolder(3);
     builder.setContentHolder(gridHolder);
-    assertEquals(gridHolder, builder.getHolder());
+    assertThat(builder.getHolder()).isEqualTo(gridHolder);
 
     //test ViewHolder
     ViewHolder viewHolder = new ViewHolder(new LinearLayout(context));
     builder.setContentHolder(viewHolder);
-    assertEquals(viewHolder, builder.getHolder());
+    assertThat(builder.getHolder()).isEqualTo(viewHolder);
 
     //should accept null
     builder.setContentHolder(null);
@@ -142,10 +145,10 @@ public class DialogPlusBuilderTest extends TestCase {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
 
     //default should be true
-    assertEquals(true, builder.isCancelable());
+    assertThat(builder.isCancelable()).isTrue();
 
     builder.setCancelable(false);
-    assertEquals(false, builder.isCancelable());
+    assertThat(builder.isCancelable()).isFalse();
   }
 
   @Test
@@ -159,70 +162,70 @@ public class DialogPlusBuilderTest extends TestCase {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
     //default should be bottom
     FrameLayout.LayoutParams params = builder.getContentParams();
-    assertEquals(Gravity.BOTTOM, params.gravity);
+    assertThat(params.gravity).isEqualTo(Gravity.BOTTOM);
 
     // set different gravity
     builder.setGravity(Gravity.TOP);
-    assertEquals(Gravity.TOP, params.gravity);
+    assertThat(params.gravity).isEqualTo(Gravity.TOP);
 
     //set combination
     builder.setGravity(Gravity.TOP | Gravity.CENTER);
-    assertEquals(Gravity.TOP | Gravity.CENTER, params.gravity);
+    assertThat(params.gravity).isEqualTo(Gravity.TOP | Gravity.CENTER);
   }
 
   @Test
   public void testInAnimation() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
-    assertNotNull(builder.getInAnimation());
+    assertThat(builder.getInAnimation()).isNotNull();
     //TODO
   }
 
   @Test
   public void testOutAnimation() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
-    assertNotNull(builder.getOutAnimation());
+    assertThat(builder.getOutAnimation()).isNotNull();
     //TODO
   }
 
   @Test
   public void testContentLayoutParams_whenExpandedFalseAndNotSet() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
-    assertTrue(builder.getContentParams() instanceof FrameLayout.LayoutParams);
+    assertThat(builder.getContentParams()).isInstanceOf(FrameLayout.LayoutParams.class);
 
     //when not expanded
     FrameLayout.LayoutParams params = builder.getContentParams();
-    assertEquals(false, builder.isExpanded());
-    assertEquals(ViewGroup.LayoutParams.MATCH_PARENT, params.width);
-    assertEquals(ViewGroup.LayoutParams.WRAP_CONTENT, params.height);
-    assertEquals(Gravity.BOTTOM, params.gravity);
+    assertThat(builder.isExpanded()).isFalse();
+    assertThat(params.width).isEqualTo(ViewGroup.LayoutParams.MATCH_PARENT);
+    assertThat(params.height).isEqualTo(ViewGroup.LayoutParams.WRAP_CONTENT);
+    assertThat(params.gravity).isEqualTo(Gravity.BOTTOM);
   }
 
   @Test
   public void testContentLayoutParams_whenExpandedTrueAndNotSet() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
     builder.setExpanded(true);
-    assertTrue(builder.getContentParams() instanceof FrameLayout.LayoutParams);
+    assertThat(builder.getContentParams()).isInstanceOf(FrameLayout.LayoutParams.class);
 
     //when not expanded
     FrameLayout.LayoutParams params = builder.getContentParams();
-    assertEquals(true, builder.isExpanded());
-    assertEquals(ViewGroup.LayoutParams.MATCH_PARENT, params.width);
-    assertEquals(builder.getDefaultContentHeight(), params.height);
-    assertEquals(Gravity.BOTTOM, params.gravity);
+    assertThat(builder.isExpanded()).isTrue();
+    assertThat(params.width).isEqualTo(ViewGroup.LayoutParams.MATCH_PARENT);
+    assertThat(params.height).isEqualTo(builder.getDefaultContentHeight());
+    assertThat(params.gravity).isEqualTo(Gravity.BOTTOM);
   }
 
   @Test
   public void testContentLayoutParams_whenExpandedTrueWithHeightAndNotSet() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
     builder.setExpanded(true, 100);
-    assertTrue(builder.getContentParams() instanceof FrameLayout.LayoutParams);
+    assertThat(builder.getContentParams()).isInstanceOf(FrameLayout.LayoutParams.class);
 
     //when not expanded
     FrameLayout.LayoutParams params = builder.getContentParams();
-    assertEquals(true, builder.isExpanded());
-    assertEquals(ViewGroup.LayoutParams.MATCH_PARENT, params.width);
-    assertEquals(100, params.height);
-    assertEquals(Gravity.BOTTOM, params.gravity);
+    assertThat(builder.isExpanded()).isTrue();
+    assertThat(params.width).isEqualTo(ViewGroup.LayoutParams.MATCH_PARENT);
+    assertThat(params.height).isEqualTo(100);
+    assertThat(params.gravity).isEqualTo(Gravity.BOTTOM);
   }
 
   @Test
@@ -230,10 +233,10 @@ public class DialogPlusBuilderTest extends TestCase {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
 
     //default should be false
-    assertFalse(builder.isExpanded());
+    assertThat(builder.isExpanded()).isFalse();
 
     builder.setExpanded(true);
-    assertTrue(builder.isExpanded());
+    assertThat(builder.isExpanded()).isTrue();
   }
 
   @Test
@@ -241,22 +244,22 @@ public class DialogPlusBuilderTest extends TestCase {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
     FrameLayout.LayoutParams params = builder.getOutmostLayoutParams();
 
-    assertEquals(ViewGroup.LayoutParams.MATCH_PARENT, params.width);
-    assertEquals(ViewGroup.LayoutParams.MATCH_PARENT, params.height);
+    assertThat(params.width).isEqualTo(ViewGroup.LayoutParams.MATCH_PARENT);
+    assertThat(params.height).isEqualTo(ViewGroup.LayoutParams.MATCH_PARENT);
 
     // default should be 0 for all
-    assertEquals(0, params.leftMargin);
-    assertEquals(0, params.rightMargin);
-    assertEquals(0, params.topMargin);
-    assertEquals(0, params.bottomMargin);
+    assertThat(params.leftMargin).isEqualTo(0);
+    assertThat(params.rightMargin).isEqualTo(0);
+    assertThat(params.topMargin).isEqualTo(0);
+    assertThat(params.bottomMargin).isEqualTo(0);
 
     //set new margin
     builder.setOutMostMargin(1, 2, 3, 4);
     params = builder.getOutmostLayoutParams();
-    assertEquals(1, params.leftMargin);
-    assertEquals(2, params.topMargin);
-    assertEquals(3, params.rightMargin);
-    assertEquals(4, params.bottomMargin);
+    assertThat(params.leftMargin).isEqualTo(1);
+    assertThat(params.topMargin).isEqualTo(2);
+    assertThat(params.rightMargin).isEqualTo(3);
+    assertThat(params.bottomMargin).isEqualTo(4);
   }
 
   @Test
@@ -266,20 +269,20 @@ public class DialogPlusBuilderTest extends TestCase {
 
     int minimumMargin = context.getResources().getDimensionPixelSize(R.dimen.default_center_margin);
     int[] margin = builder.getContentMargin();
-    assertEquals(minimumMargin, margin[0]);
-    assertEquals(minimumMargin, margin[1]);
-    assertEquals(minimumMargin, margin[2]);
-    assertEquals(minimumMargin, margin[3]);
+    assertThat(margin[0]).isEqualTo(minimumMargin);
+    assertThat(margin[1]).isEqualTo(minimumMargin);
+    assertThat(margin[2]).isEqualTo(minimumMargin);
+    assertThat(margin[3]).isEqualTo(minimumMargin);
   }
 
   @Test
   public void testDefaultContentMarginWhenGravityIsNotCenter() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
     int[] margin = builder.getContentMargin();
-    assertEquals(0, margin[0]);
-    assertEquals(0, margin[1]);
-    assertEquals(0, margin[2]);
-    assertEquals(0, margin[3]);
+    assertThat(margin[0]).isEqualTo(0);
+    assertThat(margin[1]).isEqualTo(0);
+    assertThat(margin[2]).isEqualTo(0);
+    assertThat(margin[3]).isEqualTo(0);
   }
 
   @Test
@@ -287,10 +290,10 @@ public class DialogPlusBuilderTest extends TestCase {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
     builder.setMargin(1, 2, 3, 4);
     int[] margin = builder.getContentMargin();
-    assertEquals(1, margin[0]);
-    assertEquals(2, margin[1]);
-    assertEquals(3, margin[2]);
-    assertEquals(4, margin[3]);
+    assertThat(margin[0]).isEqualTo(1);
+    assertThat(margin[1]).isEqualTo(2);
+    assertThat(margin[2]).isEqualTo(3);
+    assertThat(margin[3]).isEqualTo(4);
   }
 
   @Test
@@ -299,18 +302,18 @@ public class DialogPlusBuilderTest extends TestCase {
 
     //default 0
     int[] padding = builder.getContentPadding();
-    assertEquals(0, padding[0]);
-    assertEquals(0, padding[1]);
-    assertEquals(0, padding[2]);
-    assertEquals(0, padding[3]);
+    assertThat(padding[0]).isEqualTo(0);
+    assertThat(padding[1]).isEqualTo(0);
+    assertThat(padding[2]).isEqualTo(0);
+    assertThat(padding[3]).isEqualTo(0);
 
 
     builder.setPadding(1, 2, 3, 4);
     padding = builder.getContentPadding();
-    assertEquals(1, padding[0]);
-    assertEquals(2, padding[1]);
-    assertEquals(3, padding[2]);
-    assertEquals(4, padding[3]);
+    assertThat(padding[0]).isEqualTo(1);
+    assertThat(padding[1]).isEqualTo(2);
+    assertThat(padding[2]).isEqualTo(3);
+    assertThat(padding[3]).isEqualTo(4);
   }
 
   @Test
@@ -319,7 +322,7 @@ public class DialogPlusBuilderTest extends TestCase {
     builder.setContentWidth(100);
 
     FrameLayout.LayoutParams params = builder.getContentParams();
-    assertEquals(100, params.width);
+    assertThat(params.width).isEqualTo(100);
   }
 
   @Test
@@ -328,13 +331,13 @@ public class DialogPlusBuilderTest extends TestCase {
     builder.setContentHeight(100);
 
     FrameLayout.LayoutParams params = builder.getContentParams();
-    assertEquals(100, params.height);
+    assertThat(params.height).isEqualTo(100);
   }
 
   @Test
   public void testSetOnClickListener() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
-    assertNull(builder.getOnClickListener());
+    assertThat(builder.getOnClickListener()).isNull();
 
     OnClickListener clickListener = new OnClickListener() {
       @Override
@@ -343,14 +346,14 @@ public class DialogPlusBuilderTest extends TestCase {
       }
     };
     builder.setOnClickListener(clickListener);
-    assertNotNull(builder.getOnClickListener());
-    assertEquals(clickListener, builder.getOnClickListener());
+    assertThat(builder.getOnClickListener()).isNotNull();
+    assertThat(builder.getOnClickListener()).isEqualTo(clickListener);
   }
 
   @Test
   public void testSetOnItemClickListener() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
-    assertNull(builder.getOnItemClickListener());
+    assertThat(builder.getOnItemClickListener()).isNull();
 
     OnItemClickListener listener = new OnItemClickListener() {
       @Override
@@ -359,14 +362,14 @@ public class DialogPlusBuilderTest extends TestCase {
       }
     };
     builder.setOnItemClickListener(listener);
-    assertNotNull(builder.getOnItemClickListener());
-    assertEquals(listener, builder.getOnItemClickListener());
+    assertThat(builder.getOnItemClickListener()).isNotNull();
+    assertThat(builder.getOnItemClickListener()).isEqualTo(listener);
   }
 
   @Test
   public void testSetOnDismissListener() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
-    assertNull(builder.getOnDismissListener());
+    assertThat(builder.getOnDismissListener()).isNull();
 
     OnDismissListener listener = new OnDismissListener() {
       @Override
@@ -375,14 +378,14 @@ public class DialogPlusBuilderTest extends TestCase {
       }
     };
     builder.setOnDismissListener(listener);
-    assertNotNull(builder.getOnDismissListener());
-    assertEquals(listener, builder.getOnDismissListener());
+    assertThat(builder.getOnDismissListener()).isNotNull();
+    assertThat(builder.getOnDismissListener()).isEqualTo(listener);
   }
 
   @Test
   public void testSetOnCancelListener() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
-    assertNull(builder.getOnCancelListener());
+    assertThat(builder.getOnCancelListener()).isNull();
 
     OnCancelListener listener = new OnCancelListener() {
       @Override
@@ -391,14 +394,14 @@ public class DialogPlusBuilderTest extends TestCase {
       }
     };
     builder.setOnCancelListener(listener);
-    assertNotNull(builder.getOnCancelListener());
-    assertEquals(listener, builder.getOnCancelListener());
+    assertThat(builder.getOnCancelListener()).isNotNull();
+    assertThat(builder.getOnCancelListener()).isEqualTo(listener);
   }
 
   @Test
   public void testSetOnBackPressListener() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
-    assertNull(builder.getOnBackPressListener());
+    assertThat(builder.getOnBackPressListener()).isNull();
 
     OnBackPressListener listener = new OnBackPressListener() {
       @Override
@@ -407,14 +410,14 @@ public class DialogPlusBuilderTest extends TestCase {
       }
     };
     builder.setOnBackPressListener(listener);
-    assertNotNull(builder.getOnBackPressListener());
-    assertEquals(listener, builder.getOnBackPressListener());
+    assertThat(builder.getOnBackPressListener()).isNotNull();
+    assertThat(builder.getOnBackPressListener()).isEqualTo(listener);
   }
 
   @Test
   public void create_shouldNotReturnNull() {
     DialogPlusBuilder builder = DialogPlus.newDialog(context);
-    assertNotNull(builder.create());
+    assertThat(builder.create()).isNotNull();
   }
 
 }

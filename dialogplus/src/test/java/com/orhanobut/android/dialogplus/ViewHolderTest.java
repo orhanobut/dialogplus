@@ -19,6 +19,8 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * @author Orhan Obut
  */
@@ -42,8 +44,8 @@ public class ViewHolderTest extends TestCase {
 
   @Test
   public void init() {
-    assertTrue(getHolder() instanceof Holder);
-    assertNotNull(getHolder());
+    assertThat(getHolder()).isInstanceOf(Holder.class);
+    assertThat(getHolder()).isNotNull();
   }
 
   @Test
@@ -53,32 +55,32 @@ public class ViewHolderTest extends TestCase {
     LayoutInflater layoutInflater = LayoutInflater.from(context);
     View view = holder.getView(layoutInflater, new LinearLayout(context));
 
-    assertNotNull(view);
-    assertEquals(contentView, holder.getInflatedView());
+    assertThat(view).isNotNull();
+    assertThat(holder.getInflatedView()).isEqualTo(contentView);
   }
 
   @Test
   public void testFooter() {
     ViewHolder holder = getHolder();
 
-    assertNull(holder.getFooter());
+    assertThat(holder.getFooter()).isNull();
 
     View footer = new LinearLayout(context);
     holder.addFooter(footer);
 
-    assertEquals(footer, holder.getFooter());
+    assertThat(holder.getFooter()).isEqualTo(footer);
   }
 
   @Test
   public void testHeader() {
     ViewHolder holder = getHolder();
 
-    assertNull(holder.getHeader());
+    assertThat(holder.getHeader()).isNull();
 
     View header = new LinearLayout(context);
     holder.addHeader(header);
 
-    assertEquals(header, holder.getHeader());
+    assertThat(holder.getHeader()).isEqualTo(header);
   }
 
 }

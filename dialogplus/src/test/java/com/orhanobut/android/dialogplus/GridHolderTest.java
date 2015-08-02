@@ -23,6 +23,8 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * @author Orhan Obut
  */
@@ -46,8 +48,8 @@ public class GridHolderTest extends TestCase {
 
   @Test
   public void init() {
-    assertTrue(getHolder() instanceof HolderAdapter);
-    assertNotNull(getHolder());
+    assertThat(getHolder()).isInstanceOf(HolderAdapter.class);
+    assertThat(getHolder()).isNotNull();
   }
 
   @Test
@@ -56,35 +58,35 @@ public class GridHolderTest extends TestCase {
     LayoutInflater layoutInflater = LayoutInflater.from(context);
     View view = holder.getView(layoutInflater, new LinearLayout(context));
 
-    assertNotNull(view);
-    assertEquals(R.id.list, holder.getInflatedView().getId());
+    assertThat(view).isNotNull();
+    assertThat(holder.getInflatedView().getId()).isEqualTo(R.id.list);
 
     GridView gridView = (GridView) holder.getInflatedView();
-    assertTrue(gridView.getOnItemClickListener() instanceof GridHolder);
+    assertThat(gridView.getOnItemClickListener()).isInstanceOf(GridHolder.class);
   }
 
   @Test
   public void testFooter() {
     GridHolder holder = getHolder();
 
-    assertNull(holder.getFooter());
+    assertThat(holder.getFooter()).isNull();
 
     View footer = new LinearLayout(context);
     holder.addFooter(footer);
 
-    assertEquals(footer, holder.getFooter());
+    assertThat(holder.getFooter()).isEqualTo(footer);
   }
 
   @Test
   public void testHeader() {
     GridHolder holder = getHolder();
 
-    assertNull(holder.getHeader());
+    assertThat(holder.getHeader()).isNull();
 
     View header = new LinearLayout(context);
     holder.addHeader(header);
 
-    assertEquals(header, holder.getHeader());
+    assertThat(holder.getHeader()).isEqualTo(header);
   }
 
   @Test
@@ -107,9 +109,9 @@ public class GridHolderTest extends TestCase {
     holder.setOnItemClickListener(new OnHolderListener() {
       @Override
       public void onItemClick(Object item, View view, int position) {
-        assertEquals("test", String.valueOf(item));
-        assertEquals(0, position);
-        assertEquals(null, view);
+        assertThat(String.valueOf(item)).isEqualTo("test");
+        assertThat(position).isEqualTo(0);
+        assertThat(view).isNull();
       }
     });
     view.performItemClick(null, 0, 0);
