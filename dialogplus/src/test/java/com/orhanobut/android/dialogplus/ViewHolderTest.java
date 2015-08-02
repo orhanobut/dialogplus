@@ -12,7 +12,6 @@ import com.orhanobut.dialogplus.ViewHolder;
 
 import junit.framework.TestCase;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -28,10 +27,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Config(constants = BuildConfig.class, sdk = 18)
 public class ViewHolderTest extends TestCase {
 
-  private Context context;
+  private final Context context;
 
-  @Before
-  public void setup() {
+  public ViewHolderTest() {
     context = Robolectric.buildActivity(Activity.class).create().get();
   }
 
