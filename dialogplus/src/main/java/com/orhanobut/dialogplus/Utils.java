@@ -31,7 +31,7 @@ final class Utils {
   }
 
   static boolean listIsAtTop(AbsListView listView) {
-    return listView.getChildCount() == 0 || listView.getChildAt(0).getTop() == 0;
+    return listView.getChildCount() == 0 || listView.getChildAt(0).getTop() == listView.getPaddingTop();
   }
 
   /**
