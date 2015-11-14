@@ -104,6 +104,7 @@ public class DialogPlus {
 
     contentContainer = (ViewGroup) rootView.findViewById(R.id.content_container);
     contentContainer.setLayoutParams(builder.getContentParams());
+    contentContainer.setBackgroundResource(builder.getBackgroundColorResourceId());
 
     outAnim = builder.getOutAnimation();
     inAnim = builder.getInAnimation();
