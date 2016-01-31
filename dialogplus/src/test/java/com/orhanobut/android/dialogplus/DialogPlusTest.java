@@ -9,8 +9,7 @@ import com.orhanobut.dialogplus.BuildConfig;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -19,28 +18,22 @@ import org.robolectric.annotation.Config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * @author Orhan Obut
- */
 @RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 18)
-public class DialogPlusTest extends TestCase {
+@Config(constants = BuildConfig.class, sdk = 21)
+public class DialogPlusTest {
 
-  private final Context context;
+  Context context;
 
-  public DialogPlusTest() {
-    context = Robolectric.buildActivity(Activity.class).create().get();
+  @Before public void setup() {
+    context = Robolectric.setupActivity(Activity.class);
   }
 
-  @Test
-  public void testDialogCreate() {
+  @Test public void testDialogCreate() {
     DialogPlus dialog = DialogPlus.newDialog(context).create();
     dialog.show();
-    assertTrue(true);
   }
 
-  @Test
-  public void testIsShowing() {
+  @Test public void testIsShowing() {
     DialogPlus dialog = DialogPlus.newDialog(context).create();
     assertThat(dialog.isShowing()).isFalse();
     dialog.show();
@@ -49,8 +42,7 @@ public class DialogPlusTest extends TestCase {
     assertThat(dialog.isShowing()).isFalse();
   }
 
-  @Test
-  public void testDismiss() {
+  @Test public void testDismiss() {
     DialogPlus dialog = DialogPlus.newDialog(context).create();
     dialog.dismiss();
     assertThat(dialog.isShowing()).isFalse();
@@ -60,8 +52,7 @@ public class DialogPlusTest extends TestCase {
     //TODO wait for dismiss
   }
 
-  @Test
-  public void testFindViewById() {
+  @Test public void testFindViewById() {
     LinearLayout layout = new LinearLayout(context);
     TextView textView = new TextView(context);
     textView.setId(android.R.id.text1);
@@ -74,8 +65,7 @@ public class DialogPlusTest extends TestCase {
     assertThat(dialog.findViewById(android.R.id.text1)).isNotNull();
   }
 
-  @Test
-  public void testGetHeaderView() {
+  @Test public void testGetHeaderView() {
     LinearLayout layout = new LinearLayout(context);
     LinearLayout header = new LinearLayout(context);
 
@@ -87,8 +77,7 @@ public class DialogPlusTest extends TestCase {
     assertThat(dialog.getHeaderView()).isEqualTo(header);
   }
 
-  @Test
-  public void testGetFooterView() {
+  @Test public void testGetFooterView() {
     LinearLayout layout = new LinearLayout(context);
     LinearLayout footer = new LinearLayout(context);
 
@@ -100,8 +89,7 @@ public class DialogPlusTest extends TestCase {
     assertThat(dialog.getFooterView()).isEqualTo(footer);
   }
 
-  @Test
-  public void testGetHolderView() {
+  @Test public void testGetHolderView() {
     LinearLayout layout = new LinearLayout(context);
 
     DialogPlus dialog = DialogPlus.newDialog(context)

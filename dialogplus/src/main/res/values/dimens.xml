@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-  <dimen name="default_center_margin">16dp</dimen>
+  <dimen name="dialogplus_default_center_margin">16dp</dimen>
 </resources>

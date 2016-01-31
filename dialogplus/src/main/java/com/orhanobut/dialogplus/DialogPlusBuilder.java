@@ -13,9 +13,6 @@ import android.widget.FrameLayout;
 
 import java.util.Arrays;
 
-/**
- * @author Orhan Obut
- */
 public class DialogPlusBuilder {
   private static final int INVALID = -1;
 
@@ -39,13 +36,14 @@ public class DialogPlusBuilder {
   private OnBackPressListener onBackPressListener;
 
   private boolean isCancelable = true;
-  private int backgroundColorResourceId = INVALID;
+  private int contentBackgroundResource = android.R.color.white;
   private int headerViewResourceId = INVALID;
   private int footerViewResourceId = INVALID;
   private int inAnimation = INVALID;
   private int outAnimation = INVALID;
   private boolean expanded;
   private int defaultContentHeight;
+  private int overlayBackgroundResource = R.color.dialogplus_black_overlay;
 
   private DialogPlusBuilder() {
   }
@@ -121,10 +119,22 @@ public class DialogPlusBuilder {
   }
 
   /**
+   * Use setBackgroundResource
+   */
+  @Deprecated public DialogPlusBuilder setBackgroundColorResId(int resourceId) {
+    return setContentBackgroundResource(resourceId);
+  }
+
+  /**
    * Set background color for your dialog. If no resource is passed 'white' will be used
    */
-  public DialogPlusBuilder setBackgroundColorResourceId(int resourceId) {
-    this.backgroundColorResourceId = resourceId;
+  public DialogPlusBuilder setContentBackgroundResource(int resourceId) {
+    this.contentBackgroundResource = resourceId;
+    return this;
+  }
+
+  public DialogPlusBuilder setOverlayBackgroundResource(int resourceId) {
+    this.overlayBackgroundResource = resourceId;
     return this;
   }
 
@@ -162,21 +172,6 @@ public class DialogPlusBuilder {
     this.outMostMargin[1] = top;
     this.outMostMargin[2] = right;
     this.outMostMargin[3] = bottom;
-    return this;
-  }
-
-  /**
-   * Add margins to your dialog. They are set to 0 except when gravity is center. In that case basic margins
-   * are applied
-   * <p/>
-   * Use {@code setMargin}
-   */
-  @Deprecated
-  public DialogPlusBuilder setMargins(int left, int top, int right, int bottom) {
-    this.margin[0] = left;
-    this.margin[1] = top;
-    this.margin[2] = right;
-    this.margin[3] = bottom;
     return this;
   }
 
@@ -261,15 +256,8 @@ public class DialogPlusBuilder {
    * Create the dialog using this builder
    */
   public DialogPlus create() {
-    init();
+    getHolder().setBackgroundResource(getContentBackgroundResource());
     return new DialogPlus(this);
-  }
-
-  private void init() {
-    if (backgroundColorResourceId == INVALID) {
-      backgroundColorResourceId = android.R.color.white;
-    }
-    getHolder().setBackgroundColor(backgroundColorResourceId);
   }
 
   public View getFooterView() {
@@ -349,7 +337,7 @@ public class DialogPlusBuilder {
   }
 
   public int[] getContentMargin() {
-    int minimumMargin = context.getResources().getDimensionPixelSize(R.dimen.default_center_margin);
+    int minimumMargin = context.getResources().getDimensionPixelSize(R.dimen.dialogplus_default_center_margin);
     for (int i = 0; i < margin.length; i++) {
       margin[i] = getMargin(this.gravity, margin[i], minimumMargin);
     }
@@ -368,6 +356,14 @@ public class DialogPlusBuilder {
       defaultContentHeight = (displayHeight * 2) / 5;
     }
     return defaultContentHeight;
+  }
+
+  public int getOverlayBackgroundResource() {
+    return overlayBackgroundResource;
+  }
+
+  public int getContentBackgroundResource() {
+    return contentBackgroundResource;
   }
 
   /**

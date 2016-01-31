@@ -7,12 +7,13 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.widget.AbsListView;
 
-/**
- * @author Orhan Obut
- */
 final class Utils {
 
   private static final int INVALID = -1;
+
+  private Utils() {
+    // no instance
+  }
 
   static int getStatusBarHeight(Context context) {
     int result = 0;

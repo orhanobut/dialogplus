@@ -14,8 +14,7 @@ import com.orhanobut.dialogplus.HolderAdapter;
 import com.orhanobut.dialogplus.OnHolderListener;
 import com.orhanobut.dialogplus.R;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -24,17 +23,14 @@ import org.robolectric.annotation.Config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * @author Orhan Obut
- */
 @RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 18)
-public class GridHolderTest extends TestCase {
+@Config(constants = BuildConfig.class, sdk = 21)
+public class GridHolderTest {
 
-  private final Context context;
+  Context context;
 
-  public GridHolderTest() {
-    context = Robolectric.buildActivity(Activity.class).create().get();
+  @Before public void setup() {
+    context = Robolectric.setupActivity(Activity.class);
   }
 
   private GridHolder getHolder() {
@@ -44,27 +40,24 @@ public class GridHolderTest extends TestCase {
     return holder;
   }
 
-  @Test
-  public void init() {
+  @Test public void init() {
     assertThat(getHolder()).isInstanceOf(HolderAdapter.class);
     assertThat(getHolder()).isNotNull();
   }
 
-  @Test
-  public void testViewInflation() {
+  @Test public void testViewInflation() {
     GridHolder holder = new GridHolder(3);
     LayoutInflater layoutInflater = LayoutInflater.from(context);
     View view = holder.getView(layoutInflater, new LinearLayout(context));
 
     assertThat(view).isNotNull();
-    assertThat(holder.getInflatedView().getId()).isEqualTo(R.id.list);
+    assertThat(holder.getInflatedView().getId()).isEqualTo(R.id.dialogplus_list);
 
     GridView gridView = (GridView) holder.getInflatedView();
     assertThat(gridView.getOnItemClickListener()).isInstanceOf(GridHolder.class);
   }
 
-  @Test
-  public void testFooter() {
+  @Test public void testFooter() {
     GridHolder holder = getHolder();
 
     assertThat(holder.getFooter()).isNull();
@@ -75,8 +68,7 @@ public class GridHolderTest extends TestCase {
     assertThat(holder.getFooter()).isEqualTo(footer);
   }
 
-  @Test
-  public void testHeader() {
+  @Test public void testHeader() {
     GridHolder holder = getHolder();
 
     assertThat(holder.getHeader()).isNull();
@@ -87,8 +79,7 @@ public class GridHolderTest extends TestCase {
     assertThat(holder.getHeader()).isEqualTo(header);
   }
 
-  @Test
-  public void testOnItemClick() {
+  @Test public void testOnItemClick() {
     GridHolder holder = getHolder();
     GridView view = (GridView) holder.getInflatedView();
 

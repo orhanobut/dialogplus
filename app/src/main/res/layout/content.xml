@@ -3,7 +3,6 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
 
@@ -29,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/button_like"
-                android:textColor="@color/black_overlay"
+                android:textColor="@color/dialogplus_black_overlay"
                 android:textSize="@dimen/button_text_size"/>
 
         <Button
@@ -38,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/button_love"
-                android:textColor="@color/black_overlay"
+                android:textColor="@color/dialogplus_black_overlay"
                 android:textSize="@dimen/button_text_size"/>
     </LinearLayout>
 

@@ -4,16 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * @author Orhan Obut
- */
 public interface Holder {
 
   void addHeader(View view);
 
   void addFooter(View view);
 
-  void setBackgroundColor(int colorResource);
+  void setBackgroundResource(int colorResource);
 
   View getView(LayoutInflater inflater, ViewGroup parent);
 

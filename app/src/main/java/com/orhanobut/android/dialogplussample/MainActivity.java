@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,6 @@ import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
-
 
 public class MainActivity extends ActionBarActivity {
 
@@ -87,7 +87,6 @@ public class MainActivity extends ActionBarActivity {
     });
 
     View contentView = getLayoutInflater().inflate(R.layout.content2, null);
-
     DialogPlus dialogPlus = DialogPlus.newDialog(this)
         .setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new String[]{"asdfa"}))
         .setCancelable(true)
@@ -213,12 +212,19 @@ public class MainActivity extends ActionBarActivity {
         .setGravity(gravity)
         .setAdapter(adapter)
         .setOnClickListener(clickListener)
-        .setOnItemClickListener(itemClickListener)
+        .setOnItemClickListener(new OnItemClickListener() {
+          @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+            Log.d("DialogPlus", "onItemClick() called with: " + "item = [" +
+                item + "], position = [" + position + "]");
+          }
+        })
         .setOnDismissListener(dismissListener)
         .setExpanded(expanded)
-        .setContentWidth(800)
+//        .setContentWidth(800)
         .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
         .setOnCancelListener(cancelListener)
+        .setOverlayBackgroundResource(android.R.color.transparent)
+//        .setContentBackgroundResource(R.drawable.corner_background)
             //                .setOutMostMargin(0, 100, 0, 0)
         .create();
     dialog.show();
@@ -235,7 +241,12 @@ public class MainActivity extends ActionBarActivity {
         .setGravity(gravity)
         .setAdapter(adapter)
         .setOnClickListener(clickListener)
-        .setOnItemClickListener(itemClickListener)
+        .setOnItemClickListener(new OnItemClickListener() {
+          @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+            Log.d("DialogPlus", "onItemClick() called with: " + "item = [" +
+                item + "], position = [" + position + "]");
+          }
+        })
         .setOnDismissListener(dismissListener)
         .setOnCancelListener(cancelListener)
         .setExpanded(expanded)
@@ -254,7 +265,12 @@ public class MainActivity extends ActionBarActivity {
         .setGravity(gravity)
         .setAdapter(adapter)
         .setOnClickListener(clickListener)
-        .setOnItemClickListener(itemClickListener)
+        .setOnItemClickListener(new OnItemClickListener() {
+          @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+            Log.d("DialogPlus", "onItemClick() called with: " + "item = [" +
+                item + "], position = [" + position + "]");
+          }
+        })
         .setOnDismissListener(dismissListener)
         .setOnCancelListener(cancelListener)
         .setExpanded(expanded)
@@ -269,7 +285,12 @@ public class MainActivity extends ActionBarActivity {
         .setContentHolder(holder)
         .setGravity(gravity)
         .setAdapter(adapter)
-        .setOnItemClickListener(itemClickListener)
+        .setOnItemClickListener(new OnItemClickListener() {
+          @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+            Log.d("DialogPlus", "onItemClick() called with: " + "item = [" +
+                item + "], position = [" + position + "]");
+          }
+        })
         .setOnDismissListener(dismissListener)
         .setOnCancelListener(cancelListener)
         .setExpanded(expanded)

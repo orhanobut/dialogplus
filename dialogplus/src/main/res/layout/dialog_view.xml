@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/dialogplus_outmost_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/outmost_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
-    <FrameLayout
-        android:id="@+id/header_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+  <FrameLayout
+      android:id="@+id/dialogplus_header_container"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
 
-    <FrameLayout
-        android:id="@+id/view_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusableInTouchMode="true"
-        android:focusable="true"/>
+  <FrameLayout
+      android:id="@+id/dialogplus_view_container"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:focusable="true"
+      android:focusableInTouchMode="true"
+      />
 
-    <FrameLayout
-        android:id="@+id/footer_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+  <FrameLayout
+      android:id="@+id/dialogplus_footer_container"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
 </LinearLayout>
