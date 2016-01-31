@@ -2,15 +2,34 @@ language: android
 
 android:
   components:
-    - build-tools-21.1.1
-    - android-18
+    - build-tools-23.0.1
+    - android-23
   licenses:
     - 'android-sdk-license-.+'
 
+addons:
+  apt_packages:
+    - pandoc
+
+before_install:
+  echo "MAVEN_OPTS='-Xmx2048m -XX:MaxPermSize=1024m'" > ~/.mavenrc
+
+script:
+- ./gradlew ciCheck
+
 notifications:
-  email: true
+  email: false
 
 sudo: false
 
-script:
-- ./gradlew test
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  
+cache:
+  directories:
+    - $HOME/.m2
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+after_failure:
+  - pandoc app/build/outputs/lint-results.html -t plain

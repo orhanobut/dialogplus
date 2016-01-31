@@ -14,8 +14,7 @@ import com.orhanobut.dialogplus.ListHolder;
 import com.orhanobut.dialogplus.OnHolderListener;
 import com.orhanobut.dialogplus.R;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -23,18 +22,16 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
-/**
- * @author Orhan Obut
- */
 @RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 18)
-public class ListHolderTest extends TestCase {
+@Config(constants = BuildConfig.class, sdk = 21)
+public class ListHolderTest {
 
-  private final Context context;
+  Context context;
 
-  public ListHolderTest() {
-    context = Robolectric.buildActivity(Activity.class).create().get();
+  @Before public void setup() {
+    context = Robolectric.setupActivity(Activity.class);
   }
 
   private ListHolder getListHolder() {
@@ -44,27 +41,24 @@ public class ListHolderTest extends TestCase {
     return holder;
   }
 
-  @Test
-  public void init() {
+  @Test public void init() {
     assertThat(getListHolder()).isInstanceOf(HolderAdapter.class);
     assertThat(getListHolder()).isNotNull();
   }
 
-  @Test
-  public void testViewInflation() {
+  @Test public void testViewInflation() {
     ListHolder holder = new ListHolder();
     LayoutInflater layoutInflater = LayoutInflater.from(context);
     View view = holder.getView(layoutInflater, new LinearLayout(context));
 
     assertThat(view).isNotNull();
-    assertThat(holder.getInflatedView().getId()).isEqualTo(R.id.list);
+    assertThat(holder.getInflatedView().getId()).isEqualTo(R.id.dialogplus_list);
 
     ListView listView = (ListView) holder.getInflatedView();
     assertThat(listView.getOnItemClickListener()).isInstanceOf(ListHolder.class);
   }
 
-  @Test
-  public void testFooter() {
+  @Test public void testFooter() {
     ListHolder holder = getListHolder();
 
     assertThat(holder.getFooter()).isNull();
@@ -75,8 +69,7 @@ public class ListHolderTest extends TestCase {
     assertThat(holder.getFooter()).isEqualTo(footer);
   }
 
-  @Test
-  public void testHeader() {
+  @Test public void testHeader() {
     ListHolder holder = getListHolder();
 
     assertThat(holder.getHeader()).isNull();
@@ -87,13 +80,21 @@ public class ListHolderTest extends TestCase {
     assertThat(holder.getHeader()).isEqualTo(header);
   }
 
-  @Test
-  public void testOnItemClick() {
+  @Test public void testOnItemClickWithoutItemListenerAndAdapter() {
     ListHolder holder = getListHolder();
     ListView listView = (ListView) holder.getInflatedView();
 
-    //there is no listener, it shouldn't crash
-    listView.performItemClick(null, 0, 0);
+    try {
+      listView.performItemClick(null, 0, 0);
+    } catch (Exception e) {
+      fail("it should not crash");
+    }
+  }
+
+
+  @Test public void testOnItemClickWithoutItemListenerOnly() {
+    ListHolder holder = getListHolder();
+    ListView listView = (ListView) holder.getInflatedView();
 
     //with adapter set
     ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -101,7 +102,23 @@ public class ListHolderTest extends TestCase {
         new String[]{"test"}
     );
     holder.setAdapter(adapter);
-    listView.performItemClick(null, 0, 0);
+    try {
+      listView.performItemClick(null, 0, 0);
+    } catch (Exception e) {
+      fail("it should not crash");
+    }
+  }
+
+  @Test public void testOnItemClick() {
+    ListHolder holder = getListHolder();
+    ListView listView = (ListView) holder.getInflatedView();
+
+    //with adapter set
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        context, android.R.layout.simple_list_item_1,
+        new String[]{"test"}
+    );
+    holder.setAdapter(adapter);
 
     //set listener
     holder.setOnItemClickListener(new OnHolderListener() {
@@ -113,6 +130,30 @@ public class ListHolderTest extends TestCase {
       }
     });
     listView.performItemClick(null, 0, 0);
+  }
+
+  @Test public void doNotCountHeaderForPositionCalculation() {
+    ListHolder holder = getListHolder();
+    holder.addHeader(new View(context));
+    ListView listView = (ListView) holder.getInflatedView();
+
+    //with adapter set
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        context, android.R.layout.simple_list_item_1,
+        new String[]{"test"}
+    );
+    holder.setAdapter(adapter);
+
+    //set listener
+    holder.setOnItemClickListener(new OnHolderListener() {
+      @Override
+      public void onItemClick(Object item, View view, int position) {
+        assertThat(String.valueOf(item)).isEqualTo("test");
+        assertThat(position).isEqualTo(0);
+        assertThat(view).isNull();
+      }
+    });
+    listView.performItemClick(null, 1, 0);
   }
 
 }

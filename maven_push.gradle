@@ -10,24 +10,19 @@ if (isReleaseBuild()) {
   sonatypeRepositoryUrl = hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
       : "https://oss.sonatype.org/content/repositories/snapshots/"
 }
-def USERNAME = "";
-def PASSWORD = "";
+
 afterEvaluate { project ->
   uploadArchives {
-    def Properties versionProps = new Properties()
-    try {
-      versionProps.load(new FileInputStream('credential.properties'))
-      USERNAME = versionProps['USERNAME'];
-      PASSWORD = versionProps['PASSWORD'];
-    } catch (FileNotFoundException e) {
-      println 'Failed to find file credential.properties. Maven deploy disabled'
-    }
     repositories {
       mavenDeployer {
         beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
         pom.artifactId = POM_ARTIFACT_ID
         repository(url: sonatypeRepositoryUrl) {
-          authentication(userName: USERNAME, password: PASSWORD)
+          try {
+            authentication(userName: mavenUser, password: mavenPassword)
+          } catch (Exception e) {
+            println "mavenUser or mavenPassword is missing"
+          }
         }
         pom.project {
           name POM_NAME

@@ -9,9 +9,6 @@ import android.view.animation.Animation;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
 
-/**
- * @author Orhan Obut
- */
 class ExpandTouchListener implements View.OnTouchListener {
 
   private final AbsListView absListView;
@@ -72,22 +69,18 @@ class ExpandTouchListener implements View.OnTouchListener {
     this.params = (FrameLayout.LayoutParams) container.getLayoutParams();
 
     gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-
-      @Override
-      public boolean onSingleTapUp(MotionEvent e) {
+      @Override public boolean onSingleTapUp(MotionEvent e) {
         return true;
       }
 
-      @Override
-      public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+      @Override public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
         scrollUp = distanceY > 0;
         return false;
       }
     });
   }
 
-  @Override
-  public boolean onTouch(View v, MotionEvent event) {
+  @Override public boolean onTouch(View v, MotionEvent event) {
     //If single tapped, don't consume the event
     if (gestureDetector.onTouchEvent(event)) {
       return false;
@@ -114,6 +107,8 @@ class ExpandTouchListener implements View.OnTouchListener {
         break;
       case MotionEvent.ACTION_UP:
         onTouchUp(v, event);
+        break;
+      default:
         break;
     }
     return true;
@@ -160,8 +155,7 @@ class ExpandTouchListener implements View.OnTouchListener {
     // move the dialog automatically to top
     if (!touchUp && params.height < displayHeight && params.height > (displayHeight * 4) / 5) {
       Utils.animateContent(contentContainer, displayHeight, new SimpleAnimationListener() {
-        @Override
-        public void onAnimationEnd(Animation animation) {
+        @Override public void onAnimationEnd(Animation animation) {
           fullScreen = true;
         }
       });
@@ -172,8 +166,7 @@ class ExpandTouchListener implements View.OnTouchListener {
     // move the dialog automatically to top
     if (touchUp && params.height > defaultContentHeight + 50) {
       Utils.animateContent(contentContainer, displayHeight, new SimpleAnimationListener() {
-        @Override
-        public void onAnimationEnd(Animation animation) {
+        @Override public void onAnimationEnd(Animation animation) {
           fullScreen = true;
         }
       });

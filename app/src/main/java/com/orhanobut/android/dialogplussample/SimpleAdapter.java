@@ -8,9 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * @author alessandro.balocco
- */
 public class SimpleAdapter extends BaseAdapter {
 
   private LayoutInflater layoutInflater;

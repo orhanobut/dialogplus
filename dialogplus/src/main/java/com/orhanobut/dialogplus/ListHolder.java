@@ -8,13 +8,9 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-
-/**
- * @author Orhan Obut
- */
 public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListener {
 
-  private int backgroundColor;
+  private int backgroundResource;
 
   private ListView listView;
   private OnHolderListener listener;
@@ -22,8 +18,7 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
   private View headerView;
   private View footerView;
 
-  @Override
-  public void addHeader(View view) {
+  @Override public void addHeader(View view) {
     if (view == null) {
       return;
     }
@@ -31,8 +26,7 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
     headerView = view;
   }
 
-  @Override
-  public void addFooter(View view) {
+  @Override public void addFooter(View view) {
     if (view == null) {
       return;
     }
@@ -40,28 +34,22 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
     footerView = view;
   }
 
-  @Override
-  public void setAdapter(BaseAdapter adapter) {
+  @Override public void setAdapter(BaseAdapter adapter) {
     listView.setAdapter(adapter);
   }
 
-  @Override
-  public void setBackgroundColor(int colorResource) {
-    this.backgroundColor = colorResource;
+  @Override public void setBackgroundResource(int colorResource) {
+    this.backgroundResource = colorResource;
   }
 
-  @Override
-  public View getView(LayoutInflater inflater, ViewGroup parent) {
+  @Override public View getView(LayoutInflater inflater, ViewGroup parent) {
     View view = inflater.inflate(R.layout.dialog_list, parent, false);
-    listView = (ListView) view.findViewById(R.id.list);
-    if (backgroundColor == 0) {
-      backgroundColor = android.R.color.white;
-    }
-    listView.setBackgroundColor(parent.getResources().getColor(backgroundColor));
+    View outMostView = view.findViewById(R.id.dialogplus_outmost_container);
+    outMostView.setBackgroundResource(backgroundResource);
+    listView = (ListView) view.findViewById(R.id.dialogplus_list);
     listView.setOnItemClickListener(this);
     listView.setOnKeyListener(new View.OnKeyListener() {
-      @Override
-      public boolean onKey(View v, int keyCode, KeyEvent event) {
+      @Override public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (keyListener == null) {
           throw new NullPointerException("keyListener should not be null");
         }
@@ -71,36 +59,35 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
     return view;
   }
 
-  @Override
-  public void setOnItemClickListener(OnHolderListener listener) {
+  @Override public void setOnItemClickListener(OnHolderListener listener) {
     this.listener = listener;
   }
 
-  @Override
-  public void setOnKeyListener(View.OnKeyListener keyListener) {
+  @Override public void setOnKeyListener(View.OnKeyListener keyListener) {
     this.keyListener = keyListener;
   }
 
-  @Override
-  public View getInflatedView() {
+  @Override public View getInflatedView() {
     return listView;
   }
 
-  @Override
-  public View getHeader() {
+  @Override public View getHeader() {
     return headerView;
   }
 
-  @Override
-  public View getFooter() {
+  @Override public View getFooter() {
     return footerView;
   }
 
-  @Override
-  public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+  @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     if (listener == null) {
       return;
     }
-    listener.onItemClick(parent.getItemAtPosition(position), view, position);
+    //ListView counts header as position as well. For consistency we don't
+    listener.onItemClick(
+        parent.getItemAtPosition(position),
+        view,
+        headerView != null ? --position : position
+    );
   }
 }

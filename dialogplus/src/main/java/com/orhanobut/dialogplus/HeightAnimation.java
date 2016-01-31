@@ -4,9 +4,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
-/**
- * @author Orhan Obut
- */
 class HeightAnimation extends Animation {
 
   protected final int originalHeight;
@@ -19,14 +16,12 @@ class HeightAnimation extends Animation {
     this.perValue = (toHeight - fromHeight);
   }
 
-  @Override
-  protected void applyTransformation(float interpolatedTime, Transformation t) {
+  @Override protected void applyTransformation(float interpolatedTime, Transformation t) {
     view.getLayoutParams().height = (int) (originalHeight + perValue * interpolatedTime);
     view.requestLayout();
   }
 
-  @Override
-  public boolean willChangeBounds() {
+  @Override public boolean willChangeBounds() {
     return true;
   }
 }

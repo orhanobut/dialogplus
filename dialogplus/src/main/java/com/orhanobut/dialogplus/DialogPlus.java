@@ -14,9 +14,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
-/**
- * @author Orhan Obut
- */
 public class DialogPlus {
 
   private static final int INVALID = -1;
@@ -102,7 +99,10 @@ public class DialogPlus {
     rootView = (ViewGroup) layoutInflater.inflate(R.layout.base_container, decorView, false);
     rootView.setLayoutParams(builder.getOutmostLayoutParams());
 
-    contentContainer = (ViewGroup) rootView.findViewById(R.id.content_container);
+    View outmostView = rootView.findViewById(R.id.dialogplus_outmost_container);
+    outmostView.setBackgroundResource(builder.getOverlayBackgroundResource());
+
+    contentContainer = (ViewGroup) rootView.findViewById(R.id.dialogplus_content_container);
     contentContainer.setLayoutParams(builder.getContentParams());
 
     outAnim = builder.getOutAnimation();
@@ -143,7 +143,7 @@ public class DialogPlus {
    * @return true if it contains
    */
   public boolean isShowing() {
-    View view = decorView.findViewById(R.id.outmost_container);
+    View view = decorView.findViewById(R.id.dialogplus_outmost_container);
     return view != null;
   }
 
@@ -156,16 +156,13 @@ public class DialogPlus {
     }
 
     outAnim.setAnimationListener(new Animation.AnimationListener() {
-      @Override
-      public void onAnimationStart(Animation animation) {
+      @Override public void onAnimationStart(Animation animation) {
 
       }
 
-      @Override
-      public void onAnimationEnd(Animation animation) {
+      @Override public void onAnimationEnd(Animation animation) {
         decorView.post(new Runnable() {
-          @Override
-          public void run() {
+          @Override public void run() {
             decorView.removeView(rootView);
             isDismissing = false;
             if (onDismissListener != null) {
@@ -175,8 +172,7 @@ public class DialogPlus {
         });
       }
 
-      @Override
-      public void onAnimationRepeat(Animation animation) {
+      @Override public void onAnimationRepeat(Animation animation) {
 
       }
     });
@@ -242,7 +238,7 @@ public class DialogPlus {
     if (!isCancelable) {
       return;
     }
-    View view = rootView.findViewById(R.id.outmost_container);
+    View view = rootView.findViewById(R.id.dialogplus_outmost_container);
     view.setOnTouchListener(onCancelableTouchListener);
   }
 
@@ -269,8 +265,7 @@ public class DialogPlus {
       HolderAdapter holderAdapter = (HolderAdapter) holder;
       holderAdapter.setAdapter(adapter);
       holderAdapter.setOnItemClickListener(new OnHolderListener() {
-        @Override
-        public void onItemClick(Object item, View view, int position) {
+        @Override public void onItemClick(Object item, View view, int position) {
           if (onItemClickListener == null) {
             return;
           }
@@ -313,8 +308,7 @@ public class DialogPlus {
     }
 
     view.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         if (onClickListener == null) {
           return;
         }
@@ -334,8 +328,7 @@ public class DialogPlus {
 
     contentContainer.requestFocus();
     holder.setOnKeyListener(new View.OnKeyListener() {
-      @Override
-      public boolean onKey(View v, int keyCode, KeyEvent event) {
+      @Override public boolean onKey(View v, int keyCode, KeyEvent event) {
         switch (event.getAction()) {
           case KeyEvent.ACTION_UP:
             if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -347,6 +340,8 @@ public class DialogPlus {
               }
               return true;
             }
+            break;
+          default:
             break;
         }
         return false;
@@ -370,8 +365,7 @@ public class DialogPlus {
    * Called when the user touch on black overlay in order to dismiss the dialog
    */
   private final View.OnTouchListener onCancelableTouchListener = new View.OnTouchListener() {
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
+    @Override public boolean onTouch(View v, MotionEvent event) {
       if (event.getAction() == MotionEvent.ACTION_DOWN) {
         if (onCancelListener != null) {
           onCancelListener.onCancel(DialogPlus.this);
