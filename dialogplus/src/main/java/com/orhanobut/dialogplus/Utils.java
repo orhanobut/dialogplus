@@ -62,12 +62,12 @@ final class Utils {
   static int getAnimationResource(int gravity, boolean isInAnimation) {
     if ((gravity & Gravity.TOP) == Gravity.TOP) {
       return isInAnimation ? R.anim.slide_in_top : R.anim.slide_out_top;
-    } else if ((gravity & Gravity.BOTTOM) == Gravity.BOTTOM) {
+    }
+    if ((gravity & Gravity.BOTTOM) == Gravity.BOTTOM) {
       return isInAnimation ? R.anim.slide_in_bottom : R.anim.slide_out_bottom;
-    } else if ((gravity & Gravity.CENTER) == Gravity.CENTER) {
+    }
+    if ((gravity & Gravity.CENTER) == Gravity.CENTER) {
       return isInAnimation ? R.anim.fade_in_center : R.anim.fade_out_center;
-    } else {
-      // This case is not implemented because we don't expect any other gravity at the moment
     }
     return INVALID;
   }
