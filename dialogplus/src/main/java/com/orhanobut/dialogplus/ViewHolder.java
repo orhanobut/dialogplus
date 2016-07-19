@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 
 public class ViewHolder implements Holder {
 
-  private static final int INVALID = -1;
+  private final int INVALID = -1;
 
-  private int backgroundResource;
+  private int backgroundResource = INVALID;
 
   private ViewGroup headerContainer;
   private View headerView;
@@ -52,8 +52,10 @@ public class ViewHolder implements Holder {
 
   @Override public View getView(LayoutInflater inflater, ViewGroup parent) {
     View view = inflater.inflate(R.layout.dialog_view, parent, false);
-    View outMostView = view.findViewById(R.id.dialogplus_outmost_container);
-    outMostView.setBackgroundResource(backgroundResource);
+    if (backgroundResource != INVALID) {
+        View outMostView = view.findViewById(R.id.dialogplus_outmost_container);
+        outMostView.setBackgroundResource(backgroundResource);
+    }
     ViewGroup contentContainer = (ViewGroup) view.findViewById(R.id.dialogplus_view_container);
     contentContainer.setOnKeyListener(new View.OnKeyListener() {
       @Override public boolean onKey(View v, int keyCode, KeyEvent event) {
