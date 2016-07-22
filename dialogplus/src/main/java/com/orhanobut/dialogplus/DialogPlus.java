@@ -39,6 +39,11 @@ public class DialogPlus {
   private boolean isDismissing;
 
   /**
+   * Determines whether dialog should try again to show
+   */
+  private boolean isFirstShow = true;
+
+  /**
    * Listener for the user to take action by clicking any item
    */
   private final OnItemClickListener onItemClickListener;
@@ -132,7 +137,16 @@ public class DialogPlus {
    */
   public void show() {
     if (isShowing()) {
-      return;
+        if (isFirstShow) {
+            decorView.postDelayed(new Runnable() {
+              @Override
+              public void run() {
+                  show();
+              }
+            }, outAnim.getDuration());
+            isFirstShow = false;
+        }
+        return;
     }
     onAttached(rootView);
   }
