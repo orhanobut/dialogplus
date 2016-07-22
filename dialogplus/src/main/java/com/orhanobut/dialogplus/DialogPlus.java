@@ -143,7 +143,7 @@ public class DialogPlus {
               public void run() {
                   show();
               }
-            }, outAnim.getDuration());
+            }, (long) (outAnim.getDuration() * 1.2));
             isFirstShow = false;
         }
         return;
