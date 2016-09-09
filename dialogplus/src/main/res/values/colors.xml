@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <color name="dialogplus_card_shadow">#D4D4D4</color>
-  <color name="dialogplus_black_overlay">#60000000</color>
+  <color name="dialogplus_black_overlay">#90111111</color>
 </resources>
