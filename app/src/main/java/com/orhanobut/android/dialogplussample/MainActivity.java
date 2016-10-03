@@ -60,6 +60,8 @@ public class MainActivity extends ActionBarActivity {
       }
     });
 
+    //test
+
     findViewById(R.id.button_center).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
