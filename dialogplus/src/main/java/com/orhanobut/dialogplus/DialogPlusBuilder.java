@@ -336,6 +336,10 @@ public class DialogPlusBuilder {
     return onBackPressListener;
   }
 
+  public int getBackgroundColorResourceId() {
+    return backgroundColorResourceId;
+  }
+
   public int[] getContentMargin() {
     int minimumMargin = context.getResources().getDimensionPixelSize(R.dimen.dialogplus_default_center_margin);
     for (int i = 0; i < margin.length; i++) {
