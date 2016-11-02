@@ -182,6 +182,8 @@ View view = dialogPlus.getHeaderView();
 ```java
 .setOverlayBackgroundResource(resource)
 ```
+#### Ports
+- Xamarin port: [dialogplus.xamarin](https://github.com/g0rdan/dialogplus.xamarin)
 
 #### License
 <pre>
