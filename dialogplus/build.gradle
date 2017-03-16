@@ -1,10 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
-apply plugin: 'checkstyle'
-
-check.dependsOn('checkstyle')
-
 task checkstyle(type: Checkstyle) {
     configFile = rootProject.file('checkstyle.xml')
     source 'src'
@@ -15,19 +11,19 @@ task checkstyle(type: Checkstyle) {
 }
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 25
+        targetSdkVersion 21
     }
 }
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.9.5'
-    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile "org.mockito:mockito-core:1.9.5"
+    testCompile "org.robolectric:robolectric:3.0"
     testCompile 'org.assertj:assertj-core:1.7.0'
 }
 

@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
     defaultConfig {
         applicationId "com.orhanobut.android.dialogplussample"
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion 10
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -16,10 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     lintOptions {
         abortOnError false
-    }
-    productFlavors {
     }
 }
 repositories {
@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':dialogplus')
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:appcompat-v7:21.0.3'
 }
