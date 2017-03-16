@@ -1,6 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
+apply plugin: 'checkstyle'
+check.dependsOn('checkstyle')
+
 task checkstyle(type: Checkstyle) {
     configFile = rootProject.file('checkstyle.xml')
     source 'src'
