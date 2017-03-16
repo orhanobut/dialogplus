@@ -1,7 +1,11 @@
 package com.orhanobut.dialogplus;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -22,6 +26,13 @@ public class DialogPlus {
    * DialogPlus base layout root view
    */
   private final ViewGroup rootView;
+
+
+  /**
+   * DialogPlus base layout
+   */
+  private final View outmostView;
+
 
   /**
    * DialogPlus content container which is a different layout rather than base layout
@@ -99,7 +110,7 @@ public class DialogPlus {
     rootView = (ViewGroup) layoutInflater.inflate(R.layout.base_container, decorView, false);
     rootView.setLayoutParams(builder.getOutmostLayoutParams());
 
-    View outmostView = rootView.findViewById(R.id.dialogplus_outmost_container);
+    outmostView = rootView.findViewById(R.id.dialogplus_outmost_container);
     outmostView.setBackgroundResource(builder.getOverlayBackgroundResource());
 
     contentContainer = (ViewGroup) rootView.findViewById(R.id.dialogplus_content_container);
@@ -135,6 +146,12 @@ public class DialogPlus {
       return;
     }
     onAttached(rootView);
+    if(Build.VERSION.SDK_INT > 10){
+      ObjectAnimator animator = ObjectAnimator.ofInt(outmostView, "backgroundColor", Color.TRANSPARENT, Color.parseColor("#60000000"));
+      animator.setEvaluator(new ArgbEvaluator());
+      animator.setDuration(outAnim.getDuration());
+      animator.start();
+    }
   }
 
   /**
@@ -178,6 +195,13 @@ public class DialogPlus {
     });
     contentContainer.startAnimation(outAnim);
     isDismissing = true;
+
+    if(Build.VERSION.SDK_INT > 10){
+      ObjectAnimator animator = ObjectAnimator.ofInt(outmostView, "backgroundColor", Color.parseColor("#60000000"), Color.TRANSPARENT);
+      animator.setEvaluator(new ArgbEvaluator());
+      animator.setDuration(outAnim.getDuration());
+      animator.start();
+    }
   }
 
   @SuppressWarnings("unused")
