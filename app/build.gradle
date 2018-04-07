@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 21
-  buildToolsVersion "21.1.2"
+  compileSdkVersion 27
 
   defaultConfig {
-    applicationId "com.orhanobut.android.dialogplussample"
-    minSdkVersion 10
-    targetSdkVersion 21
+    applicationId "com.orhanobut.dialogplussample"
+    minSdkVersion 15
+    targetSdkVersion 27
     versionCode 1
     versionName "1.0"
   }

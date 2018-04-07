@@ -1,5 +1,13 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
+
+version = VERSION_NAME
+group = GROUP
+
+def isReleaseBuild() {
+  return version.contains("SNAPSHOT") == false
+}
+
 def sonatypeRepositoryUrl
 if (isReleaseBuild()) {
   println 'RELEASE BUILD'
@@ -19,8 +27,8 @@ afterEvaluate { project ->
         pom.artifactId = POM_ARTIFACT_ID
         repository(url: sonatypeRepositoryUrl) {
           try {
-            authentication(userName: mavenUser, password: mavenPassword)
-          } catch (Exception e) {
+            authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+          } catch (Exception ignored) {
             println "mavenUser or mavenPassword is missing"
           }
         }
@@ -70,4 +78,22 @@ afterEvaluate { project ->
     archives androidSourcesJar
     archives androidJavadocsJar
   }
+}
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+  from android.sourceSets.main.java.srcDirs
+  classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+  failOnError false
+  source = android.sourceSets.main.java.sourceFiles
+  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from javadoc.destinationDir
 }

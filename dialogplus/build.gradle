@@ -1,34 +1,22 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-
-apply plugin: 'checkstyle'
-
-check.dependsOn('checkstyle')
-
-task checkstyle(type: Checkstyle) {
-  configFile = rootProject.file('checkstyle.xml')
-  source 'src'
-  include '**/*.java'
-  exclude '**/gen/**'
-
-  classpath = files()
-}
+apply plugin: 'kotlin-android'
 
 android {
-  compileSdkVersion 21
-  buildToolsVersion "21.1.2"
+  compileSdkVersion rootProject.ext.compileSdkVersion
 
   defaultConfig {
-    minSdkVersion 10
-    targetSdkVersion 21
+    minSdkVersion rootProject.ext.minSdkVersion
   }
 }
 
 dependencies {
-  testCompile 'junit:junit:4.12'
-  testCompile "org.mockito:mockito-core:1.9.5"
-  testCompile "org.robolectric:robolectric:3.0"
-  testCompile 'org.assertj:assertj-core:1.7.0'
+  implementation deps.supportAnnotations
+
+  testImplementation deps.junit
+  testImplementation deps.truth
+  testImplementation deps.robolectric
+  testImplementation deps.mockito
+  testImplementation deps.kotlin
 }
 
-apply from: '../maven_push.gradle'
+apply from: rootProject.file('gradle/maven_push.gradle')
