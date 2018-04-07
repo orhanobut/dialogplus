@@ -7,25 +7,20 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
-import com.orhanobut.dialogplus.BuildConfig;
 import com.orhanobut.dialogplus.HolderAdapter;
 import com.orhanobut.dialogplus.ListHolder;
 import com.orhanobut.dialogplus.OnHolderListener;
 import com.orhanobut.dialogplus.R;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(RobolectricTestRunner.class)
 public class ListHolderTest {
 
   Context context;

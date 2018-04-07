@@ -8,32 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-
-import com.orhanobut.dialogplus.BuildConfig;
-import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.DialogPlusBuilder;
-import com.orhanobut.dialogplus.GridHolder;
-import com.orhanobut.dialogplus.ListHolder;
-import com.orhanobut.dialogplus.OnBackPressListener;
-import com.orhanobut.dialogplus.OnCancelListener;
-import com.orhanobut.dialogplus.OnClickListener;
-import com.orhanobut.dialogplus.OnDismissListener;
-import com.orhanobut.dialogplus.OnItemClickListener;
-import com.orhanobut.dialogplus.R;
-import com.orhanobut.dialogplus.ViewHolder;
-
+import com.orhanobut.dialogplus.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(RobolectricTestRunner.class)
 public class DialogPlusBuilderTest {
 
   Context context;

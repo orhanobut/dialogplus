@@ -7,24 +7,19 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-
-import com.orhanobut.dialogplus.BuildConfig;
 import com.orhanobut.dialogplus.GridHolder;
 import com.orhanobut.dialogplus.HolderAdapter;
 import com.orhanobut.dialogplus.OnHolderListener;
 import com.orhanobut.dialogplus.R;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(RobolectricTestRunner.class)
 public class GridHolderTest {
 
   Context context;

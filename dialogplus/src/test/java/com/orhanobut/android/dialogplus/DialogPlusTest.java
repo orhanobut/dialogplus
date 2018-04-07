@@ -4,22 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.orhanobut.dialogplus.BuildConfig;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(RobolectricTestRunner.class)
 public class DialogPlusTest {
 
   Context context;
