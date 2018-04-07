@@ -10,7 +10,7 @@ class HeightAnimation extends Animation {
   protected final View view;
   protected float perValue;
 
-  public HeightAnimation(View view, int fromHeight, int toHeight) {
+  HeightAnimation(View view, int fromHeight, int toHeight) {
     this.view = view;
     this.originalHeight = fromHeight;
     this.perValue = (toHeight - fromHeight);
