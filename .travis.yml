@@ -1,35 +1,15 @@
 language: android
+jdk: oraclejdk8
 
 android:
   components:
-    - build-tools-23.0.1
-    - android-23
-  licenses:
-    - 'android-sdk-license-.+'
-
-addons:
-  apt_packages:
-    - pandoc
+    - tools
+    - platform-tools
+    - build-tools-27.0.3
+    - android-27
 
 before_install:
-  echo "MAVEN_OPTS='-Xmx2048m -XX:MaxPermSize=1024m'" > ~/.mavenrc
+  - yes | sdkmanager "platforms;android-27"
 
 script:
-- ./gradlew ciCheck
-
-notifications:
-  email: false
-
-sudo: false
-
-before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-  
-cache:
-  directories:
-    - $HOME/.m2
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
-after_failure:
-  - pandoc app/build/outputs/lint-results.html -t plain
+- ./gradlew check
