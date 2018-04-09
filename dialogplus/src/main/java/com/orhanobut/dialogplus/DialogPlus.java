@@ -179,6 +179,47 @@ public class DialogPlus {
     contentContainer.startAnimation(outAnim);
     isDismissing = true;
   }
+  
+	/**
+	 * It is called when to dismiss the dialog, with an OnDismissListener manually set by user.
+   * 重载函数 dismiss()，便于用户手动关闭对话框时，在动画结束后处理后续业务逻辑。
+	 */
+	public void dismiss(final OnDismissListener dismissListener) {
+		if (isDismissing) {
+			return;
+		}
+
+		outAnim.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				decorView.post(new Runnable() {
+					@Override
+					public void run() {
+						decorView.removeView(rootView);
+						isDismissing = false;
+						if (onDismissListener != null) {
+							onDismissListener.onDismiss(DialogPlus.this);
+						}
+						if (dismissListener != null) {
+							dismissListener.onDismiss(DialogPlus.this);
+						}
+					}
+				});
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+		});
+		contentContainer.startAnimation(outAnim);
+		isDismissing = true;
+	}
 
   @SuppressWarnings("unused")
   public View findViewById(int resourceId) {
