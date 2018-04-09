@@ -36,7 +36,7 @@ public class DialogPlusBuilder {
   private OnBackPressListener onBackPressListener;
 
   private boolean isCancelable = true;
-  private int contentBackgroundResource = android.R.color.white;
+  private int contentBackgroundResource = INVALID;
   private int headerViewResourceId = INVALID;
   private int footerViewResourceId = INVALID;
   private int inAnimation = INVALID;
@@ -255,8 +255,10 @@ public class DialogPlusBuilder {
   /**
    * Create the dialog using this builder
    */
-  public DialogPlus create() {
-    getHolder().setBackgroundResource(getContentBackgroundResource());
+  public DialogPlus create() { 
+    if (getContentBackgroundResource() != INVALID) {
+        getHolder().setBackgroundResource(getContentBackgroundResource());
+    }
     return new DialogPlus(this);
   }
 

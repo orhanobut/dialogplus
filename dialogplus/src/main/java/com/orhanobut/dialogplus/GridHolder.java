@@ -9,10 +9,10 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 
 public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListener {
-
+  private final int INVALID = -1;
   private final int columnNumber;
 
-  private int backgroundResource;
+  private int backgroundResource = INVALID;
 
   private GridView gridView;
   private ViewGroup headerContainer;
@@ -52,8 +52,10 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
 
   @Override public View getView(LayoutInflater inflater, ViewGroup parent) {
     View view = inflater.inflate(R.layout.dialog_grid, parent, false);
-    View outMostView = view.findViewById(R.id.dialogplus_outmost_container);
-    outMostView.setBackgroundResource(backgroundResource);
+    if (backgroundResource != INVALID) {
+        View outMostView = view.findViewById(R.id.dialogplus_outmost_container);
+        outMostView.setBackgroundResource(backgroundResource);
+    }
     gridView = (GridView) view.findViewById(R.id.dialogplus_list);
     gridView.setNumColumns(columnNumber);
     gridView.setOnItemClickListener(this);

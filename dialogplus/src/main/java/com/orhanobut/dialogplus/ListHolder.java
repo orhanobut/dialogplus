@@ -9,8 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListener {
-
-  private int backgroundResource;
+  private final int INVALID = -1;
+  private int backgroundResource = INVALID;
 
   private ListView listView;
   private OnHolderListener listener;
@@ -44,8 +44,10 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
 
   @Override public View getView(LayoutInflater inflater, ViewGroup parent) {
     View view = inflater.inflate(R.layout.dialog_list, parent, false);
-    View outMostView = view.findViewById(R.id.dialogplus_outmost_container);
-    outMostView.setBackgroundResource(backgroundResource);
+    if (backgroundResource != INVALID) {
+        View outMostView = view.findViewById(R.id.dialogplus_outmost_container);
+        outMostView.setBackgroundResource(backgroundResource);
+    }
     listView = (ListView) view.findViewById(R.id.dialogplus_list);
     listView.setOnItemClickListener(this);
     listView.setOnKeyListener(new View.OnKeyListener() {
