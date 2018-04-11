@@ -1,3 +1,5 @@
+<p align="center"><img src="art/DP1.png" alt="Dialog Plus" height="150px"></p>
+
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-dialogplus-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1413)    [![API](https://img.shields.io/badge/API-10%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=10) [![Join the chat at https://gitter.im/orhanobut/dialogplus](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/orhanobut/dialogplus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![](https://img.shields.io/badge/AndroidWeekly-%23144-blue.svg)](http://androidweekly.net/issues/issue-144)
 
 DialogPlus
