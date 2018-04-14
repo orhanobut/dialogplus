@@ -11,6 +11,7 @@
       android:id="@+id/dialogplus_content_container"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
       android:clickable="true">
   </FrameLayout>
 

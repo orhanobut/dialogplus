@@ -76,8 +76,13 @@ class MainActivity : AppCompatActivity() {
         }
         //        .setOnDismissListener(dismissListener)
         .setExpanded(expanded)
-        //        .setContentWidth(800)
-        .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+
+    if (contentHeightInput.text.toString().toInt() != -1) {
+      builder.setContentHeight(contentHeightInput.text.toString().toInt())
+    }
+
+    //        .setContentWidth(800)
+    builder.setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
         .setOnCancelListener { dialog -> toast("cancelled") }.overlayBackgroundResource = android.R.color.transparent
     //        .setContentBackgroundResource(R.drawable.corner_background)
     //                .setOutMostMargin(0, 100, 0, 0)
