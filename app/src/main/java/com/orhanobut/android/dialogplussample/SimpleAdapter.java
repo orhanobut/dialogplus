@@ -20,7 +20,7 @@ public class SimpleAdapter extends BaseAdapter {
 
   @Override
   public int getCount() {
-    return 6;
+    return 16;
   }
 
   @Override
