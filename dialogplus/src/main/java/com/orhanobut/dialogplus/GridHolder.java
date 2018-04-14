@@ -45,7 +45,7 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
     footerView = view;
   }
 
-  @Override public void setAdapter(BaseAdapter adapter) {
+  @Override public void setAdapter(@NonNull BaseAdapter adapter) {
     gridView.setAdapter(adapter);
   }
 
@@ -82,7 +82,8 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
     this.keyListener = keyListener;
   }
 
-  @Override public View getInflatedView() {
+  @Override @NonNull
+  public View getInflatedView() {
     return gridView;
   }
 

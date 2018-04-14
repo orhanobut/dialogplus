@@ -2,6 +2,7 @@ package com.orhanobut.dialogplus;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.*;
 import android.view.animation.Animation;
@@ -121,12 +122,15 @@ public class DialogPlus {
     }
   }
 
-  public static DialogPlusBuilder newDialog(Context context) {
+  /**
+   * Creates a new dialog builder
+   */
+  public static DialogPlusBuilder newDialog(@NonNull Context context) {
     return new DialogPlusBuilder(context);
   }
 
   /**
-   * It adds the dialog view into rootView which is decorView of activity
+   * Displays the dialog if it is not shown already.
    */
   public void show() {
     if (isShowing()) {
@@ -136,9 +140,7 @@ public class DialogPlus {
   }
 
   /**
-   * It basically check if the rootView contains the dialog plus view.
-   *
-   * @return true if it contains
+   * Checks if the dialog is shown
    */
   public boolean isShowing() {
     View view = decorView.findViewById(R.id.dialogplus_outmost_container);
@@ -146,7 +148,7 @@ public class DialogPlus {
   }
 
   /**
-   * It is called when to dismiss the dialog, either by calling dismiss() method or with cancellable
+   * Dismisses the displayed dialog.
    */
   public void dismiss() {
     if (isDismissing) {
@@ -178,20 +180,33 @@ public class DialogPlus {
     isDismissing = true;
   }
 
-  @SuppressWarnings("unused")
-  public View findViewById(int resourceId) {
+  /**
+   * Checks the given resource id and return the corresponding view if it exists.
+   *
+   * @return null if it is not found
+   */
+  @Nullable public View findViewById(int resourceId) {
     return contentContainer.findViewById(resourceId);
   }
 
-  public View getHeaderView() {
+  /**
+   * Returns header view if it was set.
+   */
+  @Nullable public View getHeaderView() {
     return holder.getHeader();
   }
 
-  public View getFooterView() {
+  /**
+   * Returns footer view if it was set.
+   */
+  @Nullable public View getFooterView() {
     return holder.getFooter();
   }
 
-  public View getHolderView() {
+  /**
+   * Returns holder view.
+   */
+  @NonNull public View getHolderView() {
     return holder.getInflatedView();
   }
 
@@ -268,7 +283,7 @@ public class DialogPlus {
       HolderAdapter holderAdapter = (HolderAdapter) holder;
       holderAdapter.setAdapter(adapter);
       holderAdapter.setOnItemClickListener(new OnHolderListener() {
-        @Override public void onItemClick(Object item, View view, int position) {
+        @Override public void onItemClick(@NonNull Object item, @NonNull View view, int position) {
           if (onItemClickListener == null) {
             return;
           }
@@ -353,11 +368,9 @@ public class DialogPlus {
   }
 
   /**
-   * Dismiss the dialog when the user press the back button
-   *
-   * @param dialogPlus is the current dialog
+   * Invoked when back button is pressed. Automatically dismiss the dialog.
    */
-  public void onBackPressed(DialogPlus dialogPlus) {
+  public void onBackPressed(@NonNull DialogPlus dialogPlus) {
     if (onCancelListener != null) {
       onCancelListener.onCancel(DialogPlus.this);
     }

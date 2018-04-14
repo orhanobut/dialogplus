@@ -55,10 +55,7 @@ public class DialogPlusBuilder {
   /**
    * Initialize the builder with a valid context in order to inflate the dialog
    */
-  DialogPlusBuilder(Context context) {
-    if (context == null) {
-      throw new NullPointerException("Context may not be null");
-    }
+  DialogPlusBuilder(@NonNull Context context) {
     this.context = context;
     Arrays.fill(margin, INVALID);
   }
@@ -66,10 +63,7 @@ public class DialogPlusBuilder {
   /**
    * Set the adapter that will be used when ListHolder or GridHolder are passed
    */
-  public DialogPlusBuilder setAdapter(BaseAdapter adapter) {
-    if (adapter == null) {
-      throw new NullPointerException("Adapter may not be null");
-    }
+  public DialogPlusBuilder setAdapter(@NonNull BaseAdapter adapter) {
     this.adapter = adapter;
     return this;
   }
@@ -131,7 +125,7 @@ public class DialogPlusBuilder {
   /**
    * Set the header view using a view
    */
-  public DialogPlusBuilder setHeader(View view) {
+  public DialogPlusBuilder setHeader(@NonNull View view) {
     return setHeader(view, false);
   }
 
@@ -140,7 +134,7 @@ public class DialogPlusBuilder {
    *
    * @param fixed is used to determine whether header should be fixed or not. Fixed if true, scrollable otherwise
    */
-  public DialogPlusBuilder setHeader(View view, boolean fixed) {
+  public DialogPlusBuilder setHeader(@NonNull View view, boolean fixed) {
     this.headerView = view;
     this.fixedHeader = fixed;
     return this;
@@ -157,7 +151,7 @@ public class DialogPlusBuilder {
   /**
    * Set the content of the dialog by passing one of the provided Holders
    */
-  public DialogPlusBuilder setContentHolder(Holder holder) {
+  public DialogPlusBuilder setContentHolder(@NonNull Holder holder) {
     this.holder = holder;
     return this;
   }
@@ -255,22 +249,22 @@ public class DialogPlusBuilder {
    * Set a global click listener to you dialog in order to handle all the possible click events. You can then
    * identify the view by using its id and handle the correct behaviour
    */
-  public DialogPlusBuilder setOnClickListener(OnClickListener listener) {
+  public DialogPlusBuilder setOnClickListener(@Nullable OnClickListener listener) {
     this.onClickListener = listener;
     return this;
   }
 
-  public DialogPlusBuilder setOnDismissListener(OnDismissListener listener) {
+  public DialogPlusBuilder setOnDismissListener(@Nullable OnDismissListener listener) {
     this.onDismissListener = listener;
     return this;
   }
 
-  public DialogPlusBuilder setOnCancelListener(OnCancelListener listener) {
+  public DialogPlusBuilder setOnCancelListener(@Nullable OnCancelListener listener) {
     this.onCancelListener = listener;
     return this;
   }
 
-  public DialogPlusBuilder setOnBackPressListener(OnBackPressListener listener) {
+  public DialogPlusBuilder setOnBackPressListener(@Nullable OnBackPressListener listener) {
     this.onBackPressListener = listener;
     return this;
   }
@@ -304,51 +298,51 @@ public class DialogPlusBuilder {
     return new DialogPlus(this);
   }
 
-  public View getFooterView() {
+  View getFooterView() {
     return Utils.getView(context, footerViewResourceId, footerView);
   }
 
-  @Nullable public View getHeaderView() {
+  @Nullable View getHeaderView() {
     return Utils.getView(context, headerViewResourceId, headerView);
   }
 
-  public Holder getHolder() {
+  Holder getHolder() {
     if (holder == null) {
       holder = new ListHolder();
     }
     return holder;
   }
 
-  public Context getContext() {
+  Context getContext() {
     return context;
   }
 
-  public BaseAdapter getAdapter() {
+  BaseAdapter getAdapter() {
     return adapter;
   }
 
-  public Animation getInAnimation() {
+  Animation getInAnimation() {
     int res = (inAnimation == INVALID) ? Utils.getAnimationResource(this.gravity, true) : inAnimation;
     return AnimationUtils.loadAnimation(context, res);
   }
 
-  public Animation getOutAnimation() {
+  Animation getOutAnimation() {
     int res = (outAnimation == INVALID) ? Utils.getAnimationResource(this.gravity, false) : outAnimation;
     return AnimationUtils.loadAnimation(context, res);
   }
 
-  public FrameLayout.LayoutParams getContentParams() {
+  FrameLayout.LayoutParams getContentParams() {
     if (expanded) {
       params.height = getDefaultContentHeight();
     }
     return params;
   }
 
-  public boolean isExpanded() {
+  boolean isExpanded() {
     return expanded;
   }
 
-  public FrameLayout.LayoutParams getOutmostLayoutParams() {
+  FrameLayout.LayoutParams getOutmostLayoutParams() {
     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
     );
@@ -356,31 +350,31 @@ public class DialogPlusBuilder {
     return params;
   }
 
-  public boolean isCancelable() {
+  boolean isCancelable() {
     return isCancelable;
   }
 
-  public OnItemClickListener getOnItemClickListener() {
+  OnItemClickListener getOnItemClickListener() {
     return onItemClickListener;
   }
 
-  public OnClickListener getOnClickListener() {
+  OnClickListener getOnClickListener() {
     return onClickListener;
   }
 
-  public OnDismissListener getOnDismissListener() {
+  OnDismissListener getOnDismissListener() {
     return onDismissListener;
   }
 
-  public OnCancelListener getOnCancelListener() {
+  OnCancelListener getOnCancelListener() {
     return onCancelListener;
   }
 
-  public OnBackPressListener getOnBackPressListener() {
+  OnBackPressListener getOnBackPressListener() {
     return onBackPressListener;
   }
 
-  public int[] getContentMargin() {
+  int[] getContentMargin() {
     int minimumMargin = context.getResources().getDimensionPixelSize(R.dimen.dialogplus_default_center_margin);
     for (int i = 0; i < margin.length; i++) {
       margin[i] = getMargin(this.gravity, margin[i], minimumMargin);
@@ -388,11 +382,11 @@ public class DialogPlusBuilder {
     return margin;
   }
 
-  public int[] getContentPadding() {
+  int[] getContentPadding() {
     return padding;
   }
 
-  public int getDefaultContentHeight() {
+  int getDefaultContentHeight() {
     Activity activity = (Activity) context;
     Display display = activity.getWindowManager().getDefaultDisplay();
     int displayHeight = display.getHeight() - Utils.getStatusBarHeight(activity);
@@ -402,11 +396,11 @@ public class DialogPlusBuilder {
     return defaultContentHeight;
   }
 
-  public int getOverlayBackgroundResource() {
+  int getOverlayBackgroundResource() {
     return overlayBackgroundResource;
   }
 
-  public int getContentBackgroundResource() {
+  int getContentBackgroundResource() {
     return contentBackgroundResource;
   }
 
@@ -427,11 +421,11 @@ public class DialogPlusBuilder {
     }
   }
 
-  public boolean isFixedHeader() {
+  boolean isFixedHeader() {
     return fixedHeader;
   }
 
-  public boolean isFixedFooter() {
+  boolean isFixedFooter() {
     return fixedFooter;
   }
 }

@@ -50,46 +50,49 @@ class MainActivity : AppCompatActivity() {
     }
 
     val adapter = SimpleAdapter(this@MainActivity, isGrid, listCountInput.text.toString().toInt())
-    val builder = DialogPlus.newDialog(this)
-        .setContentHolder(holder)
+    val builder = DialogPlus.newDialog(this).apply {
+      setContentHolder(holder)
 
-    val header = if (showHeader) R.layout.header else -1
-    if (header != -1) {
-      builder.setHeader(R.layout.header, fixedHeader)
-    }
+      val header = if (showHeader) R.layout.header else -1
+      if (header != -1) {
+        setHeader(R.layout.header, fixedHeader)
+      }
 
-    val footer = if (showFooter) R.layout.footer else -1
-    if (footer != -1) {
-      builder.setFooter(R.layout.footer, fixedFooter)
-    }
-    builder.setCancelable(true)
-        .setGravity(gravity)
-        .setAdapter(adapter)
-        .setOnClickListener { dialog, view ->
-          if (view is TextView) {
-            toast(view.text.toString())
-          }
+      val footer = if (showFooter) R.layout.footer else -1
+      if (footer != -1) {
+        setFooter(R.layout.footer, fixedFooter)
+      }
+
+      setCancelable(true)
+      setGravity(gravity)
+      setAdapter(adapter)
+      setOnClickListener { dialog, view ->
+        if (view is TextView) {
+          toast(view.text.toString())
         }
-        .setOnItemClickListener { dialog, item, view, position ->
-          val textView = view.findViewById<TextView>(R.id.text_view)
-          toast(textView.text.toString())
-        }
-        //        .setOnDismissListener(dismissListener)
-        .setExpanded(expanded)
+      }
+      setOnItemClickListener { dialog, item, view, position ->
+        val textView = view.findViewById<TextView>(R.id.text_view)
+        toast(textView.text.toString())
+      }
+      //        .setOnDismissListener(dismissListener)
+      setExpanded(expanded)
 
-    if (contentHeightInput.text.toString().toInt() != -1) {
-      builder.setContentHeight(contentHeightInput.text.toString().toInt())
-    } else {
-      builder.setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+      if (contentHeightInput.text.toString().toInt() != -1) {
+        setContentHeight(contentHeightInput.text.toString().toInt())
+      } else {
+        setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+      }
+
+      if (contentWidthInput.text.toString().toInt() != -1) {
+        setContentWidth(800)
+      }
+
+      setOnCancelListener { dialog -> toast("cancelled") }
+      setOverlayBackgroundResource(android.R.color.transparent)
+      //        .setContentBackgroundResource(R.drawable.corner_background)
+      //                .setOutMostMargin(0, 100, 0, 0)
     }
-
-    if (contentWidthInput.text.toString().toInt() != -1) {
-      builder.setContentWidth(800)
-    }
-
-    builder.setOnCancelListener { dialog -> toast("cancelled") }.overlayBackgroundResource = android.R.color.transparent
-    //        .setContentBackgroundResource(R.drawable.corner_background)
-    //                .setOutMostMargin(0, 100, 0, 0)
     builder.create().show()
   }
 

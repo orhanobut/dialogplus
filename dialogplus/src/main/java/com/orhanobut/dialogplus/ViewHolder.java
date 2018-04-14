@@ -53,11 +53,12 @@ public class ViewHolder implements Holder {
     this.backgroundResource = colorResource;
   }
 
-  @Override public View getView(LayoutInflater inflater, ViewGroup parent) {
+  @Override @NonNull
+  public View getView(@NonNull LayoutInflater inflater, ViewGroup parent) {
     View view = inflater.inflate(R.layout.dialog_view, parent, false);
     View outMostView = view.findViewById(R.id.dialogplus_outmost_container);
     outMostView.setBackgroundResource(backgroundResource);
-    ViewGroup contentContainer = (ViewGroup) view.findViewById(R.id.dialogplus_view_container);
+    ViewGroup contentContainer = view.findViewById(R.id.dialogplus_view_container);
     contentContainer.setOnKeyListener(new View.OnKeyListener() {
       @Override public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (keyListener == null) {
@@ -67,8 +68,8 @@ public class ViewHolder implements Holder {
       }
     });
     addContent(inflater, parent, contentContainer);
-    headerContainer = (ViewGroup) view.findViewById(R.id.dialogplus_header_container);
-    footerContainer = (ViewGroup) view.findViewById(R.id.dialogplus_footer_container);
+    headerContainer = view.findViewById(R.id.dialogplus_header_container);
+    footerContainer = view.findViewById(R.id.dialogplus_footer_container);
     return view;
   }
 
@@ -89,7 +90,8 @@ public class ViewHolder implements Holder {
     this.keyListener = keyListener;
   }
 
-  @Override public View getInflatedView() {
+  @Override @NonNull
+  public View getInflatedView() {
     return contentView;
   }
 

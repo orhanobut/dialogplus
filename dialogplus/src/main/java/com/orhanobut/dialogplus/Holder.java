@@ -1,12 +1,17 @@
 package com.orhanobut.dialogplus;
 
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 public interface Holder {
 
+  /**
+   * Adds the given view as header to the top of holder
+   */
   void addHeader(@NonNull View view);
 
   /**
@@ -17,6 +22,9 @@ public interface Holder {
    */
   void addHeader(@NonNull View view, boolean fixed);
 
+  /**
+   * Adds the given view as footer to the bottom of holder
+   */
   void addFooter(@NonNull View view);
 
   /**
@@ -27,16 +35,19 @@ public interface Holder {
    */
   void addFooter(@NonNull View view, boolean fixed);
 
-  void setBackgroundResource(int colorResource);
+  /**
+   * Sets the given color resource as background for the content
+   */
+  void setBackgroundResource(@ColorRes int colorResource);
 
-  View getView(@NonNull LayoutInflater inflater, ViewGroup parent);
+  @NonNull View getView(@NonNull LayoutInflater inflater, ViewGroup parent);
 
   void setOnKeyListener(View.OnKeyListener keyListener);
 
-  View getInflatedView();
+  @NonNull View getInflatedView();
 
-  View getHeader();
+  @Nullable View getHeader();
 
-  View getFooter();
+  @Nullable View getFooter();
 
 }

@@ -47,7 +47,7 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
     footerView = view;
   }
 
-  @Override public void setAdapter(BaseAdapter adapter) {
+  @Override public void setAdapter(@NonNull BaseAdapter adapter) {
     listView.setAdapter(adapter);
   }
 
@@ -55,7 +55,8 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
     this.backgroundResource = colorResource;
   }
 
-  @Override public View getView(@NonNull LayoutInflater inflater, ViewGroup parent) {
+  @Override @NonNull
+  public View getView(@NonNull LayoutInflater inflater, ViewGroup parent) {
     View view = inflater.inflate(R.layout.dialog_list, parent, false);
     View outMostView = view.findViewById(R.id.dialogplus_outmost_container);
     outMostView.setBackgroundResource(backgroundResource);
@@ -82,7 +83,8 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
     this.keyListener = keyListener;
   }
 
-  @Override public View getInflatedView() {
+  @Override @NonNull
+  public View getInflatedView() {
     return listView;
   }
 
