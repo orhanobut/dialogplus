@@ -15,7 +15,7 @@
       app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
   <RadioGroup
-      android:id="@+id/radio_group"
+      android:id="@+id/holderRadioGroup"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginBottom="@dimen/activity_horizontal_margin"
@@ -91,21 +91,21 @@
       android:layout_height="wrap_content">
 
     <CheckBox
-        android:id="@+id/header_check_box"
+        android:id="@+id/headerCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/show_header"
         android:checked="true"/>
 
     <CheckBox
-        android:id="@+id/footer_check_box"
+        android:id="@+id/footerCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/show_footer"
         android:checked="true"/>
 
     <CheckBox
-        android:id="@+id/expanded_check_box"
+        android:id="@+id/expandedCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Expanded"
@@ -127,9 +127,21 @@
 
   </com.google.android.flexbox.FlexboxLayout>
 
-  <Button
-      android:id="@+id/showDialogButton"
-      android:layout_width="wrap_content"
-      android:text="Show Dialog"
-      android:layout_height="wrap_content"/>
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/showDialogButton"
+        android:layout_width="wrap_content"
+        android:text="Show Dialog"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/listCountInput"
+        android:layout_width="wrap_content"
+        android:text="16"
+        android:layout_height="wrap_content"/>
+  </LinearLayout>
+
 </LinearLayout>

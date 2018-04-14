@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
   compileSdkVersion 27
@@ -26,12 +28,10 @@ android {
     targetCompatibility JavaVersion.VERSION_1_8
   }
 }
-repositories {
-  maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-}
 
 dependencies {
   implementation project(':dialogplus')
-  api 'com.android.support:appcompat-v7:27.1.1'
+  implementation 'com.android.support:appcompat-v7:27.1.1'
   implementation 'com.google.android:flexbox:0.3.2'
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
