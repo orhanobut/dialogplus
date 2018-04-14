@@ -79,11 +79,15 @@ class MainActivity : AppCompatActivity() {
 
     if (contentHeightInput.text.toString().toInt() != -1) {
       builder.setContentHeight(contentHeightInput.text.toString().toInt())
+    } else {
+      builder.setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-    //        .setContentWidth(800)
-    builder.setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
-        .setOnCancelListener { dialog -> toast("cancelled") }.overlayBackgroundResource = android.R.color.transparent
+    if (contentWidthInput.text.toString().toInt() != -1) {
+      builder.setContentWidth(800)
+    }
+
+    builder.setOnCancelListener { dialog -> toast("cancelled") }.overlayBackgroundResource = android.R.color.transparent
     //        .setContentBackgroundResource(R.drawable.corner_background)
     //                .setOutMostMargin(0, 100, 0, 0)
     builder.create().show()
