@@ -1,5 +1,6 @@
 package com.orhanobut.dialogplus;
 
+import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,18 +31,20 @@ public class ViewHolder implements Holder {
     this.contentView = contentView;
   }
 
-  @Override public void addHeader(View view) {
-    if (view == null) {
-      return;
-    }
+  @Override public void addHeader(@NonNull View view) {
+    addHeader(view, false);
+  }
+
+  @Override public void addHeader(@NonNull View view, boolean fixed) {
     headerContainer.addView(view);
     headerView = view;
   }
 
-  @Override public void addFooter(View view) {
-    if (view == null) {
-      return;
-    }
+  @Override public void addFooter(@NonNull View view) {
+    addFooter(view, false);
+  }
+
+  @Override public void addFooter(@NonNull View view, boolean fixed) {
     footerContainer.addView(view);
     footerView = view;
   }

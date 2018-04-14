@@ -1,5 +1,6 @@
 package com.orhanobut.dialogplus;
 
+import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,20 +18,32 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
   private View.OnKeyListener keyListener;
   private View headerView;
   private View footerView;
+  private ViewGroup footerContainer;
+  private ViewGroup headerContainer;
 
-  @Override public void addHeader(View view) {
-    if (view == null) {
-      return;
+  @Override public void addHeader(@NonNull View view) {
+    addHeader(view, false);
+  }
+
+  @Override public void addHeader(@NonNull View view, boolean fixed) {
+    if (fixed) {
+      headerContainer.addView(view);
+    } else {
+      listView.addHeaderView(view);
     }
-    listView.addHeaderView(view);
     headerView = view;
   }
 
-  @Override public void addFooter(View view) {
-    if (view == null) {
-      return;
+  @Override public void addFooter(@NonNull View view) {
+    addFooter(view, false);
+  }
+
+  @Override public void addFooter(@NonNull View view, boolean fixed) {
+    if (fixed) {
+      footerContainer.addView(view);
+    } else {
+      listView.addFooterView(view);
     }
-    listView.addFooterView(view);
     footerView = view;
   }
 
@@ -42,11 +55,11 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
     this.backgroundResource = colorResource;
   }
 
-  @Override public View getView(LayoutInflater inflater, ViewGroup parent) {
+  @Override public View getView(@NonNull LayoutInflater inflater, ViewGroup parent) {
     View view = inflater.inflate(R.layout.dialog_list, parent, false);
     View outMostView = view.findViewById(R.id.dialogplus_outmost_container);
     outMostView.setBackgroundResource(backgroundResource);
-    listView = (ListView) view.findViewById(R.id.dialogplus_list);
+    listView = view.findViewById(R.id.dialogplus_list);
     listView.setOnItemClickListener(this);
     listView.setOnKeyListener(new View.OnKeyListener() {
       @Override public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -56,6 +69,8 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
         return keyListener.onKey(v, keyCode, event);
       }
     });
+    headerContainer = view.findViewById(R.id.dialogplus_header_container);
+    footerContainer = view.findViewById(R.id.dialogplus_footer_container);
     return view;
   }
 

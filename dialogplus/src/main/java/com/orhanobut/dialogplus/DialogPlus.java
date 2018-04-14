@@ -2,12 +2,8 @@ package com.orhanobut.dialogplus;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.Display;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.annotation.Nullable;
+import android.view.*;
 import android.view.animation.Animation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -95,14 +91,14 @@ public class DialogPlus {
      * nexus device. I think it should be tested on different devices but in my opinion is the way to go.
      * @link http://stackoverflow.com/questions/4486034/get-root-view-from-current-activity
      */
-    decorView = (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
+    decorView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
     rootView = (ViewGroup) layoutInflater.inflate(R.layout.base_container, decorView, false);
     rootView.setLayoutParams(builder.getOutmostLayoutParams());
 
     View outmostView = rootView.findViewById(R.id.dialogplus_outmost_container);
     outmostView.setBackgroundResource(builder.getOverlayBackgroundResource());
 
-    contentContainer = (ViewGroup) rootView.findViewById(R.id.dialogplus_content_container);
+    contentContainer = rootView.findViewById(R.id.dialogplus_content_container);
     contentContainer.setLayoutParams(builder.getContentParams());
 
     outAnim = builder.getOutAnimation();
@@ -111,7 +107,9 @@ public class DialogPlus {
     initContentView(
         layoutInflater,
         builder.getHeaderView(),
+        builder.isFixedHeader(),
         builder.getFooterView(),
+        builder.isFixedFooter(),
         builder.getAdapter(),
         builder.getContentPadding(),
         builder.getContentMargin()
@@ -218,9 +216,9 @@ public class DialogPlus {
   /**
    * It is called in order to create content
    */
-  private void initContentView(LayoutInflater inflater, View header, View footer, BaseAdapter adapter,
-                               int[] padding, int[] margin) {
-    View contentView = createView(inflater, header, footer, adapter);
+  private void initContentView(LayoutInflater inflater, View header, boolean fixedHeader, View footer,
+                               boolean fixedFooter, BaseAdapter adapter, int[] padding, int[] margin) {
+    View contentView = createView(inflater, header, fixedHeader, footer, fixedFooter, adapter);
     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
     );
@@ -248,18 +246,23 @@ public class DialogPlus {
    * @param inflater used to inflate the content of the dialog
    * @return any view which is passed
    */
-  private View createView(LayoutInflater inflater, View headerView, View footerView, BaseAdapter adapter) {
+  private View createView(LayoutInflater inflater, @Nullable View headerView, boolean fixedHeader,
+                          @Nullable View footerView, boolean fixedFooter, BaseAdapter adapter) {
     View view = holder.getView(inflater, rootView);
 
     if (holder instanceof ViewHolder) {
       assignClickListenerRecursively(view);
     }
 
-    assignClickListenerRecursively(headerView);
-    holder.addHeader(headerView);
+    if (headerView != null) {
+      assignClickListenerRecursively(headerView);
+      holder.addHeader(headerView, fixedHeader);
+    }
 
-    assignClickListenerRecursively(footerView);
-    holder.addFooter(footerView);
+    if (footerView != null) {
+      assignClickListenerRecursively(footerView);
+      holder.addFooter(footerView, fixedFooter);
+    }
 
     if (adapter != null && holder instanceof HolderAdapter) {
       HolderAdapter holderAdapter = (HolderAdapter) holder;

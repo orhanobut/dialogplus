@@ -1,6 +1,7 @@
 package com.orhanobut.dialogplus;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,7 @@ final class Utils {
    *
    * @return null if both resourceId and view is not set
    */
-  static View getView(Context context, int resourceId, View view) {
+  @Nullable static View getView(Context context, int resourceId, View view) {
     LayoutInflater inflater = LayoutInflater.from(context);
     if (view != null) {
       return view;

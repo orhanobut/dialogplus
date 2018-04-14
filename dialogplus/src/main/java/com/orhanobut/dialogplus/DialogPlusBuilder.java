@@ -2,6 +2,8 @@ package com.orhanobut.dialogplus;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -38,7 +40,9 @@ public class DialogPlusBuilder {
   private boolean isCancelable = true;
   private int contentBackgroundResource = android.R.color.white;
   private int headerViewResourceId = INVALID;
+  private boolean fixedHeader = false;
   private int footerViewResourceId = INVALID;
+  private boolean fixedFooter = false;
   private int inAnimation = INVALID;
   private int outAnimation = INVALID;
   private boolean expanded;
@@ -74,15 +78,35 @@ public class DialogPlusBuilder {
    * Set the footer view using the id of the layout resource
    */
   public DialogPlusBuilder setFooter(int resourceId) {
+    return setFooter(resourceId, false);
+  }
+
+  /**
+   * Set the footer view using the id of the layout resource
+   *
+   * @param fixed is used to determine whether footer should be fixed or not. Fixed if true, scrollable otherwise
+   */
+  public DialogPlusBuilder setFooter(int resourceId, boolean fixed) {
     this.footerViewResourceId = resourceId;
+    this.fixedFooter = fixed;
     return this;
   }
 
   /**
-   * Set the footer view using a view
+   * Sets the given view as footer.
    */
-  public DialogPlusBuilder setFooter(View view) {
+  public DialogPlusBuilder setFooter(@NonNull View view) {
+    return setFooter(view, false);
+  }
+
+  /**
+   * Sets the given view as footer.
+   *
+   * @param fixed is used to determine whether footer should be fixed or not. Fixed if true, scrollable otherwise
+   */
+  public DialogPlusBuilder setFooter(@NonNull View view, boolean fixed) {
     this.footerView = view;
+    this.fixedFooter = fixed;
     return this;
   }
 
@@ -90,7 +114,17 @@ public class DialogPlusBuilder {
    * Set the header view using the id of the layout resource
    */
   public DialogPlusBuilder setHeader(int resourceId) {
+    return setHeader(resourceId, false);
+  }
+
+  /**
+   * Set the header view using the id of the layout resource
+   *
+   * @param fixed is used to determine whether header should be fixed or not. Fixed if true, scrollable otherwise
+   */
+  public DialogPlusBuilder setHeader(int resourceId, boolean fixed) {
     this.headerViewResourceId = resourceId;
+    this.fixedHeader = fixed;
     return this;
   }
 
@@ -98,7 +132,17 @@ public class DialogPlusBuilder {
    * Set the header view using a view
    */
   public DialogPlusBuilder setHeader(View view) {
+    return setHeader(view, false);
+  }
+
+  /**
+   * Set the header view using a view
+   *
+   * @param fixed is used to determine whether header should be fixed or not. Fixed if true, scrollable otherwise
+   */
+  public DialogPlusBuilder setHeader(View view, boolean fixed) {
     this.headerView = view;
+    this.fixedHeader = fixed;
     return this;
   }
 
@@ -264,7 +308,7 @@ public class DialogPlusBuilder {
     return Utils.getView(context, footerViewResourceId, footerView);
   }
 
-  public View getHeaderView() {
+  @Nullable public View getHeaderView() {
     return Utils.getView(context, headerViewResourceId, headerView);
   }
 
@@ -383,4 +427,11 @@ public class DialogPlusBuilder {
     }
   }
 
+  public boolean isFixedHeader() {
+    return fixedHeader;
+  }
+
+  public boolean isFixedFooter() {
+    return fixedFooter;
+  }
 }
