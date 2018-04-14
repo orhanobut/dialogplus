@@ -34,12 +34,7 @@ public class MainActivity extends AppCompatActivity {
     fixedHeaderCheckBox = findViewById(R.id.fixedHeaderCheckBox);
     fixedFooterCheckBox = findViewById(R.id.fixedFooterCheckBox);
 
-    findViewById(R.id.showDialogButton).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        showDialogPlus();
-      }
-    });
+    findViewById(R.id.showDialogButton).setOnClickListener(v -> showDialogPlus());
 
   }
 
@@ -95,29 +90,21 @@ public class MainActivity extends AppCompatActivity {
     builder.setCancelable(true)
         .setGravity(gravity)
         .setAdapter(adapter)
-        .setOnClickListener(new OnClickListener() {
-          @Override public void onClick(DialogPlus dialog, View view) {
-            if (view instanceof TextView) {
-              TextView textView = (TextView) view;
-              toast(textView.getText().toString());
-            }
-          }
-        })
-        .setOnItemClickListener(new OnItemClickListener() {
-          @Override public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-            TextView textView = view.findViewById(R.id.text_view);
+        .setOnClickListener((dialog, view) -> {
+          if (view instanceof TextView) {
+            TextView textView = (TextView) view;
             toast(textView.getText().toString());
           }
+        })
+        .setOnItemClickListener((dialog, item, view, position) -> {
+          TextView textView = view.findViewById(R.id.text_view);
+          toast(textView.getText().toString());
         })
 //        .setOnDismissListener(dismissListener)
         .setExpanded(expanded)
 //        .setContentWidth(800)
         .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
-        .setOnCancelListener(new OnCancelListener() {
-          @Override public void onCancel(DialogPlus dialog) {
-            toast("cancelled");
-          }
-        })
+        .setOnCancelListener(dialog -> toast("cancelled"))
         .setOverlayBackgroundResource(android.R.color.transparent);
 //        .setContentBackgroundResource(R.drawable.corner_background)
     //                .setOutMostMargin(0, 100, 0, 0)
