@@ -86,7 +86,7 @@ public class DialogPlus {
     onBackPressListener = builder.getOnBackPressListener();
     isCancelable = builder.isCancelable();
 
-    /**
+    /*
      * Avoid getting directly from the decor view because by doing that we are overlapping the black soft key on
      * nexus device. I think it should be tested on different devices but in my opinion is the way to go.
      * @link http://stackoverflow.com/questions/4486034/get-root-view-from-current-activity
