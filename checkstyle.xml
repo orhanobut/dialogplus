@@ -57,7 +57,7 @@
 
     <!-- Checks for imports                              -->
     <!-- See http://checkstyle.sf.net/config_import.html -->
-    <module name="AvoidStarImport"/>
+    <!--<module name="AvoidStarImport"/>-->
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports">
