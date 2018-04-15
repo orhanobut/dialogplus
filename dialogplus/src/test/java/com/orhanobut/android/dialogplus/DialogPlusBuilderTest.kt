@@ -19,35 +19,6 @@ class DialogPlusBuilderTest {
 
   private val context = Robolectric.setupActivity(Activity::class.java)
 
-  @Test fun constructorShouldNotAcceptNull() {
-    try {
-      DialogPlus.newDialog(null)
-      fail()
-    } catch (e: Exception) {
-      assertThat(e).hasMessage("Context may not be null")
-    }
-
-    val builder = DialogPlus.newDialog(context)
-
-    assertThat(builder).isNotNull()
-  }
-
-  @Test fun getContextShouldNotReturnNull() {
-    val builder = DialogPlus.newDialog(context)
-
-    assertThat(builder.context).isNotNull()
-  }
-
-  @Test fun setAdapterShouldNotAcceptNull() {
-    try {
-      DialogPlus.newDialog(context).adapter = null
-      fail()
-    } catch (e: Exception) {
-      assertThat(e).hasMessage("Adapter may not be null")
-    }
-
-  }
-
   @Test fun testAdapter() {
     val adapter = ArrayAdapter(
         context, android.R.layout.simple_list_item_1, arrayOf("234")
@@ -102,9 +73,6 @@ class DialogPlusBuilderTest {
     val viewHolder = ViewHolder(LinearLayout(context))
     builder.setContentHolder(viewHolder)
     assertThat(builder.holder).isEqualTo(viewHolder)
-
-    //should accept null
-    builder.setContentHolder(null)
   }
 
   @Test fun testSetCancelable() {
@@ -319,7 +287,7 @@ class DialogPlusBuilderTest {
     assertThat(builder.onCancelListener).isNull()
 
     val listener = OnCancelListener { }
-    builder.onCancelListener = listener
+    builder.setOnCancelListener(listener)
     assertThat(builder.onCancelListener).isNotNull()
     assertThat(builder.onCancelListener).isEqualTo(listener)
   }

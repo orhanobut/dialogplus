@@ -6,9 +6,9 @@ import android.view.animation.Transformation;
 
 class HeightAnimation extends Animation {
 
-  protected final int originalHeight;
-  protected final View view;
-  protected float perValue;
+  private final int originalHeight;
+  private float perValue;
+  private final View view;
 
   HeightAnimation(View view, int fromHeight, int toHeight) {
     this.view = view;

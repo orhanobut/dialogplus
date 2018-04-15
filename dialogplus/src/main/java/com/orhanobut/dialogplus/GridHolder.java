@@ -1,5 +1,6 @@
 package com.orhanobut.dialogplus;
 
+import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,23 +27,25 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
     this.columnNumber = columnNumber;
   }
 
-  @Override public void addHeader(View view) {
-    if (view == null) {
-      return;
-    }
+  @Override public void addHeader(@NonNull View view) {
+    addHeader(view, false);
+  }
+
+  @Override public void addHeader(@NonNull View view, boolean fixed) {
     headerContainer.addView(view);
     headerView = view;
   }
 
-  @Override public void addFooter(View view) {
-    if (view == null) {
-      return;
-    }
+  @Override public void addFooter(@NonNull View view) {
+    addFooter(view, false);
+  }
+
+  @Override public void addFooter(@NonNull View view, boolean fixed) {
     footerContainer.addView(view);
     footerView = view;
   }
 
-  @Override public void setAdapter(BaseAdapter adapter) {
+  @Override public void setAdapter(@NonNull BaseAdapter adapter) {
     gridView.setAdapter(adapter);
   }
 
@@ -50,11 +53,12 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
     this.backgroundResource = colorResource;
   }
 
-  @Override public View getView(LayoutInflater inflater, ViewGroup parent) {
+  @Override @NonNull
+  public View getView(@NonNull LayoutInflater inflater, ViewGroup parent) {
     View view = inflater.inflate(R.layout.dialog_grid, parent, false);
     View outMostView = view.findViewById(R.id.dialogplus_outmost_container);
     outMostView.setBackgroundResource(backgroundResource);
-    gridView = (GridView) view.findViewById(R.id.dialogplus_list);
+    gridView = view.findViewById(R.id.dialogplus_list);
     gridView.setNumColumns(columnNumber);
     gridView.setOnItemClickListener(this);
     gridView.setOnKeyListener(new View.OnKeyListener() {
@@ -65,8 +69,8 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
         return keyListener.onKey(v, keyCode, event);
       }
     });
-    headerContainer = (ViewGroup) view.findViewById(R.id.dialogplus_header_container);
-    footerContainer = (ViewGroup) view.findViewById(R.id.dialogplus_footer_container);
+    headerContainer = view.findViewById(R.id.dialogplus_header_container);
+    footerContainer = view.findViewById(R.id.dialogplus_footer_container);
     return view;
   }
 
@@ -78,7 +82,8 @@ public class GridHolder implements HolderAdapter, AdapterView.OnItemClickListene
     this.keyListener = keyListener;
   }
 
-  @Override public View getInflatedView() {
+  @Override @NonNull
+  public View getInflatedView() {
     return gridView;
   }
 

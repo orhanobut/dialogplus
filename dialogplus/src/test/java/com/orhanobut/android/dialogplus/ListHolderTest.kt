@@ -114,9 +114,9 @@ class ListHolderTest {
     holder.setOnItemClickListener { item, view, position ->
       assertThat(item.toString()).isEqualTo("test")
       assertThat(position).isEqualTo(0)
-      assertThat(view).isNull()
+      assertThat(view).isEqualTo(listView)
     }
-    listView.performItemClick(null, 0, 0)
+    listView.performItemClick(listView, 0, 0)
   }
 
   @Test fun doNotCountHeaderForPositionCalculation() {
@@ -135,9 +135,9 @@ class ListHolderTest {
     holder.setOnItemClickListener { item, view, position ->
       assertThat(item.toString()).isEqualTo("test")
       assertThat(position).isEqualTo(0)
-      assertThat(view).isNull()
+      assertThat(view).isEqualTo(listView)
     }
-    listView.performItemClick(null, 1, 0)
+    listView.performItemClick(listView, 1, 0)
   }
 
 }

@@ -81,12 +81,12 @@ class GridHolderTest {
     view.performItemClick(null, 0, 0)
 
     //set listener
-    holder.setOnItemClickListener { item, view, position ->
+    holder.setOnItemClickListener { item, passedView, position ->
       assertThat(item.toString()).isEqualTo("test")
       assertThat(position).isEqualTo(0)
-      assertThat(view).isNull()
+      assertThat(view).isEqualTo(passedView)
     }
-    view.performItemClick(null, 0, 0)
+    view.performItemClick(view, 0, 0)
   }
 
 }

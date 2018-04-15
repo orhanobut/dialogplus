@@ -2,6 +2,8 @@ package com.orhanobut.dialogplus;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -38,7 +40,9 @@ public class DialogPlusBuilder {
   private boolean isCancelable = true;
   private int contentBackgroundResource = android.R.color.white;
   private int headerViewResourceId = INVALID;
+  private boolean fixedHeader = false;
   private int footerViewResourceId = INVALID;
+  private boolean fixedFooter = false;
   private int inAnimation = INVALID;
   private int outAnimation = INVALID;
   private boolean expanded;
@@ -51,10 +55,7 @@ public class DialogPlusBuilder {
   /**
    * Initialize the builder with a valid context in order to inflate the dialog
    */
-  DialogPlusBuilder(Context context) {
-    if (context == null) {
-      throw new NullPointerException("Context may not be null");
-    }
+  DialogPlusBuilder(@NonNull Context context) {
     this.context = context;
     Arrays.fill(margin, INVALID);
   }
@@ -62,10 +63,7 @@ public class DialogPlusBuilder {
   /**
    * Set the adapter that will be used when ListHolder or GridHolder are passed
    */
-  public DialogPlusBuilder setAdapter(BaseAdapter adapter) {
-    if (adapter == null) {
-      throw new NullPointerException("Adapter may not be null");
-    }
+  public DialogPlusBuilder setAdapter(@NonNull BaseAdapter adapter) {
     this.adapter = adapter;
     return this;
   }
@@ -74,15 +72,35 @@ public class DialogPlusBuilder {
    * Set the footer view using the id of the layout resource
    */
   public DialogPlusBuilder setFooter(int resourceId) {
+    return setFooter(resourceId, false);
+  }
+
+  /**
+   * Set the footer view using the id of the layout resource
+   *
+   * @param fixed is used to determine whether footer should be fixed or not. Fixed if true, scrollable otherwise
+   */
+  public DialogPlusBuilder setFooter(int resourceId, boolean fixed) {
     this.footerViewResourceId = resourceId;
+    this.fixedFooter = fixed;
     return this;
   }
 
   /**
-   * Set the footer view using a view
+   * Sets the given view as footer.
    */
-  public DialogPlusBuilder setFooter(View view) {
+  public DialogPlusBuilder setFooter(@NonNull View view) {
+    return setFooter(view, false);
+  }
+
+  /**
+   * Sets the given view as footer.
+   *
+   * @param fixed is used to determine whether footer should be fixed or not. Fixed if true, scrollable otherwise
+   */
+  public DialogPlusBuilder setFooter(@NonNull View view, boolean fixed) {
     this.footerView = view;
+    this.fixedFooter = fixed;
     return this;
   }
 
@@ -90,15 +108,35 @@ public class DialogPlusBuilder {
    * Set the header view using the id of the layout resource
    */
   public DialogPlusBuilder setHeader(int resourceId) {
+    return setHeader(resourceId, false);
+  }
+
+  /**
+   * Set the header view using the id of the layout resource
+   *
+   * @param fixed is used to determine whether header should be fixed or not. Fixed if true, scrollable otherwise
+   */
+  public DialogPlusBuilder setHeader(int resourceId, boolean fixed) {
     this.headerViewResourceId = resourceId;
+    this.fixedHeader = fixed;
     return this;
   }
 
   /**
    * Set the header view using a view
    */
-  public DialogPlusBuilder setHeader(View view) {
+  public DialogPlusBuilder setHeader(@NonNull View view) {
+    return setHeader(view, false);
+  }
+
+  /**
+   * Set the header view using a view
+   *
+   * @param fixed is used to determine whether header should be fixed or not. Fixed if true, scrollable otherwise
+   */
+  public DialogPlusBuilder setHeader(@NonNull View view, boolean fixed) {
     this.headerView = view;
+    this.fixedHeader = fixed;
     return this;
   }
 
@@ -113,7 +151,7 @@ public class DialogPlusBuilder {
   /**
    * Set the content of the dialog by passing one of the provided Holders
    */
-  public DialogPlusBuilder setContentHolder(Holder holder) {
+  public DialogPlusBuilder setContentHolder(@NonNull Holder holder) {
     this.holder = holder;
     return this;
   }
@@ -211,22 +249,22 @@ public class DialogPlusBuilder {
    * Set a global click listener to you dialog in order to handle all the possible click events. You can then
    * identify the view by using its id and handle the correct behaviour
    */
-  public DialogPlusBuilder setOnClickListener(OnClickListener listener) {
+  public DialogPlusBuilder setOnClickListener(@Nullable OnClickListener listener) {
     this.onClickListener = listener;
     return this;
   }
 
-  public DialogPlusBuilder setOnDismissListener(OnDismissListener listener) {
+  public DialogPlusBuilder setOnDismissListener(@Nullable OnDismissListener listener) {
     this.onDismissListener = listener;
     return this;
   }
 
-  public DialogPlusBuilder setOnCancelListener(OnCancelListener listener) {
+  public DialogPlusBuilder setOnCancelListener(@Nullable OnCancelListener listener) {
     this.onCancelListener = listener;
     return this;
   }
 
-  public DialogPlusBuilder setOnBackPressListener(OnBackPressListener listener) {
+  public DialogPlusBuilder setOnBackPressListener(@Nullable OnBackPressListener listener) {
     this.onBackPressListener = listener;
     return this;
   }
@@ -255,27 +293,27 @@ public class DialogPlusBuilder {
   /**
    * Create the dialog using this builder
    */
-  public DialogPlus create() {
+  @NonNull public DialogPlus create() {
     getHolder().setBackgroundResource(getContentBackgroundResource());
     return new DialogPlus(this);
   }
 
-  public View getFooterView() {
+  @Nullable public View getFooterView() {
     return Utils.getView(context, footerViewResourceId, footerView);
   }
 
-  public View getHeaderView() {
+  @Nullable public View getHeaderView() {
     return Utils.getView(context, headerViewResourceId, headerView);
   }
 
-  public Holder getHolder() {
+  @NonNull public Holder getHolder() {
     if (holder == null) {
       holder = new ListHolder();
     }
     return holder;
   }
 
-  public Context getContext() {
+  @NonNull public Context getContext() {
     return context;
   }
 
@@ -383,4 +421,11 @@ public class DialogPlusBuilder {
     }
   }
 
+  public boolean isFixedHeader() {
+    return fixedHeader;
+  }
+
+  public boolean isFixedFooter() {
+    return fixedFooter;
+  }
 }
