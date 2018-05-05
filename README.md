@@ -29,7 +29,7 @@ Simple and advanced dialog solution.
 
 ### Gradle
 ```groovy
-compile 'com.orhanobut:dialogplus:1.11@aar'
+implementation 'com.orhanobut:dialogplus:1.11@aar'
 ```
 
 ### Usage
