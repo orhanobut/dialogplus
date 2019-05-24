@@ -1,6 +1,6 @@
 package com.orhanobut.dialogplus;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Invoked when dialog is completely dismissed. This listener takes the animation into account and waits for it.
