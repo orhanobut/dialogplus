@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-  <android.support.v7.widget.Toolbar
+  <androidx.appcompat.widget.Toolbar
       android:id="@+id/activity_toolbar"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -131,42 +131,42 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-      <android.support.design.widget.TextInputEditText
+      <com.google.android.material.textfield.TextInputEditText
           android:id="@+id/listCountInput"
           android:layout_width="100dp"
           android:hint="List count"
           android:text="16"
           android:layout_height="wrap_content"/>
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-      <android.support.design.widget.TextInputEditText
+      <com.google.android.material.textfield.TextInputEditText
           android:layout_width="100dp"
           android:layout_height="wrap_content"
           android:id="@+id/contentHeightInput"
           android:hint="Content height"
           android:text="-1"
       />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-      <android.support.design.widget.TextInputEditText
+      <com.google.android.material.textfield.TextInputEditText
           android:layout_width="100dp"
           android:layout_height="wrap_content"
           android:id="@+id/contentWidthInput"
           android:hint="Content height"
           android:text="-1"
       />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
   </com.google.android.flexbox.FlexboxLayout>
 

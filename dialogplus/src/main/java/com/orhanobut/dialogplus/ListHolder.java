@@ -1,6 +1,5 @@
 package com.orhanobut.dialogplus;
 
-import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+
+import androidx.annotation.NonNull;
 
 public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListener {
 

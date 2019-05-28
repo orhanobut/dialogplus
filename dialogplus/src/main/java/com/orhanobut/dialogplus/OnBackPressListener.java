@@ -1,6 +1,6 @@
 package com.orhanobut.dialogplus;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * DialogPlus tries to listen back press actions.
