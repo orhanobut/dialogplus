@@ -6,11 +6,11 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.ListView
+import com.google.common.truth.Truth.assertThat
 import com.orhanobut.dialogplus.HolderAdapter
 import com.orhanobut.dialogplus.ListHolder
 import com.orhanobut.dialogplus.R
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.fail
+import junit.framework.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
