@@ -3,9 +3,9 @@ package com.orhanobut.android.dialogplus
 import android.app.Activity
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import com.google.common.truth.Truth.assertThat
 import com.orhanobut.dialogplus.Holder
 import com.orhanobut.dialogplus.ViewHolder
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric

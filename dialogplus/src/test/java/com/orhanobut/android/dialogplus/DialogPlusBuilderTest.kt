@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import com.google.common.truth.Truth.assertThat
 import com.orhanobut.dialogplus.*
-import junit.framework.Assert.fail
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric

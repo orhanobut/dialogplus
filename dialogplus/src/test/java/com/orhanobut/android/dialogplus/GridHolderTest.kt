@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.GridView
 import android.widget.LinearLayout
+import com.google.common.truth.Truth.assertThat
 import com.orhanobut.dialogplus.GridHolder
 import com.orhanobut.dialogplus.HolderAdapter
 import com.orhanobut.dialogplus.R
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
