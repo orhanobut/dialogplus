@@ -60,13 +60,19 @@ source set and is excluded from the release AAR and release sources JAR.
 
 The JVM suite exercises margin defaults, drag boundaries, snap thresholds, and
 height interpolation without Robolectric or default-returning Android stubs.
-Android execution covers holder inflation, existing-view reparenting, fixed and
-scrolling headers, item/null-item callbacks, content dimensions, dialog ownership,
-show/dismiss idempotence, asynchronous dismissal, back cancellation, overlay
-cancellation, and list scroll position. JUnit assertions and recording callbacks
-replace assertion and mocking libraries. There are no platform API fakes.
+Android execution shows complete dialogs with real adapters and platform widgets,
+then injects taps, keys, and drags. It verifies rendered rows and their item/view/
+position callbacks (including scrolling headers/footers), fixed headers and grid
+columns, reparenting and existing click handlers, measured dimensions and margins,
+listener clearing, per-instance ownership and reuse, cancellation callback order,
+empty-content dismissal, expansion/collapse/re-expansion, and scrolling an expanded
+list. Shared Activity/input/wait helpers replace isolated inflation and manual
+item-callback tests; trivial builder getter tests have been removed. Assertions
+inspect observable results after Android delivers input and completes animations.
+There are no mocks, recording fakes, platform API replacements, Mockito, or
+Robolectric dependencies; ordinary callbacks record the library's actual output.
 
-Local validation passed 7 JVM tests and 14 device tests on an Android 15/API 35
+Local validation passed 7 JVM tests and 13 device tests on an Android 15/API 35
 arm64 emulator, both release lint tasks, library release assembly, sample debug
 and release assembly, Dokka generation, local publication, and all three inspection
 scripts. The workflow also passed actionlint 1.7.12 validation. The local run did not execute on API 15–34 or API 36–37, physical devices,
@@ -126,8 +132,9 @@ item clicks. Required contexts, holders, adapters, and added views reject null a
 the Kotlin entry point; Java code that previously passed null may fail earlier.
 Accessing a holder's content before inflation can now throw
 `IllegalStateException`/`UninitializedPropertyAccessException` rather than returning
-null despite its old `@NonNull` contract. Missing key listeners likewise fail with
-`IllegalStateException`. The incorrect old `@ColorRes` contract was replaced with
+null despite its old `@NonNull` contract. Cleared key listeners are passed directly
+to platform views instead of throwing during key dispatch. The incorrect old
+`@ColorRes` contract was replaced with
 a description accepting drawable/color resources, matching `setBackgroundResource`.
 
 Focused fixes accompany the conversion:
@@ -136,7 +143,9 @@ Focused fixes accompany the conversion:
   scrolling ListView headers contribute to the offset.
 - `isShowing` checks each instance's attachment, so another instance cannot
   prevent it from showing. Dismissing an unattached/already-dismissed dialog is a
-  no-op and does not emit a spurious dismissal callback.
+  no-op and does not emit a spurious dismissal callback. Zero-sized content is
+  removed asynchronously without waiting for an animation that cannot draw; the
+  dismissal callback still follows removal.
 - On API 33+, the dialog owns and unregisters a platform back callback; legacy
   key handling remains for older Android. New API types are isolated in a helper
   only loaded behind the API check. Gesture animation progress is not implemented.
@@ -144,6 +153,9 @@ Focused fixes accompany the conversion:
   display height and private system dimension resources; drag cancellation resets
   coordinates, collapse resets fullscreen state, and a scrolled list is not
   mistaken for the top solely because its first visible child aligns with padding.
+- When no global click listener is configured, existing content click handlers
+  are preserved. No-op item/global listener wrappers and the expansion factory
+  have been removed; builder gravity uses its existing layout parameters.
 - The sample uses safe numeric parsing, respects entered widths, handles window
   insets, and dismisses its owned dialog during Activity destruction.
 

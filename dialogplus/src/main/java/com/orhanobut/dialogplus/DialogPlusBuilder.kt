@@ -22,7 +22,6 @@ open class DialogPlusBuilder internal constructor(open val context: Context) {
     private var footerViewValue: View? = null
     private var headerViewValue: View? = null
     private var holderValue: Holder? = null
-    private var gravity = Gravity.BOTTOM
     private var itemClickListener: OnItemClickListener? = null
     private var clickListener: OnClickListener? = null
     private var dismissListener: OnDismissListener? = null
@@ -68,7 +67,6 @@ open class DialogPlusBuilder internal constructor(open val context: Context) {
     open fun setContentBackgroundResource(resourceId: Int): DialogPlusBuilder = apply { contentBackground = resourceId }
     open fun setOverlayBackgroundResource(resourceId: Int): DialogPlusBuilder = apply { overlayBackground = resourceId }
     open fun setGravity(gravity: Int): DialogPlusBuilder = apply {
-        this.gravity = gravity
         params.gravity = gravity
     }
     open fun setInAnimation(inAnimResource: Int): DialogPlusBuilder = apply { inAnimationResource = inAnimResource }
@@ -112,9 +110,9 @@ open class DialogPlusBuilder internal constructor(open val context: Context) {
     open val holder: Holder get() = holderValue ?: ListHolder().also { holderValue = it }
     open val adapter: BaseAdapter? get() = adapterValue
     open val inAnimation: Animation get() = AnimationUtils.loadAnimation(context,
-        if (inAnimationResource == -1) Utils.getAnimationResource(gravity, true) else inAnimationResource)
+        if (inAnimationResource == -1) Utils.getAnimationResource(params.gravity, true) else inAnimationResource)
     open val outAnimation: Animation get() = AnimationUtils.loadAnimation(context,
-        if (outAnimationResource == -1) Utils.getAnimationResource(gravity, false) else outAnimationResource)
+        if (outAnimationResource == -1) Utils.getAnimationResource(params.gravity, false) else outAnimationResource)
     open val contentParams: FrameLayout.LayoutParams get() {
         if (expanded) params.height = defaultContentHeight
         return params
@@ -131,7 +129,7 @@ open class DialogPlusBuilder internal constructor(open val context: Context) {
     open val onBackPressListener: OnBackPressListener? get() = backPressListener
     open val contentMargin: IntArray get() {
         val minimumMargin = context.resources.getDimensionPixelSize(R.dimen.dialogplus_default_center_margin)
-        for (i in margin.indices) margin[i] = DialogLayoutRules.margin(gravity, margin[i], minimumMargin)
+        for (i in margin.indices) margin[i] = DialogLayoutRules.margin(params.gravity, margin[i], minimumMargin)
         return margin
     }
     open val contentPadding: IntArray get() = padding

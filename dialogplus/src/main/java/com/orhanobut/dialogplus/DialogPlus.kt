@@ -60,7 +60,7 @@ open class DialogPlus internal constructor(builder: DialogPlusBuilder) {
         }
         if (builder.isExpanded && holder.inflatedView is AbsListView) {
             val view = holder.inflatedView as AbsListView
-            view.setOnTouchListener(ExpandTouchListener.newListener(activity, view, contentContainer,
+            view.setOnTouchListener(ExpandTouchListener(view, contentContainer,
                 builder.contentParams.gravity, Utils.getDisplayHeight(activity), builder.defaultContentHeight))
         }
     }
@@ -89,16 +89,20 @@ open class DialogPlus internal constructor(builder: DialogPlusBuilder) {
         isDismissing = true
         unregisterBackCallback?.invoke()
         unregisterBackCallback = null
-        outAnim.setAnimationListener(object : SimpleAnimationListener() {
-            override fun onAnimationEnd(animation: Animation) {
-                decorView.post {
-                    decorView.removeView(rootView)
-                    isDismissing = false
-                    dismissListener?.onDismiss(this@DialogPlus)
-                }
-            }
-        })
-        contentContainer.startAnimation(outAnim)
+        val remove = Runnable {
+            decorView.removeView(rootView)
+            isDismissing = false
+            dismissListener?.onDismiss(this)
+        }
+        // A zero-sized view never draws its animation, so no animation-end callback arrives.
+        if (contentContainer.width == 0 || contentContainer.height == 0) {
+            decorView.post(remove)
+        } else {
+            outAnim.setAnimationListener(object : SimpleAnimationListener() {
+                override fun onAnimationEnd(animation: Animation) { decorView.post(remove) }
+            })
+            contentContainer.startAnimation(outAnim)
+        }
     }
     open fun findViewById(resourceId: Int): View? = contentContainer.findViewById(resourceId)
     open val headerView: View? get() = holder.header
@@ -119,16 +123,19 @@ open class DialogPlus internal constructor(builder: DialogPlusBuilder) {
         }
         if (adapter != null && holder is HolderAdapter) {
             holder.setAdapter(adapter)
-            holder.setOnItemClickListener { item, clickedView, position ->
-                itemClickListener?.onItemClick(this, item, clickedView, position)
+            itemClickListener?.let { listener ->
+                holder.setOnItemClickListener { item, clickedView, position ->
+                    listener.onItemClick(this, item, clickedView, position)
+                }
             }
         }
         return view
     }
     private fun assignClickListenerRecursively(view: View) {
+        val listener = clickListener ?: return
         if (view is ViewGroup) for (i in view.childCount - 1 downTo 0) assignClickListenerRecursively(view.getChildAt(i))
         if (view.id != View.NO_ID && view !is AdapterView<*>) {
-            view.setOnClickListener { clickListener?.onClick(this, it) }
+            view.setOnClickListener { listener.onClick(this, it) }
         }
     }
     private fun handleBackPress() {

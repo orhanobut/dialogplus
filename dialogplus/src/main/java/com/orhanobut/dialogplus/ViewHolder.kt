@@ -7,6 +7,7 @@ import android.view.ViewGroup
 /** Holds a layout resource or an existing view, with fixed header and footer containers. */
 open class ViewHolder : Holder {
     private var backgroundResource = 0
+    private lateinit var container: ViewGroup
     private lateinit var headerContainer: ViewGroup
     private lateinit var footerContainer: ViewGroup
     private var headerView: View? = null
@@ -32,10 +33,8 @@ open class ViewHolder : Holder {
     override fun getView(inflater: LayoutInflater, parent: ViewGroup?): View {
         val view = inflater.inflate(R.layout.dialog_view, parent, false)
         view.findViewById<View>(R.id.dialogplus_outmost_container).setBackgroundResource(backgroundResource)
-        val container = view.findViewById<ViewGroup>(R.id.dialogplus_view_container)
-        container.setOnKeyListener { v, code, event ->
-            checkNotNull(keyListener) { "keyListener should not be null" }.onKey(v, code, event)
-        }
+        container = view.findViewById(R.id.dialogplus_view_container)
+        container.setOnKeyListener(keyListener)
         if (viewResourceId != -1) {
             contentView = inflater.inflate(viewResourceId, parent, false)
         } else {
@@ -46,7 +45,10 @@ open class ViewHolder : Holder {
         footerContainer = view.findViewById(R.id.dialogplus_footer_container)
         return view
     }
-    override fun setOnKeyListener(keyListener: View.OnKeyListener?) { this.keyListener = keyListener }
+    override fun setOnKeyListener(keyListener: View.OnKeyListener?) {
+        this.keyListener = keyListener
+        if (::container.isInitialized) container.setOnKeyListener(keyListener)
+    }
     override val inflatedView: View get() = checkNotNull(contentView) { "Inflate the holder first" }
     override val header: View? get() = headerView
     override val footer: View? get() = footerView

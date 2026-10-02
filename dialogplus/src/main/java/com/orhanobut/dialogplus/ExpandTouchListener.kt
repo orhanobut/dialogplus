@@ -1,7 +1,6 @@
 package com.orhanobut.dialogplus
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -9,8 +8,7 @@ import android.view.animation.Animation
 import android.widget.AbsListView
 import android.widget.FrameLayout
 
-internal class ExpandTouchListener private constructor(
-    context: Context,
+internal class ExpandTouchListener(
     private val listView: AbsListView,
     private val contentContainer: View,
     private val gravity: Int,
@@ -22,7 +20,7 @@ internal class ExpandTouchListener private constructor(
     private var touchUp = false
     private var scrollUp = false
     private val params = contentContainer.layoutParams as FrameLayout.LayoutParams
-    private val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+    private val gestureDetector = GestureDetector(listView.context, object : GestureDetector.SimpleOnGestureListener() {
         override fun onSingleTapUp(e: MotionEvent): Boolean = true
         override fun onScroll(e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
             scrollUp = distanceY > 0
@@ -60,10 +58,5 @@ internal class ExpandTouchListener private constructor(
             MotionEvent.ACTION_CANCEL -> y = -1f
         }
         return true
-    }
-    companion object {
-        fun newListener(context: Context, listView: AbsListView, container: View, gravity: Int,
-                        displayHeight: Int, defaultContentHeight: Int): ExpandTouchListener =
-            ExpandTouchListener(context, listView, container, gravity, displayHeight, defaultContentHeight)
     }
 }
