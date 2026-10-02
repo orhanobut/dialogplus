@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/button_like"
-                android:textColor="@color/dialogplus_black_overlay"
+                android:textColor="@android:color/darker_gray"
                 android:textSize="@dimen/button_text_size"/>
 
         <Button
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/button_love"
-                android:textColor="@color/dialogplus_black_overlay"
+                android:textColor="@android:color/darker_gray"
                 android:textSize="@dimen/button_text_size"/>
     </LinearLayout>
 

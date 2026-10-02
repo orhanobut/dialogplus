@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/header_sample"
-        android:textColor="@color/dialogplus_black_overlay"
+        android:textColor="@android:color/darker_gray"
         android:textSize="@dimen/sample_text_size"/>
 
 </LinearLayout>

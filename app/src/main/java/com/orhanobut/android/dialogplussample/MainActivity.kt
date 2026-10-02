@@ -1,32 +1,50 @@
 package com.orhanobut.android.dialogplussample
 
+import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.orhanobut.dialogplus.*
-import kotlinx.android.synthetic.main.activity_main.*
+import com.orhanobut.dialogplus.DialogPlus
+import com.orhanobut.dialogplus.GridHolder
+import com.orhanobut.dialogplus.Holder
+import com.orhanobut.dialogplus.ListHolder
+import com.orhanobut.dialogplus.ViewHolder
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : Activity() {
+
+  private var activeDialog: DialogPlus? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
-    findViewById<View>(R.id.showDialogButton).setOnClickListener { v -> showDialogPlus() }
+    if (Build.VERSION.SDK_INT >= 20) {
+      Api20WindowInsets.apply(window.decorView)
+    }
+    findViewById<View>(R.id.showDialogButton).setOnClickListener { showDialogPlus() }
   }
 
   private fun showDialogPlus() {
+    activeDialog?.dismiss()
+    val holderRadioGroup = findViewById<RadioGroup>(R.id.holderRadioGroup)
+    val positionRadioGroup = findViewById<RadioGroup>(R.id.positionRadioGroup)
+    val listCountInput = findViewById<EditText>(R.id.listCountInput)
+    val contentHeightInput = findViewById<EditText>(R.id.contentHeightInput)
+    val contentWidthInput = findViewById<EditText>(R.id.contentWidthInput)
     val holderId = holderRadioGroup.checkedRadioButtonId
-    val showHeader = headerCheckBox.isChecked
-    val showFooter = footerCheckBox.isChecked
-    val fixedHeader = fixedHeaderCheckBox.isChecked
-    val fixedFooter = fixedFooterCheckBox.isChecked
-    val expanded = expandedCheckBox.isChecked
-    val gravity: Int = when (positionRadioGroup!!.checkedRadioButtonId) {
+    val showHeader = findViewById<CheckBox>(R.id.headerCheckBox).isChecked
+    val showFooter = findViewById<CheckBox>(R.id.footerCheckBox).isChecked
+    val fixedHeader = findViewById<CheckBox>(R.id.fixedHeaderCheckBox).isChecked
+    val fixedFooter = findViewById<CheckBox>(R.id.fixedFooterCheckBox).isChecked
+    val expanded = findViewById<CheckBox>(R.id.expandedCheckBox).isChecked
+    val gravity: Int = when (positionRadioGroup.checkedRadioButtonId) {
       R.id.topPosition -> Gravity.TOP
       R.id.centerPosition -> Gravity.CENTER
       else -> Gravity.BOTTOM
@@ -49,51 +67,45 @@ class MainActivity : AppCompatActivity() {
       }
     }
 
-    val adapter = SimpleAdapter(this@MainActivity, isGrid, listCountInput.text.toString().toInt())
+    val count = (listCountInput.text.toString().toIntOrNull() ?: 16).coerceAtLeast(0)
+    val adapter = SimpleAdapter(this, isGrid, count)
     val builder = DialogPlus.newDialog(this).apply {
       setContentHolder(holder)
 
-      val header = if (showHeader) R.layout.header else -1
-      if (header != -1) {
+      if (showHeader) {
         setHeader(R.layout.header, fixedHeader)
       }
 
-      val footer = if (showFooter) R.layout.footer else -1
-      if (footer != -1) {
+      if (showFooter) {
         setFooter(R.layout.footer, fixedFooter)
       }
 
       setCancelable(true)
       setGravity(gravity)
       setAdapter(adapter)
-      setOnClickListener { dialog, view ->
+      setOnClickListener { _, view ->
         if (view is TextView) {
           toast(view.text.toString())
         }
       }
-      setOnItemClickListener { dialog, item, view, position ->
-        val textView = view.findViewById<TextView>(R.id.text_view)
-        toast(textView.text.toString())
+      setOnItemClickListener { _, _, view, _ ->
+        val textView = view?.findViewById<TextView>(R.id.text_view)
+        if (textView != null) toast(textView.text.toString())
       }
-      //        .setOnDismissListener(dismissListener)
       setExpanded(expanded)
-
-      if (contentHeightInput.text.toString().toInt() != -1) {
-        setContentHeight(contentHeightInput.text.toString().toInt())
-      } else {
-        setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
-      }
-
-      if (contentWidthInput.text.toString().toInt() != -1) {
-        setContentWidth(800)
-      }
-
-      setOnCancelListener { dialog -> toast("cancelled") }
-      setOverlayBackgroundResource(android.R.color.transparent)
-      //        .setContentBackgroundResource(R.drawable.corner_background)
-      //                .setOutMostMargin(0, 100, 0, 0)
+      setContentHeight(contentHeightInput.text.toString().toIntOrNull()
+          ?.takeIf { it > 0 } ?: ViewGroup.LayoutParams.WRAP_CONTENT)
+      contentWidthInput.text.toString().toIntOrNull()?.takeIf { it > 0 }?.let { setContentWidth(it) }
+      setOnCancelListener { toast("cancelled") }
+      setOnDismissListener { dialog -> if (activeDialog === dialog) activeDialog = null }
     }
-    builder.create().show()
+    activeDialog = builder.create().also { it.show() }
+  }
+
+  override fun onDestroy() {
+    activeDialog?.dismiss()
+    activeDialog = null
+    super.onDestroy()
   }
 
   private fun toast(message: String) {
