@@ -64,7 +64,7 @@ class SimpleAdapter(
       }
     }
 
-    return view!!
+    return view
   }
 
   data class ViewHolder(val textView: TextView, val imageView: ImageView)

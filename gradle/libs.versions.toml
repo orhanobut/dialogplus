@@ -1,0 +1,18 @@
+[versions]
+agp = "9.4.1"
+kotlin = "2.4.20"
+dokka = "2.2.0"
+maven-publish = "0.37.0"
+junit = "4.13.2"
+test-runner = "1.7.0"
+
+[libraries]
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+junit = { module = "junit:junit", version.ref = "junit" }
+android-test-runner = { module = "androidx.test:runner", version.ref = "test-runner" }
+
+[plugins]
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }

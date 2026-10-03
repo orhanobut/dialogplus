@@ -1,0 +1,400 @@
+Compiled from "DialogPlus.java"
+public class com.orhanobut.dialogplus.DialogPlus {
+  public static com.orhanobut.dialogplus.DialogPlusBuilder newDialog(android.content.Context);
+    descriptor: (Landroid/content/Context;)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public void show();
+    descriptor: ()V
+
+  public boolean isShowing();
+    descriptor: ()Z
+
+  public void dismiss();
+    descriptor: ()V
+
+  public android.view.View findViewById(int);
+    descriptor: (I)Landroid/view/View;
+
+  public android.view.View getHeaderView();
+    descriptor: ()Landroid/view/View;
+
+  public android.view.View getFooterView();
+    descriptor: ()Landroid/view/View;
+
+  public android.view.View getHolderView();
+    descriptor: ()Landroid/view/View;
+
+  public void onBackPressed(com.orhanobut.dialogplus.DialogPlus);
+    descriptor: (Lcom/orhanobut/dialogplus/DialogPlus;)V
+}
+Compiled from "DialogPlusBuilder.java"
+public class com.orhanobut.dialogplus.DialogPlusBuilder {
+  public com.orhanobut.dialogplus.DialogPlusBuilder setAdapter(android.widget.BaseAdapter);
+    descriptor: (Landroid/widget/BaseAdapter;)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setFooter(int);
+    descriptor: (I)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setFooter(int, boolean);
+    descriptor: (IZ)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setFooter(android.view.View);
+    descriptor: (Landroid/view/View;)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setFooter(android.view.View, boolean);
+    descriptor: (Landroid/view/View;Z)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setHeader(int);
+    descriptor: (I)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setHeader(int, boolean);
+    descriptor: (IZ)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setHeader(android.view.View);
+    descriptor: (Landroid/view/View;)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setHeader(android.view.View, boolean);
+    descriptor: (Landroid/view/View;Z)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setCancelable(boolean);
+    descriptor: (Z)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setContentHolder(com.orhanobut.dialogplus.Holder);
+    descriptor: (Lcom/orhanobut/dialogplus/Holder;)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setBackgroundColorResId(int);
+    descriptor: (I)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setContentBackgroundResource(int);
+    descriptor: (I)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setOverlayBackgroundResource(int);
+    descriptor: (I)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setGravity(int);
+    descriptor: (I)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setInAnimation(int);
+    descriptor: (I)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setOutAnimation(int);
+    descriptor: (I)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setOutMostMargin(int, int, int, int);
+    descriptor: (IIII)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setMargin(int, int, int, int);
+    descriptor: (IIII)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setPadding(int, int, int, int);
+    descriptor: (IIII)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setOnItemClickListener(com.orhanobut.dialogplus.OnItemClickListener);
+    descriptor: (Lcom/orhanobut/dialogplus/OnItemClickListener;)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setOnClickListener(com.orhanobut.dialogplus.OnClickListener);
+    descriptor: (Lcom/orhanobut/dialogplus/OnClickListener;)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setOnDismissListener(com.orhanobut.dialogplus.OnDismissListener);
+    descriptor: (Lcom/orhanobut/dialogplus/OnDismissListener;)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setOnCancelListener(com.orhanobut.dialogplus.OnCancelListener);
+    descriptor: (Lcom/orhanobut/dialogplus/OnCancelListener;)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setOnBackPressListener(com.orhanobut.dialogplus.OnBackPressListener);
+    descriptor: (Lcom/orhanobut/dialogplus/OnBackPressListener;)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setExpanded(boolean);
+    descriptor: (Z)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setExpanded(boolean, int);
+    descriptor: (ZI)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setContentHeight(int);
+    descriptor: (I)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlusBuilder setContentWidth(int);
+    descriptor: (I)Lcom/orhanobut/dialogplus/DialogPlusBuilder;
+
+  public com.orhanobut.dialogplus.DialogPlus create();
+    descriptor: ()Lcom/orhanobut/dialogplus/DialogPlus;
+
+  public android.view.View getFooterView();
+    descriptor: ()Landroid/view/View;
+
+  public android.view.View getHeaderView();
+    descriptor: ()Landroid/view/View;
+
+  public com.orhanobut.dialogplus.Holder getHolder();
+    descriptor: ()Lcom/orhanobut/dialogplus/Holder;
+
+  public android.content.Context getContext();
+    descriptor: ()Landroid/content/Context;
+
+  public android.widget.BaseAdapter getAdapter();
+    descriptor: ()Landroid/widget/BaseAdapter;
+
+  public android.view.animation.Animation getInAnimation();
+    descriptor: ()Landroid/view/animation/Animation;
+
+  public android.view.animation.Animation getOutAnimation();
+    descriptor: ()Landroid/view/animation/Animation;
+
+  public android.widget.FrameLayout$LayoutParams getContentParams();
+    descriptor: ()Landroid/widget/FrameLayout$LayoutParams;
+
+  public boolean isExpanded();
+    descriptor: ()Z
+
+  public android.widget.FrameLayout$LayoutParams getOutmostLayoutParams();
+    descriptor: ()Landroid/widget/FrameLayout$LayoutParams;
+
+  public boolean isCancelable();
+    descriptor: ()Z
+
+  public com.orhanobut.dialogplus.OnItemClickListener getOnItemClickListener();
+    descriptor: ()Lcom/orhanobut/dialogplus/OnItemClickListener;
+
+  public com.orhanobut.dialogplus.OnClickListener getOnClickListener();
+    descriptor: ()Lcom/orhanobut/dialogplus/OnClickListener;
+
+  public com.orhanobut.dialogplus.OnDismissListener getOnDismissListener();
+    descriptor: ()Lcom/orhanobut/dialogplus/OnDismissListener;
+
+  public com.orhanobut.dialogplus.OnCancelListener getOnCancelListener();
+    descriptor: ()Lcom/orhanobut/dialogplus/OnCancelListener;
+
+  public com.orhanobut.dialogplus.OnBackPressListener getOnBackPressListener();
+    descriptor: ()Lcom/orhanobut/dialogplus/OnBackPressListener;
+
+  public int[] getContentMargin();
+    descriptor: ()[I
+
+  public int[] getContentPadding();
+    descriptor: ()[I
+
+  public int getDefaultContentHeight();
+    descriptor: ()I
+
+  public int getOverlayBackgroundResource();
+    descriptor: ()I
+
+  public int getContentBackgroundResource();
+    descriptor: ()I
+
+  public boolean isFixedHeader();
+    descriptor: ()Z
+
+  public boolean isFixedFooter();
+    descriptor: ()Z
+}
+Compiled from "GridHolder.java"
+public class com.orhanobut.dialogplus.GridHolder implements com.orhanobut.dialogplus.HolderAdapter,android.widget.AdapterView$OnItemClickListener {
+  public com.orhanobut.dialogplus.GridHolder(int);
+    descriptor: (I)V
+
+  public void addHeader(android.view.View);
+    descriptor: (Landroid/view/View;)V
+
+  public void addHeader(android.view.View, boolean);
+    descriptor: (Landroid/view/View;Z)V
+
+  public void addFooter(android.view.View);
+    descriptor: (Landroid/view/View;)V
+
+  public void addFooter(android.view.View, boolean);
+    descriptor: (Landroid/view/View;Z)V
+
+  public void setAdapter(android.widget.BaseAdapter);
+    descriptor: (Landroid/widget/BaseAdapter;)V
+
+  public void setBackgroundResource(int);
+    descriptor: (I)V
+
+  public android.view.View getView(android.view.LayoutInflater, android.view.ViewGroup);
+    descriptor: (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;)Landroid/view/View;
+
+  public void setOnItemClickListener(com.orhanobut.dialogplus.OnHolderListener);
+    descriptor: (Lcom/orhanobut/dialogplus/OnHolderListener;)V
+
+  public void setOnKeyListener(android.view.View$OnKeyListener);
+    descriptor: (Landroid/view/View$OnKeyListener;)V
+
+  public android.view.View getInflatedView();
+    descriptor: ()Landroid/view/View;
+
+  public android.view.View getHeader();
+    descriptor: ()Landroid/view/View;
+
+  public android.view.View getFooter();
+    descriptor: ()Landroid/view/View;
+
+  public void onItemClick(android.widget.AdapterView<?>, android.view.View, int, long);
+    descriptor: (Landroid/widget/AdapterView;Landroid/view/View;IJ)V
+}
+Compiled from "Holder.java"
+public interface com.orhanobut.dialogplus.Holder {
+  public abstract void addHeader(android.view.View);
+    descriptor: (Landroid/view/View;)V
+
+  public abstract void addHeader(android.view.View, boolean);
+    descriptor: (Landroid/view/View;Z)V
+
+  public abstract void addFooter(android.view.View);
+    descriptor: (Landroid/view/View;)V
+
+  public abstract void addFooter(android.view.View, boolean);
+    descriptor: (Landroid/view/View;Z)V
+
+  public abstract void setBackgroundResource(int);
+    descriptor: (I)V
+
+  public abstract android.view.View getView(android.view.LayoutInflater, android.view.ViewGroup);
+    descriptor: (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;)Landroid/view/View;
+
+  public abstract void setOnKeyListener(android.view.View$OnKeyListener);
+    descriptor: (Landroid/view/View$OnKeyListener;)V
+
+  public abstract android.view.View getInflatedView();
+    descriptor: ()Landroid/view/View;
+
+  public abstract android.view.View getHeader();
+    descriptor: ()Landroid/view/View;
+
+  public abstract android.view.View getFooter();
+    descriptor: ()Landroid/view/View;
+}
+Compiled from "HolderAdapter.java"
+public interface com.orhanobut.dialogplus.HolderAdapter extends com.orhanobut.dialogplus.Holder {
+  public abstract void setAdapter(android.widget.BaseAdapter);
+    descriptor: (Landroid/widget/BaseAdapter;)V
+
+  public abstract void setOnItemClickListener(com.orhanobut.dialogplus.OnHolderListener);
+    descriptor: (Lcom/orhanobut/dialogplus/OnHolderListener;)V
+}
+Compiled from "ListHolder.java"
+public class com.orhanobut.dialogplus.ListHolder implements com.orhanobut.dialogplus.HolderAdapter,android.widget.AdapterView$OnItemClickListener {
+  public com.orhanobut.dialogplus.ListHolder();
+    descriptor: ()V
+
+  public void addHeader(android.view.View);
+    descriptor: (Landroid/view/View;)V
+
+  public void addHeader(android.view.View, boolean);
+    descriptor: (Landroid/view/View;Z)V
+
+  public void addFooter(android.view.View);
+    descriptor: (Landroid/view/View;)V
+
+  public void addFooter(android.view.View, boolean);
+    descriptor: (Landroid/view/View;Z)V
+
+  public void setAdapter(android.widget.BaseAdapter);
+    descriptor: (Landroid/widget/BaseAdapter;)V
+
+  public void setBackgroundResource(int);
+    descriptor: (I)V
+
+  public android.view.View getView(android.view.LayoutInflater, android.view.ViewGroup);
+    descriptor: (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;)Landroid/view/View;
+
+  public void setOnItemClickListener(com.orhanobut.dialogplus.OnHolderListener);
+    descriptor: (Lcom/orhanobut/dialogplus/OnHolderListener;)V
+
+  public void setOnKeyListener(android.view.View$OnKeyListener);
+    descriptor: (Landroid/view/View$OnKeyListener;)V
+
+  public android.view.View getInflatedView();
+    descriptor: ()Landroid/view/View;
+
+  public android.view.View getHeader();
+    descriptor: ()Landroid/view/View;
+
+  public android.view.View getFooter();
+    descriptor: ()Landroid/view/View;
+
+  public void onItemClick(android.widget.AdapterView<?>, android.view.View, int, long);
+    descriptor: (Landroid/widget/AdapterView;Landroid/view/View;IJ)V
+}
+Compiled from "OnBackPressListener.java"
+public interface com.orhanobut.dialogplus.OnBackPressListener {
+  public abstract void onBackPressed(com.orhanobut.dialogplus.DialogPlus);
+    descriptor: (Lcom/orhanobut/dialogplus/DialogPlus;)V
+}
+Compiled from "OnCancelListener.java"
+public interface com.orhanobut.dialogplus.OnCancelListener {
+  public abstract void onCancel(com.orhanobut.dialogplus.DialogPlus);
+    descriptor: (Lcom/orhanobut/dialogplus/DialogPlus;)V
+}
+Compiled from "OnClickListener.java"
+public interface com.orhanobut.dialogplus.OnClickListener {
+  public abstract void onClick(com.orhanobut.dialogplus.DialogPlus, android.view.View);
+    descriptor: (Lcom/orhanobut/dialogplus/DialogPlus;Landroid/view/View;)V
+}
+Compiled from "OnDismissListener.java"
+public interface com.orhanobut.dialogplus.OnDismissListener {
+  public abstract void onDismiss(com.orhanobut.dialogplus.DialogPlus);
+    descriptor: (Lcom/orhanobut/dialogplus/DialogPlus;)V
+}
+Compiled from "OnHolderListener.java"
+public interface com.orhanobut.dialogplus.OnHolderListener {
+  public abstract void onItemClick(java.lang.Object, android.view.View, int);
+    descriptor: (Ljava/lang/Object;Landroid/view/View;I)V
+}
+Compiled from "OnItemClickListener.java"
+public interface com.orhanobut.dialogplus.OnItemClickListener {
+  public abstract void onItemClick(com.orhanobut.dialogplus.DialogPlus, java.lang.Object, android.view.View, int);
+    descriptor: (Lcom/orhanobut/dialogplus/DialogPlus;Ljava/lang/Object;Landroid/view/View;I)V
+}
+Compiled from "SimpleAnimationListener.java"
+public class com.orhanobut.dialogplus.SimpleAnimationListener implements android.view.animation.Animation$AnimationListener {
+  public com.orhanobut.dialogplus.SimpleAnimationListener();
+    descriptor: ()V
+
+  public void onAnimationStart(android.view.animation.Animation);
+    descriptor: (Landroid/view/animation/Animation;)V
+
+  public void onAnimationEnd(android.view.animation.Animation);
+    descriptor: (Landroid/view/animation/Animation;)V
+
+  public void onAnimationRepeat(android.view.animation.Animation);
+    descriptor: (Landroid/view/animation/Animation;)V
+}
+Compiled from "ViewHolder.java"
+public class com.orhanobut.dialogplus.ViewHolder implements com.orhanobut.dialogplus.Holder {
+  public com.orhanobut.dialogplus.ViewHolder(int);
+    descriptor: (I)V
+
+  public com.orhanobut.dialogplus.ViewHolder(android.view.View);
+    descriptor: (Landroid/view/View;)V
+
+  public void addHeader(android.view.View);
+    descriptor: (Landroid/view/View;)V
+
+  public void addHeader(android.view.View, boolean);
+    descriptor: (Landroid/view/View;Z)V
+
+  public void addFooter(android.view.View);
+    descriptor: (Landroid/view/View;)V
+
+  public void addFooter(android.view.View, boolean);
+    descriptor: (Landroid/view/View;Z)V
+
+  public void setBackgroundResource(int);
+    descriptor: (I)V
+
+  public android.view.View getView(android.view.LayoutInflater, android.view.ViewGroup);
+    descriptor: (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;)Landroid/view/View;
+
+  public void setOnKeyListener(android.view.View$OnKeyListener);
+    descriptor: (Landroid/view/View$OnKeyListener;)V
+
+  public android.view.View getInflatedView();
+    descriptor: ()Landroid/view/View;
+
+  public android.view.View getHeader();
+    descriptor: ()Landroid/view/View;
+
+  public android.view.View getFooter();
+    descriptor: ()Landroid/view/View;
+}

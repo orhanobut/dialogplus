@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-  <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
-    <item name="colorPrimary">@color/primary</item>
-    <item name="colorPrimaryDark">@color/secondary</item>
-  </style>
-
+  <style name="AppBaseTheme" parent="android:style/Theme.Light.NoTitleBar" />
 </resources>

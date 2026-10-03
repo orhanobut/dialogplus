@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- The translucent overlay intentionally paints over the Activity content. -->
 <FrameLayout
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dialogplus_outmost_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dialogplus_black_overlay"
-    android:clickable="true">
+    tools:ignore="Overdraw"
+    android:clickable="true"
+    android:focusable="true">
 
   <FrameLayout
       android:id="@+id/dialogplus_content_container"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="bottom|center"
-      android:clickable="true">
+      android:focusableInTouchMode="true"
+      android:clickable="true"
+      android:focusable="true">
   </FrameLayout>
 
 </FrameLayout>
